@@ -3,7 +3,7 @@ package net.evecom.tools.constant.consts;
 /**
  * @ClassName: CacheGroupConst
  * @Description: redis缓存分组常量表
- * @author： zhengc 
+ * @author： zhengc
  * @date： 2018年5月30日
  */
 public class CacheGroupConst {
