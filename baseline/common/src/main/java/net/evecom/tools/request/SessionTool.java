@@ -4,7 +4,9 @@ import net.evecom.utils.secrity.MD5Util;
 
 /**
  * @ClassName: SessionTool
- * @Description: 会话操作组件 @author： zhengc @date： 2014年3月17日
+ * @Description: 会话操作组件
+ * @author： zhengc
+ * @date： 2014年3月17日
  */
 public class SessionTool {
 

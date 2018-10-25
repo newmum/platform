@@ -5,11 +5,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 /**
- * 请求返回数据工具类
- *
- * @author xiej
- * @date 2017-9-11 14:02:13
- * @since 2.0
+ * @ClassName: ActionUtil
+ * @Description: 请求返回数据工具类
+ * @author: zhengc
+ * @date: 2018年4月1日
  */
 public class ActionUtil {
 

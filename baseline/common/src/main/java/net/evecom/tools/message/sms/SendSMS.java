@@ -3,9 +3,10 @@ package net.evecom.tools.message.sms;
 import cn.emay.test.performance.Emay;
 
 /**
- *
- * @author xiejun
- * @since 1.0.0 发送短信工具
+ * @ClassName: SendSMS
+ * @Description: 发送短信工具
+ * @author: zhengc
+ * @date: 2018年3月14日
  */
 public class SendSMS {
 	private static String host = "shmtn.b2m.cn:80";

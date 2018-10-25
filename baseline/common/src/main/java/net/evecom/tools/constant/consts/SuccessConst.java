@@ -1,7 +1,10 @@
 package net.evecom.tools.constant.consts;
 
 /**
- * @Description: 成功信息常量表 @author： zhengc @date： 2018年6月7日
+ * @ClassName: SuccessConst
+ * @Description: 成功信息常量表
+ * @author： zhengc
+ * @date： 2018年6月7日
  */
 public class SuccessConst {
 	/**

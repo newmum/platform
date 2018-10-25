@@ -10,10 +10,10 @@ import javax.mail.internet.MimeMessage;
 import java.util.Properties;
 
 /**
- *
- * @author xiejun
- * @since 1.0.0
- * 发送邮件工具
+ * @ClassName: SendEmail
+ * @Description: 发送邮件工具
+ * @author: zhengc
+ * @date: 2018年3月14日
  */
 public class SendEmail {
 	/**

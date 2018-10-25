@@ -1,8 +1,10 @@
 package net.evecom.tools.exception;
 
 /**
+ * @ClassName: CommonException
  * @Description: 通用异常类
- * @author: zhengc @date: 2018年6月7日
+ * @author: zhengc
+ * @date: 2018年6月7日
  */
 public class CommonException extends RuntimeException {
 	public static final String UI_COMPONET_PROP_HAS_EXIST = "ui_componet_prop_has_exist";
