@@ -40,6 +40,9 @@ public class RegexUtil {
 	 */
 	public static final String DECIMAL_2 = "^(0|[1-9]\\d*)(\\.\\d{1,2})?$";
 
+	/**
+	 * 正两位及四位以下小数
+	 */
 	public static final String DECIMAL_4 = "^(0|[1-9]\\d*)(\\.\\d{1,4})?$";
 
 	/**
@@ -83,20 +86,41 @@ public class RegexUtil {
 	 */
 	public static final String IDS = "^\\d+(,\\d+)*$";
 
+	/**
+	 *
+	 */
 	private RegexUtil() {
 	}
 
+	/***/
 	private static ThreadLocal<Map<String, Pattern>> threadLocal = new ThreadLocal<>();
 
+	/**
+	 *
+	 * @param regex
+	 * @param src
+	 * @return
+	 */
 	public static boolean isMatch(String regex, String src) {
 		return match(regex, src).find();
 	}
 
+	/**
+	 *
+	 * @param regex
+	 * @param src
+	 * @return
+	 */
 	public static Matcher match(String regex, String src) {
 		Pattern p = getPattern(regex);
 		return p.matcher(src);
 	}
 
+	/**
+	 *
+	 * @param regex
+	 * @return
+	 */
 	private static Pattern getPattern(String regex) {
 		Map<String, Pattern> patterns = getPatterns();
 		if (!patterns.containsKey(regex)) {
@@ -106,6 +130,10 @@ public class RegexUtil {
 		return patterns.get(regex);
 	}
 
+	/**
+	 *
+	 * @return
+	 */
 	private static Map<String, Pattern> getPatterns() {
 		if (null == threadLocal.get()) {
 			Map<String, Pattern> patterns = new HashMap<>();

@@ -149,6 +149,11 @@ public class UrlUtil {
         }
     }
 
+    /**
+     * 保存默认字符集
+     * @param charset
+     * @return
+     */
     private final static String safeCharset(String charset) {
         if(StringUtils.isEmpty(charset))
             charset = DEFAULT_ENCODING;

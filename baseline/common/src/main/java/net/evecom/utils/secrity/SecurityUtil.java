@@ -84,9 +84,18 @@ public class SecurityUtil {
 		return tmp;
 	}
 
+	/**
+	 * 加密字符
+	 */
 	private static final char[] HEX_DIGITS = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd',
 			'e', 'f' };
 
+	/**
+	 * 加密
+	 * @param algorithm
+	 * @param str
+	 * @return
+	 */
 	public static String encode(String algorithm, String str) {
 		if (str == null) {
 			return null;
@@ -100,6 +109,11 @@ public class SecurityUtil {
 		}
 	}
 
+	/**
+	 * 把密文转换成十六进制的字符串形式
+	 * @param bytes
+	 * @return
+	 */
 	private static String getFormattedText(byte[] bytes) {
 		int len = bytes.length;
 		StringBuilder buf = new StringBuilder(len * 2);

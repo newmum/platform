@@ -837,8 +837,7 @@ public class FileUtils extends org.apache.commons.io.FileUtils {
 
 		// 如果设设置了Content-Length，则客户端会自动进行多线程下载。如果不希望支持多线程，则不要设置这个参数。 响应的格式是:
 		// Content-Length: [文件的总大小] - [客户端请求的下载的文件块的开始字节]
-		// ServletActionContext.getResponse().setHeader("Content- Length", new
-		// Long(file.length() - p).toString());
+		// ServletActionContext.getResponse().setHeader("Content- Length", new Long(file.length() - p).toString());
 		response.reset(); // 告诉客户端允许断点续传多线程连接下载,响应的格式是:Accept-Ranges: bytes
 		if (pastLength != 0) {
 			response.setHeader("Accept-Ranges", "bytes");// 如果是第一次下,还没有断点续传,状态是默认的

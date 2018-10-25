@@ -33,7 +33,6 @@ public class PrintUtil {
 
 	/**
 	 * 打印全部request中的参数
-	 *
 	 * @param request
 	 * @return
 	 */
@@ -51,6 +50,10 @@ public class PrintUtil {
 		return param;
 	}
 
+	/**
+	 * 打印Map集合的值
+	 * @param map
+	 */
 	public static void printMap(Map<? extends Object, ? extends Object> map) {
 		if (map == null) {
 			printlnError("map === NULL");
@@ -70,6 +73,10 @@ public class PrintUtil {
 		}
 	}
 
+	/**
+	 * 打印set集合的值
+	 * @param set
+	 */
 	public static void printSet(Set<? extends Object> set) {
 		if (set == null) {
 			printlnError("set === NULL");
@@ -86,6 +93,10 @@ public class PrintUtil {
 		}
 	}
 
+	/**
+	 * 打印list集合的值
+	 * @param list
+	 */
 	public static void printList(List<? extends Object> list) {
 		if (list == null) {
 			printlnError("list === NULL");
@@ -104,6 +115,10 @@ public class PrintUtil {
 		}
 	}
 
+	/**
+	 * 换行打印对象值
+	 * @param object
+	 */
 	public static void println(Object object) {
 		if (object != null) {
 			System.out.println(object.toString());
@@ -112,6 +127,10 @@ public class PrintUtil {
 		}
 	}
 
+	/**
+	 * 不换行打印对象值
+	 * @param object
+	 */
 	public static void print(Object object) {
 		if (object != null) {
 			System.out.print(object.toString());
@@ -120,8 +139,11 @@ public class PrintUtil {
 		}
 	}
 
+	/**
+	 * 打印错误信息
+	 * @param object
+	 */
 	public static void printlnError(Object object) {
-
 		if (object != null) {
 			System.err.println(object.toString());
 		} else {

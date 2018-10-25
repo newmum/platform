@@ -8,7 +8,7 @@ import java.text.DecimalFormat;
  */
 public class StringConvert {
 	/**
-	 * 将String转换维long
+	 * 将String转换为long
 	 *
 	 * @param str
 	 * @return

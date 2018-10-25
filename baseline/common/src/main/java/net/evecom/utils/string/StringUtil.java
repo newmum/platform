@@ -90,6 +90,7 @@ public class StringUtil {
 	 */
 	public static String[] splitToArray(String str, char separator) {
 		List<String> result = split(str, separator);
+
 		return result.toArray(new String[result.size()]);
 	}
 

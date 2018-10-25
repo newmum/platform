@@ -116,12 +116,6 @@ public class ImportExcel {
 	 * @throws InvalidFormatException
 	 * @throws IOException
 	 */
-	// public ImportExcel(MultipartFile multipartFile, int headerNum, int
-	// sheetIndex)
-	// throws InvalidFormatException, IOException {
-	// this(multipartFile.getOriginalFilename(), multipartFile.getInputStream(),
-	// headerNum, sheetIndex);
-	// }
 
 	/**
 	 * 构造函数

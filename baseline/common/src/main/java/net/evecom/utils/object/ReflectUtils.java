@@ -15,12 +15,16 @@ import java.lang.reflect.*;
  */
 public class ReflectUtils {
 
+	/**setter*/
 	private static final String SETTER_PREFIX = "set";
 
+	/**getter*/
 	private static final String GETTER_PREFIX = "get";
 
+	/***/
 	private static final String CGLIB_CLASS_SEPARATOR = "$$";
 
+	/***/
 	private static Logger logger = LoggerFactory.getLogger(ReflectUtils.class);
 
 	/**
@@ -265,6 +269,11 @@ public class ReflectUtils {
 		return (Class) params[index];
 	}
 
+	/**
+	 *
+	 * @param instance
+	 * @return
+	 */
 	public static Class<?> getUserClass(Object instance) {
 		Assert.notNull(instance, "Instance must not be null");
 		Class clazz = instance.getClass();

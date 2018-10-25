@@ -72,6 +72,12 @@ public class VerifyCodeUtils {
 		ImageIO.write(bufferedImage, "JPG", response.getOutputStream());
 	}
 
+	/**
+	 * 获取随机颜色
+	 * @param fc
+	 * @param bc
+	 * @return
+	 */
 	private static Color getRandColor(int fc, int bc) {
 		Random random = new Random();
 		fc = fc < 0 ? 0 : fc;

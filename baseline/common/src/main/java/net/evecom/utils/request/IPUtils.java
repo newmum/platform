@@ -185,18 +185,4 @@ public class IPUtils {
 		return m.matches();
 	}
 
-//	public static String getLanguageType(HttpServletRequest request) {
-//		// 获取ip地址
-//		String ip = getClientIp(request);
-//		// 优先使用本地查询ip区域
-//		return getIpCountry(ip);
-//	}
-
-//	public static String getIpCountry(String ip) {
-//		String context = call("http://ip.taobao.com/service/getIpInfo.php?ip=" + ip);
-//		JSONObject fromObject = JSONObject.fromObject(context);
-//		JSONObject jsonObject = fromObject.getJSONObject("data");
-//		return jsonObject.get("country") + "";
-//	}
-
 }

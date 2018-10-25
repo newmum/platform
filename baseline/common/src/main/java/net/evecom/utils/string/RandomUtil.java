@@ -8,6 +8,7 @@ import java.util.Random;
  */
 public class RandomUtil {
 
+	/** 设置随机变量*/
 	private static Random random = new Random();
 	/** 用于随机选的数字 */
 	private static final String BASE_NUMBER = "0123456789";

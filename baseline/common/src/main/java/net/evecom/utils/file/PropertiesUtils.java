@@ -21,6 +21,10 @@ public class PropertiesUtils {
 		}
 	}
 
+	/**
+	 *
+	 * @param filePath
+	 */
 	public PropertiesUtils(String filePath) {
 		try {
 			ArrayList<File> fileList = new ArrayList<File>();
@@ -38,6 +42,13 @@ public class PropertiesUtils {
 		}
 	}
 
+	/**
+	 * 在目标集合下查找文件
+	 * @param fileList
+	 * @param path
+	 * @return
+	 * @throws Exception
+	 */
 	public ArrayList<File> getFiles(ArrayList<File> fileList, String path) throws Exception {
 		// path = Global.class.getClassLoader().getResource(path).getFile();
 		// System.out.println("path==" + path);
@@ -60,6 +71,11 @@ public class PropertiesUtils {
 		return fileList;
 	}
 
+	/**
+	 * 获取key值
+	 * @param key
+	 * @return
+	 */
 	public String getKey(String key) {
 		String value = properties.getProperty(key);
 		if (value == null) {
@@ -85,26 +101,53 @@ public class PropertiesUtils {
 		return map;
 	}
 
+	/**
+	 * 更新key值
+	 * @param key  被更新的值
+	 * @param value 更新值
+	 */
 	public void updateKey(String key, String value) {
 		properties.setProperty(key, value);
 	}
 
+	/**
+	 * 去除key
+	 * @param key
+	 */
 	public void removeKey(String key) {
 		properties.remove(key);
 	}
 
+	/**
+	 * 判断是否包含key
+	 * @param key
+	 * @return
+	 */
 	public boolean containsKey(String key) {
 		return properties.containsKey(key);
 	}
 
+	/**
+	 * 是否包含value
+	 * @param value
+	 * @return
+	 */
 	public boolean containsValue(String value) {
 		return properties.containsValue(value);
 	}
 
+	/**
+	 * 获取属性
+	 * @return
+	 */
 	public Properties getProperties() {
 		return properties;
 	}
 
+	/**
+	 * 设置属性
+	 * @param properties
+	 */
 	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}

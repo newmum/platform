@@ -61,11 +61,21 @@ public class ClassUtil {
         }
     }
 
+    /**
+     * 获取所有属性
+     * @param list
+     * @param obj
+     */
     public static void getAllfield(List<Field> list, Object obj) {
         Class<?> tempClass = obj.getClass();
         getAllfield(list, tempClass);
     }
 
+    /**
+     * 获取所有属性
+     * @param list
+     * @param tempClass
+     */
     public static void getAllfield(List<Field> list, Class<?> tempClass) {
         while (tempClass != null) {// 当父类为null的时候说明到达了最上层的父类(Object类).
             Field[] fields = tempClass.getDeclaredFields();
@@ -76,6 +86,11 @@ public class ClassUtil {
         }
     }
 
+    /**
+     * 获取所有方法
+     * @param methodlist
+     * @param obj
+     */
     public static void getAllMethods(List<Method> methodlist, Object obj) {
         Class<?> tempClass = obj.getClass();
         while (tempClass != null) {// 当父类为null的时候说明到达了最上层的父类(Object类).

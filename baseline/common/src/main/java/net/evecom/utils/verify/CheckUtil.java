@@ -204,10 +204,7 @@ public class CheckUtil {
 	public static String isDomain(String url) {
 		Pattern p = Pattern.compile("(?<=http://|\\.)[^.]*?\\.(com|cn|net|org|biz|info|cc|tv)",
 				Pattern.CASE_INSENSITIVE);
-		// 获取完整的域名
-		// Pattern
-		// p=Pattern.compile("[^//]*?\\.(com|cn|net|org|biz|info|cc|tv)",
-		// Pattern.CASE_INSENSITIVE);
+		// 获取完整的域名Pattern
 		Matcher matcher = p.matcher(url);
 		matcher.find();
 		return matcher.group();
@@ -428,10 +425,4 @@ public class CheckUtil {
 			return false;
 		return Pattern.compile(reg).matcher(text).matches();
 	}
-
-//	public static void main(String[] args) {
-//		String reg="^$";
-//		reg="/^.+$/";
-//		System.out.println( Double.valueOf("75").intValue());
-//	}
 }

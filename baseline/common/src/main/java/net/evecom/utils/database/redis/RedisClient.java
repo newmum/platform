@@ -19,13 +19,6 @@ public class RedisClient {
 	public static ShardedJedis shardedJedis;// 切片额客户端连接
 	public static ShardedJedisPool shardedJedisPool;// 切片连接池
 
-	// public static RedisClient getRedisClient(JedisConfig jedisConfig) {
-	// if (client == null) {
-	// client = new RedisClient();
-	// client.createPools(jedisConfig);
-	// }
-	// return client;
-	// }
 
 	public RedisClient(JedisConfig jedisConfig) {
 		createPools(jedisConfig);
@@ -94,6 +87,12 @@ public class RedisClient {
 		}
 	}
 
+	/**
+	 * 获取所有key值
+	 * @param index
+	 * @return
+	 * @throws Exception
+	 */
 	public Set<String> getKeyAll(int index) throws Exception {
 		Set<String> keys = null;
 		try {

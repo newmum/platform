@@ -20,12 +20,23 @@ public class DTUtil {
 	private DTUtil() {
 	}
 
+	/**
+	 * 判断日期是否是这一年的第一月
+	 * @param date
+	 * @return
+	 */
 	public static boolean isFistMonthOfThisYear(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.MONTH) == 0;
 	}
 
+	/**
+	 *xxxx xxxx xxxx xxxx
+	 *
+	 * @param date
+	 * @return
+	 */
 	public static int getNextMonthZeroTime(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -64,16 +75,28 @@ public class DTUtil {
 		return sdf.format(dtTime);
 	}
 
+	/**
+	 * 获取日期，格式为yyyy-MM-dd HH:mm:ss.SSS
+	 * @return
+	 */
 	public static String getNowMilliTime() {
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS");
 		return sdf.format(date);
 	}
 
+	/**
+	 *将日期转换成Long型值
+	 * @return
+	 */
 	public static long getNowLongTime() {
 		return (int) (System.currentTimeMillis() / 1000);
 	}
 
+	/**将日期转换为int类型值
+	 *
+	 * @return
+	 */
 	public static int getNowIntTime() {
 		return (int) (System.currentTimeMillis() / 1000);
 	}
@@ -96,75 +119,137 @@ public class DTUtil {
 		return date.getTime() / 1000;
 	}
 
+	/**
+	 * 获取当前年份
+	 * @return
+	 *
+	 */
 	public static int getCurrentYear() {
 		Calendar now = Calendar.getInstance();
 		return now.get(Calendar.YEAR);
 	}
 
+	/**
+	 * 获取过去某个时间的年份
+	 * @param oldLongTime
+	 * @return
+	 */
 	public static int getOldYear(long oldLongTime) {
 		Calendar now = Calendar.getInstance();
 		now.setTimeInMillis(oldLongTime * 1000);
 		return now.get(Calendar.YEAR);
 	}
 
+	/**
+	 * 获取当前月份
+	 * @return
+	 */
 	public static int getCurrentMonth() {
 		Calendar now = Calendar.getInstance();
 		return now.get(Calendar.MONTH) + 1;
 	}
 
+	/**
+	 * 获取当前日期的号数
+	 * @return
+	 */
 	public static int getCurrentDay() {
 		Calendar now = Calendar.getInstance();
 		return now.get(Calendar.DAY_OF_MONTH);
 	}
 
+	/**
+	 * 获取当前时间为第几小时
+	 * @return
+	 */
 	public static int getCurrentHour() {
 		Calendar now = Calendar.getInstance();
 
 		return now.get(Calendar.HOUR_OF_DAY);
 	}
 
+	/**
+	 * 获取年份
+	 * @param date
+	 * @return
+	 */
 	public static int getCurrentYear2(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.YEAR);
 	}
 
+	/**
+	 * 获取月份
+	 * @param date
+	 * @return
+	 */
 	public static int getCurrentMonth2(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.MONTH) + 1;
 	}
 
+	/**
+	 * 获取月份
+	 * @param datetime
+	 * @return
+	 */
 	public static int getCurrentMonth3(int datetime) {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(datetime * 1000l);
 		return c.get(Calendar.MONTH) + 1;
 	}
 
+	/**
+	 * 获取日期中的号数
+	 * @param date
+	 * @return
+	 */
 	public static int getCurrentDay2(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.DAY_OF_MONTH);
 	}
 
+	/**
+	 * 获取日期中的号数
+	 * @param datetime
+	 * @return
+	 */
 	public static int getCurrentDay3(int datetime) {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(datetime * 1000l);
 		return c.get(Calendar.DAY_OF_MONTH);
 	}
 
+	/**
+	 * 获取Hour的值
+	 * @param date
+	 * @return
+	 */
 	public static int getCurrentHour2(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.HOUR_OF_DAY);
 	}
 
+	/**
+	 * 获取Hour的值
+	 * @param datetime
+	 * @return
+	 */
 	public static int getCurrentHour3(int datetime) {
 		Calendar c = Calendar.getInstance();
 		c.setTimeInMillis(datetime * 1000l);
 		return c.get(Calendar.HOUR_OF_DAY);
 	}
 
+	/**
+	 *将秒转为小时,输出格式：x小时x分x秒
+	 * @param second
+	 * @return
+	 */
 	public static String SecToHour(long second) {
 		long min = second / 60;
 		long sec = second % 60;
@@ -240,6 +325,11 @@ public class DTUtil {
 		return fmtLongTime(now, "yyyy-MM-dd");
 	}
 
+	/**
+	 * 将日期int值转化为日期yyyy-M-dd格式
+	 * @param time
+	 * @return
+	 */
 	public static int getDate(int time) {
 		return (int) DateStr2LongTime(fmtLongTime(time, "yyyy-M-dd"), "yyyy-M-dd");
 	}
@@ -511,6 +601,12 @@ public class DTUtil {
 		return (int) (calendar.getTime().getTime() / 1000l);
 	}
 
+	/**
+	 * 获取该年，该月的第一天日期
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	public static long getFirstDayOfThisMonthByLogic(int year, int month) {
 		long firstday = 0;
 		Calendar cal = Calendar.getInstance();
@@ -523,6 +619,12 @@ public class DTUtil {
 		return firstday;
 	}
 
+	/**
+	 * 获取该年，该月的最后一天日期
+	 * @param year
+	 * @param month
+	 * @return
+	 */
 	public static long getLastDayOfThisMonthByLogic(int year, int month) {
 		long lastday = 0;
 		Calendar cal = Calendar.getInstance();
@@ -535,6 +637,11 @@ public class DTUtil {
 		return lastday;
 	}
 
+	/**
+	 * 将日期转为日期int值
+	 * @param date
+	 * @return
+	 */
 	public static int getHourZeroTime(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -543,6 +650,11 @@ public class DTUtil {
 		return (int) (c.getTime().getTime() / 1000);
 	}
 
+	/**
+	 *
+	 * @param date
+	 * @return
+	 */
 	public static int getTodayZeroTime(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -552,6 +664,11 @@ public class DTUtil {
 		return (int) (c.getTime().getTime() / 1000);
 	}
 
+	/**
+	 * 获取日期中该年的第一个月日期的int值
+	 * @param date
+	 * @return
+	 */
 	public static int getFirstMonth(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -563,6 +680,11 @@ public class DTUtil {
 		return (int) (c.getTime().getTime() / 1000);
 	}
 
+	/**
+	 * 获取日期中该年的最后一个月日期的int值
+	 * @param date
+	 * @return
+	 */
 	public static int getLastMonth(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -574,6 +696,11 @@ public class DTUtil {
 		return (int) (c.getTime().getTime() / 1000);
 	}
 
+	/**
+	 * 获取相邻月份日期的int值
+	 * @param date
+	 * @return
+	 */
 	public static int getNearMonth(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -585,6 +712,11 @@ public class DTUtil {
 		return (int) (c.getTime().getTime() / 1000);
 	}
 
+	/**
+	 * 获取下个月日期的int值
+	 * @param date
+	 * @return
+	 */
 	public static int getNextMonth(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -596,6 +728,11 @@ public class DTUtil {
 		return (int) (c.getTime().getTime() / 1000);
 	}
 
+	/**
+	 * 获取日期月份的int值
+	 * @param date
+	 * @return
+	 */
 	public static int getMonthZeroTime(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -606,6 +743,11 @@ public class DTUtil {
 		return (int) (c.getTime().getTime() / 1000);
 	}
 
+	/**
+	 * 获取最后一个月的日期的int值
+	 * @param date
+	 * @return
+	 */
 	public static int getLastMonthZeroTime(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
@@ -617,6 +759,11 @@ public class DTUtil {
 		return (int) (c.getTime().getTime() / 1000);
 	}
 
+	/**
+	 * 将int值的时间转为long值
+	 * @param time
+	 * @return
+	 */
 	public static long getHourZeroTime(int time) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(new Date(time * 1000l));
@@ -625,12 +772,22 @@ public class DTUtil {
 		return c.getTime().getTime();
 	}
 
+	/**
+	 * 判断该日期是否为该月第一天
+	 * @param date
+	 * @return
+	 */
 	public static boolean isFistDayOfThisMonth(Date date) {
 		Calendar c = Calendar.getInstance();
 		c.setTime(date);
 		return c.get(Calendar.DAY_OF_MONTH) == 1;
 	}
 
+	/**
+	 * 按照输入的格式，输出当前日期
+	 * @param pattern
+	 * @return
+	 */
 	public static String GetCurrentDateTimeToString(String pattern) {
 		SimpleDateFormat sdf = new SimpleDateFormat(pattern);
 		Date cday = new Date();
@@ -722,6 +879,11 @@ public class DTUtil {
 		return bu.toString();
 	}
 
+	/**
+	 * 获取日期int值
+	 * @param time
+	 * @return
+	 */
 	public static int getDayZeroTime(int time) {
 		Calendar cal = Calendar.getInstance();
 		cal.set(Calendar.HOUR_OF_DAY, 0);
@@ -731,6 +893,11 @@ public class DTUtil {
 		return (int) (cal.getTimeInMillis() / 1000 - 86400);
 	}
 
+	/**
+	 * 将日期string值，转为yyyy-MM-dd HH:mm:ss格式
+	 * @param fmt
+	 * @return
+	 */
 	public static String stringDateToStringDate(String fmt) {
 		sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		try {
@@ -741,6 +908,10 @@ public class DTUtil {
 		return sdf.format(dtTime);
 	}
 
+	/**
+	 * 获取当前日期
+	 * @return
+	 */
 	public static String getNowDataStr() {
 		System.setProperty("user.timezone", "GMT +08");
 		SimpleDateFormat tempDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -750,30 +921,60 @@ public class DTUtil {
 
 	public static final ZoneId ZONE = ZoneId.of("+08:00");
 
+	/**
+	 * 获取当前本地时间
+	 * @return
+	 */
 	public static LocalDateTime now() {
 		return LocalDateTime.now(ZONE);
 	}
 
+	/**
+	 * 获取当前时间，格式为字符串形式
+	 * @return
+	 */
 	public static String nowStr() {
 		return now().toString();
 	}
 
+	/**
+	 *
+	 * @param localDateTime 本地时间
+	 * @return
+	 */
 	public static Date toDate(LocalDateTime localDateTime) {
 		return Date.from(localDateTime.atZone(ZONE).toInstant());
 	}
 
+	/**
+	 * 获取当前时间
+	 * @return
+	 */
 	public static Date nowDate() {
 		return Date.from(now().atZone(ZONE).toInstant());
 	}
+
 	/** 时间格式(yyyy-MM-dd) */
 	public final static String DATE_PATTERN = "yyyy-MM-dd";
+
 	/** 时间格式(yyyy-MM-dd HH:mm:ss) */
 	public final static String DATE_TIME_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
+	/**
+	 * 设置日期时间格式(yyyy-MM-dd HH:mm:ss)
+	 * @param date
+	 * @return
+	 */
 	public static String dateToString(Date date) {
 		return dateToString(date, DATE_TIME_PATTERN);
 	}
 
+	/**
+	 * 按照输入的格式调整日期格式
+	 * @param date
+	 * @param pattern 日期格式
+	 * @return
+	 */
 	public static String dateToString(Date date, String pattern) {
 		if (date == null) {
 			date = new Date();

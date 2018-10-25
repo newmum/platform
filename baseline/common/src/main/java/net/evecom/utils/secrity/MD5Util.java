@@ -14,29 +14,25 @@ import java.util.Map;
 public class MD5Util {
     /**
      * 通过键值对获取校验码
-     * @param data
+     * @param data 请求参数集合
      * @return
      */
     public static String getCheckKey(Map<String, Object> data) {
         String result = null;
         StringBuffer buf = new StringBuffer();
-
         if (data != null && data.size() > 0) {
             ArrayList<String> keys = new ArrayList<String>(data.keySet());
             Collections.sort(keys);
             for (String key : keys) {
-
                 if (buf.length() > 0) {
                     buf.append("&");
                 }
                 buf.append(key);
                 buf.append("=");
                 buf.append(data.get(key));
-
             }
             result = getMD5(buf.toString().toUpperCase());
         }
-
         return result;
     }
 
@@ -47,7 +43,6 @@ public class MD5Util {
      */
     public static String getMD5(String s) {
         char hexDigits[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
-
         try {
             byte[] btInput = s.getBytes("utf-8");
             // 获得MD5摘要算法的 MessageDigest 对象
@@ -56,7 +51,6 @@ public class MD5Util {
             mdInst.update(btInput);
             // 获得密文
             byte[] md = mdInst.digest();
-
             // 把密文转换成十六进制的字符串形式
             int j = md.length;
             char str[] = new char[j * 2];

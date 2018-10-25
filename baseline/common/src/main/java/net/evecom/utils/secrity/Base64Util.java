@@ -35,8 +35,8 @@ public class Base64Util {
 
     /**
      * 加密
-     * @param str
-     * @return
+     * @param str 要加密的字符串
+     * @return 加密后的字符串
      */
 	public static String getBase64(String str) {
 		byte[] b = null;
@@ -52,6 +52,10 @@ public class Base64Util {
 		return s;
 	}
 
+	/**
+	 * 实例
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		System.out.println(Base64Util.getBase64("123321"));
 		System.out.println(Base64Util.getFromBase64("MTIzMzIx"));

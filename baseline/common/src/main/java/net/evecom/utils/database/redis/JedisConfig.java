@@ -7,12 +7,19 @@ package net.evecom.utils.database.redis;
  * @date： 2015年3月10日
  */
 public class JedisConfig {
+    /**最大数量*/
     private int MaxActive;
+    /***/
     private int MaxIdle;
+    /**最大等待时间*/
     private int MaxWait;
+    /***/
     private Boolean TestOnBorrow;
+    /**ip地址*/
     private String ip;
+    /**端口号*/
     private int post;
+    /**密码*/
     private String password;
 
     public int getMaxActive() {
