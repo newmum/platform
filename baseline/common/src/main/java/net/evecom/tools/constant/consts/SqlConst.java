@@ -1,7 +1,10 @@
 package net.evecom.tools.constant.consts;
 
 /**
- * @Description: sql查询常量表 @author： zhengc @date： 2018年6月19日09:50:31
+ * @ClassName: SqlConst
+ * @Description: sql查询常量表
+ * @author： zhengc
+ * @date： 2018年6月19日09:50:31
  */
 public class SqlConst {
 	public static final String AND = "and";

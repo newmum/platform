@@ -1,6 +1,7 @@
 package net.evecom.utils.string;
 
 import java.util.Random;
+import java.util.UUID;
 
 /**
  * @ClassName: RandomUtil
@@ -60,6 +61,14 @@ public class RandomUtil {
 			sb.append(baseString.charAt(number));
 		}
 		return sb.toString();
+	}
+
+    /**
+     * 生成UUID
+     * @return uuid
+     */
+	public static String getUUID(){
+		return UUID.randomUUID().toString().replace("-", "").toLowerCase();
 	}
 
 }
