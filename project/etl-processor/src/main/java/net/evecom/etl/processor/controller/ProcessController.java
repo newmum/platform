@@ -1,5 +1,7 @@
 package net.evecom.etl.processor.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import net.evecom.etl.processor.transform.ProcessHandle;
 import net.evecom.etl.processor.transform.entity.HandlerRequest;
 import net.evecom.etl.processor.transform.entity.HandlerResult;
@@ -9,13 +11,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/user")
-public class UserController {
+@RequestMapping("/process")
+@Api(tags = "解析处理模块")
+public class ProcessController {
 
-    @Value("${test.name}")
-    private String name;
-
-    @RequestMapping(value = "/findOne")
+    @ApiOperation(value = "测试解析链路", notes = "测试解析链路")
+    @RequestMapping(value = "/start", method = RequestMethod.GET)
     public String findOne(Long id) {
         StringBuilder sb = new StringBuilder("service-uma-183 success ");
         ProcessHandle processHandle = new ProcessHandle();

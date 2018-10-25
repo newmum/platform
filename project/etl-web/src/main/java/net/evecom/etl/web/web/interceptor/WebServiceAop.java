@@ -1,4 +1,4 @@
-package net.evecom.etl.processor.web.interceptor;
+package net.evecom.etl.web.web.interceptor;
 
 import java.lang.reflect.Method;
 import java.util.Enumeration;

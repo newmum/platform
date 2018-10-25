@@ -17,12 +17,7 @@
     <dependencies>
         <dependency>
             <groupId>net.evecom</groupId>
-            <artifactId>common</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>net.evecom</groupId>
-            <artifactId>core</artifactId>
+            <artifactId>mvc</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
@@ -54,11 +49,7 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.9.1</version>
-        </dependency>
+
     </dependencies>
     <build>
         <plugins>
