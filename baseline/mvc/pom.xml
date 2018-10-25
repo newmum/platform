@@ -8,13 +8,15 @@
         <version>1.0.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-    <packaging>jar</packaging>
-    <artifactId>core</artifactId>
+
+    <artifactId>mvc</artifactId>
     <version>1.0.0</version>
+    <properties>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>net.evecom</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>rbac</artifactId>
             <version>${project.version}</version>
         </dependency>
     </dependencies>
