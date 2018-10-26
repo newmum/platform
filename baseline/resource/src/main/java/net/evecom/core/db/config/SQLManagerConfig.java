@@ -1,4 +1,4 @@
-package net.evecom.core.db.base;
+package net.evecom.core.db.config;
 
 import net.evecom.utils.file.PropertiesUtils;
 import org.beetl.sql.core.ClasspathLoader;

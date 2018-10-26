@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @Description:
- * @author： xiejun @date： 2018年5月30日17:13:38
+ * @author： xiejun
+ * @date： 2018年5月30日17:13:38
  */
 @Configuration
 public class RedisConfig {
