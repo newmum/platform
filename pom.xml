@@ -28,9 +28,11 @@
         <spring.version>5.1.0.RELEASE</spring.version>
         <springboot.version>2.0.5.RELEASE</springboot.version>
         <springcloud.version>Finchley.RELEASE</springcloud.version>
+        <aspectj.version>1.9.1</aspectj.version>
 
-        <druid.version>1.1.9</druid.version>
+        <druid.version>1.1.11</druid.version>
         <swagger2.version>2.8.0</swagger2.version>
+        <redis.version>2.9.0</redis.version>
         <lombok.version>1.18.2</lombok.version>
         <junit.version>4.12</junit.version>
 
@@ -41,7 +43,6 @@
         <slf4j.version>1.7.25</slf4j.version>
         <log4j.version>1.2.17</log4j.version>
 
-        <apache.lang3.version>3.8.1</apache.lang3.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -91,11 +92,6 @@
             <scope>compile</scope>
         </dependency>
         <dependency>
-            <groupId>org.apache.commons</groupId>
-            <artifactId>commons-lang3</artifactId>
-            <version>${apache.lang3.version}</version>
-        </dependency>
-        <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>${jackson.version}</version>
@@ -125,6 +121,21 @@
             <artifactId>junit</artifactId>
             <version>${junit.version}</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>${aspectj.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger-ui</artifactId>
+            <version>${swagger2.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-swagger2</artifactId>
+            <version>${swagger2.version}</version>
         </dependency>
     </dependencies>
     <build>
