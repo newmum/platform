@@ -190,7 +190,6 @@ public class RedisClient {
 			jedis.select(index);
 			jedis.set(key.getBytes(), IterableForamt.objectToBytes(value));
 		} catch (Exception e) {
-
 			throw e;
 		} finally {
 			close(jedis);
