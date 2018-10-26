@@ -4,7 +4,8 @@ import net.evecom.tools.exception.CommonException;
 
 /**
  * @Description: 用户异常类
- * @author: zhengc @date: 2018年6月7日
+ * @author: zhengc
+ * @date: 2018年6月7日
  */
 public class UserException extends CommonException {
 

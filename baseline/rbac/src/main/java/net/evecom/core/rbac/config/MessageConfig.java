@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @Description: 短信及邮件发送配置
- * @author： xiejun @date： 2018年5月30日17:13:38
+ * @author： zhengc
+ * @date： 2018年5月30日17:13:38
  */
 @Configuration
 public class MessageConfig {

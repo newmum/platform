@@ -46,7 +46,6 @@ public class CustomFilter implements Filter {
         ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);
         redisClient = ctx.getBean(RedisClient.class);
         objectMapper = ctx.getBean(ObjectMapper.class);
-//        authCertService = ctx.getBean(AuthCertService.class);
         authCertService = new AuthCertService();
         excludeUrl.clear();
         String exclude = global.getKey("filter.exclude.url");
@@ -66,7 +65,6 @@ public class CustomFilter implements Filter {
             request.setCharacterEncoding("utf-8");
             String stp_url = request.getRequestURI();
             String stp_method = request.getMethod();
-            // String main_url = global.getKey("server.servlet.context-path");
             String main_url = request.getContextPath();
             main_url = (main_url == null ? "" : main_url);
             stp_url = stp_url.substring(main_url.length());
@@ -159,7 +157,7 @@ public class CustomFilter implements Filter {
     private boolean isExcludeUrl(Set<String> excludeUrl, String stp_url) {
         for (String url : excludeUrl) {
             if (url.startsWith("*") && url.endsWith("*")) {
-                if (stp_url.startsWith(url.substring(1, url.length() - 1)))
+                if (stp_url.indexOf(url.substring(1, url.length() - 1)) != -1)
                     return true;
             }
             if (url.startsWith("*")) {
