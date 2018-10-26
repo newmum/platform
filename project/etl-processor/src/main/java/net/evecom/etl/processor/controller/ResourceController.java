@@ -2,7 +2,7 @@ package net.evecom.etl.processor.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.evecom.core.rbac.annotatoin.Token;
+import net.evecom.core.db.annotatoin.Token;
 import net.evecom.core.rbac.base.BaseController;
 import net.evecom.core.db.model.entity.Resources;
 import net.evecom.core.db.model.service.ResourceService;
