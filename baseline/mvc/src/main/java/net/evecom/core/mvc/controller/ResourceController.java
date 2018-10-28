@@ -1,26 +1,26 @@
-package net.evecom.etl.processor.controller;
+package net.evecom.core.mvc.controller;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.evecom.core.db.annotatoin.Token;
-import net.evecom.core.rbac.base.BaseController;
-import net.evecom.core.db.model.entity.Resources;
-import net.evecom.core.db.model.service.ResourceService;
-import net.evecom.resource.model.service.SysFileService;
-import net.evecom.tools.constant.consts.SuccessConst;
-import net.evecom.core.db.database.query.QueryParam;
-import net.evecom.utils.report.exl.ImportExcel;
-import net.evecom.tools.exception.CommonException;
-import net.evecom.tools.service.Page;
-import net.evecom.tools.service.Result;
-import net.evecom.utils.file.PropertiesUtils;
-import net.evecom.utils.string.RandomUtil;
-import net.evecom.utils.string.StringUtil;
-import net.evecom.utils.verify.CheckUtil;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import net.evecom.core.db.annotatoin.Token;
+import net.evecom.core.db.database.query.QueryParam;
+import net.evecom.core.db.model.entity.Resources;
+import net.evecom.core.db.model.service.ResourceService;
+import net.evecom.core.mvc.model.service.SysFileService;
+import net.evecom.core.rbac.base.BaseController;
+import net.evecom.tools.constant.consts.SuccessConst;
+import net.evecom.tools.exception.CommonException;
+import net.evecom.tools.service.Page;
+import net.evecom.tools.service.Result;
+import net.evecom.utils.file.PropertiesUtils;
+import net.evecom.utils.report.exl.ImportExcel;
+import net.evecom.utils.string.RandomUtil;
+import net.evecom.utils.string.StringUtil;
+import net.evecom.utils.verify.CheckUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.*;
@@ -174,7 +174,7 @@ public class ResourceController extends BaseController {
 			throw new CommonException(CommonException.JSON_FORMAT_ERROR);
 		}
 		Resources resource = resourceService.get(name);
-//		resourceService.exportCheck(resource);
+//		resourceService.exportCheck(mvc);
 		resourceService.export(resource,queryParam, response);
 		return null;
 	}

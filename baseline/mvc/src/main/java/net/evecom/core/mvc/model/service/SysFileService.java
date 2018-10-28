@@ -1,10 +1,10 @@
-package net.evecom.resource.model.service;
+package net.evecom.core.mvc.model.service;
 
+import net.evecom.core.mvc.model.dao.SysFileDao;
+import net.evecom.core.mvc.model.entity.SysFile;
 import net.evecom.core.rbac.base.BaseService;
-import net.evecom.resource.model.dao.SysFileDao;
 import net.evecom.core.rbac.model.entity.CrmUser;
 import net.evecom.core.db.model.entity.Resources;
-import net.evecom.resource.model.entity.SysFile;
 import net.evecom.core.db.exception.ResourceException;
 import net.evecom.core.db.model.service.ResourceService;
 import net.evecom.core.db.untis.ValidtorUtil;
@@ -39,7 +39,7 @@ public class SysFileService extends BaseService {
 	@Resource
 	private SysFileDao sysFileDao;
 
-	PropertiesUtils global = new PropertiesUtils(SysFileService.class.getClassLoader().getResourceAsStream("application.properties"));
+	PropertiesUtils global = new PropertiesUtils(SysFileService.class.getClassLoader().getResourceAsStream("app.properties"));
 
 	public void baseCheck(SysFile sysFile) throws Exception {
 		String str = ValidtorUtil.validbean(sysFile);

@@ -1,4 +1,4 @@
-package net.evecom.resource.model.entity;
+package net.evecom.core.mvc.model.entity;
 
 import net.evecom.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;

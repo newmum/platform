@@ -1,4 +1,4 @@
-package net.evecom.resource.model.entity;
+package net.evecom.core.mvc.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import net.evecom.core.db.model.entity.DataEntity;

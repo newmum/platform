@@ -1,13 +1,13 @@
-package net.evecom.resource.model.service;
+package net.evecom.core.mvc.model.service;
 
+import net.evecom.core.mvc.model.dao.IUiComponentDao;
+import net.evecom.core.mvc.model.entity.UiElement;
 import net.evecom.core.rbac.base.BaseService;
-import net.evecom.resource.model.dao.IUiComponentDao;
 import net.evecom.core.rbac.model.entity.CrmPower;
 import net.evecom.core.db.model.entity.Resources;
-import net.evecom.resource.model.entity.UiComEle;
-import net.evecom.resource.model.entity.UiComponent;
-import net.evecom.resource.model.entity.UiComponentProp;
-import net.evecom.resource.model.entity.UiElement;
+import net.evecom.core.mvc.model.entity.UiComEle;
+import net.evecom.core.mvc.model.entity.UiComponent;
+import net.evecom.core.mvc.model.entity.UiComponentProp;
 import net.evecom.core.db.model.service.ResourceService;
 import net.evecom.tools.constant.consts.SqlConst;
 import net.evecom.core.db.database.query.QueryParam;

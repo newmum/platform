@@ -1,19 +1,18 @@
-package net.evecom.etl.processor.controller;
+package net.evecom.core.mvc.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import net.evecom.core.db.annotatoin.Token;
+import net.evecom.core.db.database.query.QueryParam;
+import net.evecom.core.db.model.service.ResourceService;
+import net.evecom.core.mvc.model.entity.UiComponent;
 import net.evecom.core.rbac.base.BaseController;
 import net.evecom.core.rbac.model.entity.CrmPower;
 import net.evecom.core.rbac.model.entity.CrmUser;
-import net.evecom.resource.model.entity.UiComponent;
 import net.evecom.core.rbac.model.entity.UiRouter;
-import net.evecom.core.db.model.service.ResourceService;
-import net.evecom.resource.model.service.UiComponentService;
 import net.evecom.core.rbac.model.service.UserService;
 import net.evecom.tools.constant.consts.SuccessConst;
-import net.evecom.core.db.database.query.QueryParam;
 import net.evecom.tools.service.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;

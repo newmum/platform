@@ -1,4 +1,4 @@
-package net.evecom.etl.processor.config;
+package net.evecom.core.mvc.config;
 
 import net.evecom.core.rbac.web.filter.CustomFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;

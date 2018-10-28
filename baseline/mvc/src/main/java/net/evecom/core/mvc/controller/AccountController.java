@@ -1,5 +1,9 @@
-package net.evecom.etl.processor.controller;
+package net.evecom.core.mvc.controller;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiImplicitParam;
+import io.swagger.annotations.ApiImplicitParams;
+import io.swagger.annotations.ApiOperation;
 import net.evecom.core.rbac.base.BaseController;
 import net.evecom.core.rbac.model.entity.CrmUser;
 import net.evecom.core.rbac.model.entity.MessageEmail;
@@ -8,10 +12,6 @@ import net.evecom.core.rbac.model.service.UserService;
 import net.evecom.tools.constant.consts.SuccessConst;
 import net.evecom.tools.service.Result;
 import net.evecom.utils.request.VerifyCodeUtils;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
