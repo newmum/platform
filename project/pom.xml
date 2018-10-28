@@ -13,8 +13,8 @@
     <packaging>pom</packaging>
     <version>1.0.0</version>
     <modules>
-        <module>etl-processor</module>
-        <module>etl-web</module>
+        <module>weather-etl-processor</module>
+        <module>weather-etl-mgr</module>
     </modules>
 
 
