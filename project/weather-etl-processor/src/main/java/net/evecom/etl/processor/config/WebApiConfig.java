@@ -21,6 +21,13 @@ public class WebApiConfig {
 				.apis(RequestHandlerSelectors.basePackage("net.evecom.etl.processor.controller")).build();
 	}
 
+	@Bean
+	public Docket mvcApi() {
+		return new Docket(DocumentationType.SWAGGER_2).groupName("基线功能API").useDefaultResponseMessages(false)
+				.apiInfo(new ApiInfoBuilder().version("1.0.0").title("基线功能API").description("基线功能API").build()).select()
+				.apis(RequestHandlerSelectors.basePackage("net.evecom.core.mvc.controller")).build();
+	}
+
 	// 构建 api文档的详细信息函数,注意这里的注解引用的是哪个
 	public ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
