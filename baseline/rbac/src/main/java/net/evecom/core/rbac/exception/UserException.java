@@ -9,7 +9,6 @@ import net.evecom.tools.exception.CommonException;
  */
 public class UserException extends CommonException {
 
-
 	public static final String PERFECT_EMAIL_VALIDATE_NULL = "perfect_email_validate_null";// 完善资料邮箱验证为空
 	public static final String VALIDATE_IMAGE_INPUT_NULL = "validate_image_input_null";// 图形验证码输入为空
 	public static final String PERFECT_EMAIL_VALIDATE_ERROR = "perfect_email_validate_error";// 完善资料邮箱验证错误

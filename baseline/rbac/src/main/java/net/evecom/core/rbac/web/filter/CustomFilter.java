@@ -46,7 +46,7 @@ public class CustomFilter implements Filter {
         ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);
         redisClient = ctx.getBean(RedisClient.class);
         objectMapper = ctx.getBean(ObjectMapper.class);
-        authCertService = new AuthCertService();
+        authCertService = ctx.getBean(AuthCertService.class);
         excludeUrl.clear();
         String exclude = global.getKey("filter.exclude.url");
         if (CheckUtil.isNotNull(exclude)) {
@@ -75,7 +75,7 @@ public class CustomFilter implements Filter {
 
             String sid = authCertService.getSID(request);
             if (CheckUtil.isNull(sid)) {
-                noPower(request, response, CommonException.LOGIN);
+                noPower(request, response, CommonException.NO_LOGIN);
                 return;
             }
             Object obj = null;
@@ -86,7 +86,7 @@ public class CustomFilter implements Filter {
             }
             if (CheckUtil.isNull(obj)) {
                 // 返回登录
-                noPower(request, response, CommonException.AGAIN_LOGIN);
+                noPower(request, response, CommonException.NO_LOGIN);
                 return;
             }
             CrmUser user = (CrmUser) obj;
@@ -96,7 +96,7 @@ public class CustomFilter implements Filter {
                 boolean bo = hasPower(powerList, stp_url, stp_method);
                 if (!bo) {
                     // 返回登录
-                    noPower(request, response, CommonException.POWER_NO);
+                    noPower(request, response, CommonException.NO_POWER);
                     return;
                 }
             }
