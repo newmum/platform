@@ -1,0 +1,29 @@
+server:
+  port: 83
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: cloud-config
+  cloud:
+    config:
+      server:
+        git:
+          uri: https://github.com/newmum/cloud-config/
+          search-paths: config-repo
+      profile: dev
+eureka:
+  client:
+    serviceUrl:
+      defaultZone: http://node1:82/eureka/,http://node2:82/eureka/,http://node3:82/eureka/
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+  endpoint:
+    shutdown:
+      enabled: true
+    restart:
+      enabled: true
+
