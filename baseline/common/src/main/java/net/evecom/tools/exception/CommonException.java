@@ -26,8 +26,8 @@ public class CommonException extends RuntimeException {
 	public static final String USERIDS_NULL = "userIds_null";
 	public static final String GROUPID_NULL = "groupid_null";
 	public static final String AGAIN_LOGIN = "again_login";
-	public static final String POWER_NO = "power_no";
-	public static final String LOGIN = "login";
+	public static final String NO_POWER = "no_power";
+	public static final String NO_LOGIN = "no_login";
 	public static final String NULL_POINTER = "null_pointer";
 	public static final String DATA_NULL = "data_null";
 	public static final String PARAM_NULL = "param_null";
