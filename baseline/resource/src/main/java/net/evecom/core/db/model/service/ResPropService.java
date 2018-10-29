@@ -229,7 +229,7 @@ public class ResPropService {
 
     }
 
-    //resource 资源对应的资源属性不存在,重新添加默认属性
+    //mvc 资源对应的资源属性不存在,重新添加默认属性
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "add")
     public List<ResProp> setBaseResProp(Resources resource) throws Exception {

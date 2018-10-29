@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Configuration;
 
 /**
  * @Description:
- * @author： xiejun
+ * @author： zhengc
  * @date： 2018年5月30日17:13:38
  */
 @Configuration
@@ -25,7 +25,6 @@ public class RedisConfig {
         config.setTestOnBorrow(Boolean.valueOf(global.getKey("redis.testonborrow")));
         config.setMaxActive(Integer.valueOf(global.getKey("redis.maxactive")));
         config.setPassword(global.getKey("redis.password"));
-//      RedisClient redisClient = RedisClient.getRedisClient(config);
         RedisClient redisClient = new RedisClient(config);
         return redisClient;
     }
