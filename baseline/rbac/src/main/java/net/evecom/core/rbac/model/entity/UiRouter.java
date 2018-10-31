@@ -9,11 +9,12 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * 前端路由实体类
- * @author xiejun
- * @since 1.0
+ * @ClassName: UiRouter
+ * @Description: 前端路由对象
+ * @author： zhengc
+ * @date： 2018年10月31日
  */
-@Table(name = "ui_router")
+@Table(name = "UI_ROUTER")
 public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

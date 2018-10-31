@@ -9,14 +9,14 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- *
- * @author xiejun
- * @since 1.0
+ * @ClassName: UserRole
+ * @Description: 用户角色对象
+ * @author： zhengc
+ * @date： 2018年10月30日
  */
 @Table(name = "crm_user_role")
-public class CrmUserRole extends DataEntity<CrmUserRole> implements Serializable {
+public class UserRole extends DataEntity<UserRole> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "crm_user_id")
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户不能为空")
@@ -44,7 +44,7 @@ public class CrmUserRole extends DataEntity<CrmUserRole> implements Serializable
 
 	@Override
 	public String toString() {
-		return "CrmUserRole [" + "crmUserId=" + crmUserId + "," + "crmRoleId=" + crmRoleId + "]" + "Address ["
+		return "UserRole [" + "crmUserId=" + crmUserId + "," + "crmRoleId=" + crmRoleId + "]" + "Address ["
 				+ getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}
 

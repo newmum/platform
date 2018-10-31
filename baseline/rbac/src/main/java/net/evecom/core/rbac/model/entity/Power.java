@@ -9,14 +9,14 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- *
- * @author xiejun
- * @since 1.0
+ * @ClassName: Power
+ * @Description: 权限对象
+ * @author： zhengc
+ * @date： 2018年10月31日
  */
-@Table(name = "crm_power")
-public class CrmPower extends DataEntity<CrmPower> implements Serializable {
+@Table(name = "SYSTEM_POWER")
+public class Power extends DataEntity<Power> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "name")
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
@@ -32,7 +32,7 @@ public class CrmPower extends DataEntity<CrmPower> implements Serializable {
 	@Column(name = "router_id")
 	@ApiModelProperty(value = "菜单id")
 	private Long routerId;
-	@Column(name = "create_user_id")
+	@Column(name = "CREATE_USER_ID")
 	@ApiModelProperty(value = "创建人id", hidden = true)
 	private Long createUserId;
 	@Column(name = "remarks")
@@ -89,7 +89,7 @@ public class CrmPower extends DataEntity<CrmPower> implements Serializable {
 
 	@Override
 	public String toString() {
-		return "CrmPower [" + "name=" + name + "," + "method=" + method + "," + "url=" + url + "," + "routerId="
+		return "Power [" + "name=" + name + "," + "method=" + method + "," + "url=" + url + "," + "routerId="
 				+ routerId + "," + "createUserId=" + createUserId + "," + "remarks=" + remarks + "]" + "Address ["
 				+ getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}

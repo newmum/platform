@@ -9,14 +9,14 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- *
- * @author xiejun
- * @since 1.0
+ * @ClassName: UserLoginLog
+ * @Description: 用户登录日志对象
+ * @author： zhengc
+ * @date： 2018年10月31日
  */
-@Table(name = "crm_user_login_log")
-public class CrmUserloginlog extends DataEntity<CrmUserloginlog> implements Serializable {
+@Table(name = "LOG_USER_LOGIN")
+public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "ip")
 	@ApiModelProperty(value = "登录ip")
 	@NotNull(message = "登录ip不能为空")

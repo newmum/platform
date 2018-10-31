@@ -2,8 +2,8 @@ package net.evecom.core.rbac.web.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.evecom.core.rbac.config.MessageConfig;
-import net.evecom.core.rbac.model.entity.CrmPower;
-import net.evecom.core.rbac.model.entity.CrmUser;
+import net.evecom.core.rbac.model.entity.Power;
+import net.evecom.core.rbac.model.entity.User;
 import net.evecom.core.rbac.model.service.AuthCertService;
 import net.evecom.tools.exception.CommonException;
 import net.evecom.tools.service.Result;
@@ -11,7 +11,6 @@ import net.evecom.utils.database.redis.RedisClient;
 import net.evecom.tools.request.ActionUtil;
 import net.evecom.utils.file.PropertiesUtils;
 import net.evecom.utils.verify.CheckUtil;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
@@ -27,6 +26,8 @@ import java.util.regex.Pattern;
 /**
  * @ClassName: CustomFilter
  * @Description: 用户权限过滤器
+ * @author： zhengc
+ * @date： 2018年10月27日
  */
 public class CustomFilter implements Filter {
 
@@ -89,10 +90,10 @@ public class CustomFilter implements Filter {
                 noPower(request, response, CommonException.NO_LOGIN);
                 return;
             }
-            CrmUser user = (CrmUser) obj;
+            User user = (User) obj;
             objectMapper.writeValueAsString(user);
-            if (user.getId() != 1) {// TODO 测试使用
-                List<CrmPower> powerList = user.getPowerList();
+            if (user.getID() != 1) {// TODO 测试使用
+                List<Power> powerList = user.getPowerList();
                 boolean bo = hasPower(powerList, stp_url, stp_method);
                 if (!bo) {
                     // 返回登录
@@ -112,11 +113,11 @@ public class CustomFilter implements Filter {
      * @param method    请求类型
      * @return
      */
-    private static boolean hasPower(List<CrmPower> powerList, String url, String method) {
+    private static boolean hasPower(List<Power> powerList, String url, String method) {
         if (powerList == null || powerList.size() == 0) {
             return false;
         }
-        for (CrmPower power : powerList) {
+        for (Power power : powerList) {
             if(CheckUtil.isNull(power.getUrl())||CheckUtil.isNull(power.getMethod())){
                 continue;
             }

@@ -1,7 +1,7 @@
 package net.evecom.core.rbac.base;
 
 import net.evecom.core.rbac.exception.UserException;
-import net.evecom.core.rbac.model.entity.CrmUser;
+import net.evecom.core.rbac.model.entity.User;
 import net.evecom.core.rbac.model.service.AuthCertService;
 import net.evecom.utils.verify.CheckUtil;
 
@@ -23,7 +23,7 @@ public class BaseService {
      * @param request
      * @throws Exception
      */
-	public void updateLoginUser(CrmUser user, HttpServletRequest request) throws Exception {
+	public void updateLoginUser(User user, HttpServletRequest request) throws Exception {
 		authCertService.updateUser(user, request);
 	}
 
@@ -33,7 +33,7 @@ public class BaseService {
      * @param response
      * @throws Exception
      */
-	public String saveLoginUser(CrmUser user, HttpServletResponse response) throws Exception {
+	public String saveLoginUser(User user, HttpServletResponse response) throws Exception {
         return authCertService.saveUser(user, response);
 	}
 
@@ -43,7 +43,7 @@ public class BaseService {
      * @return
      * @throws Exception
      */
-	public CrmUser loginUser(HttpServletRequest request) throws Exception {
+	public User loginUser(HttpServletRequest request) throws Exception {
 		return authCertService.getUser(request);
 	}
 

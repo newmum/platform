@@ -1,6 +1,6 @@
 package net.evecom.core.rbac.base;
 
-import net.evecom.core.rbac.model.entity.CrmUser;
+import net.evecom.core.rbac.model.entity.User;
 import net.evecom.tools.service.RequestBean;
 import net.evecom.tools.service.Result;
 import net.evecom.utils.verify.CheckUtil;
@@ -107,10 +107,10 @@ public class BaseController {
 	 *
 	 * @return
 	 */
-	public CrmUser getSessionUser() {
+	public User getSessionUser() {
 		// Object session =
 		// request.getSession().getAttribute(Constants.KEY_SESSION_USER);
-		return session == null ? null : (CrmUser) session;
+		return session == null ? null : (User) session;
 	}
 
 	/**
@@ -150,7 +150,7 @@ public class BaseController {
 	 *
 	 * @param user
 	 */
-	public void setSessionUser(CrmUser user) {
+	public void setSessionUser(User user) {
 		if (user != null) {
 			// SessionUser sessionUser = new SessionUser();
 			// userExtra

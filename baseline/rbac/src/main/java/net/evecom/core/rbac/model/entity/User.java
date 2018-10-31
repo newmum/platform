@@ -10,45 +10,45 @@ import java.io.Serializable;
 import java.util.List;
 
 /**
- *
- * @author xiejun
- * @since 1.0
+ * @ClassName: User
+ * @Description: 用户对象
+ * @author： zhengc
+ * @date： 2018年10月30日
  */
-@Table(name = "crm_user")
-public class CrmUser extends DataEntity<CrmUser> implements Serializable {
+@Table(name = "SYSTEM_USER")
+public class User extends DataEntity<User> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Column(name = "account")
-	@ApiModelProperty(value = "账号")
-	private String account;
-	@Column(name = "crm_office_id")
-	@ApiModelProperty(value = "所属机构", hidden = true)
-	private Long crmOfficeId;
-	@ApiModelProperty(value = "所属机构", hidden = true)
-	private CrmOffice crmOffice;
-	@Column(name = "email")
-	@ApiModelProperty(value = "邮箱", hidden = true)
-	private String email;
-	@Column(name = "type")
+	@Column(name = "ACCOUNT")
+    @ApiModelProperty(value = "账号")
+    private String account;
+    @Column(name = "PASSWORD")
+    @ApiModelProperty(value = "密码", hidden = true)
+    private String password;
+    @Column(name = "EMAIL")
+    @ApiModelProperty(value = "邮箱", hidden = true)
+    private String email;
+	@Column(name = "DEPT_ID")
+	@ApiModelProperty(value = "机构编号", hidden = true)
+	private Long deptId;
+	@ApiModelProperty(value = "用户机构对象", hidden = true)
+	private Department department;
+	@Column(name = "USER_TYPE")
 	@ApiModelProperty(value = "用户类型", hidden = true)
-	private Integer type;
-	@Column(name = "mobile")
+	private Integer userType;
+	@Column(name = "MOBILE")
 	@ApiModelProperty(value = "手机号", hidden = true)
 	private String mobile;
-	@Column(name = "password")
-	@ApiModelProperty(value = "密码", hidden = true)
-	private String password;
-	@Column(name = "create_user_id")
-	@ApiModelProperty(value = "创建人id", hidden = true)
+	@Column(name = "CREATE_USER_ID")
+	@ApiModelProperty(value = "创建人编号", hidden = true)
 	private Long createUserId;
 	@ApiModelProperty(value = "基本信息", hidden = true)
 	private CrmUserExtra crmUserExtra;
 	@ApiModelProperty(value = "角色集合", hidden = true)
-	private List<CrmRole> roleList;
+	private List<Role> roleList;
 	@ApiModelProperty(value = "菜单集合", hidden = true)
 	private List<UiRouter> menuList;
 	@ApiModelProperty(value = "菜单权限集合", hidden = true)
-	private List<CrmPower> powerList;
+	private List<Power> powerList;
 	@ApiModelProperty(value = "登录ip", hidden = true)
 	private String loginIp;
 	@ApiModelProperty(value = "登录时间", hidden = true)
@@ -70,15 +70,15 @@ public class CrmUser extends DataEntity<CrmUser> implements Serializable {
 		this.email = email;
 	}
 
-	public Integer getType() {
-		return type;
-	}
+    public Integer getUserType() {
+        return userType;
+    }
 
-	public void setType(Integer type) {
-		this.type = type;
-	}
+    public void setUserType(Integer userType) {
+        this.userType = userType;
+    }
 
-	public String getMobile() {
+    public String getMobile() {
 		return mobile;
 	}
 
@@ -103,24 +103,24 @@ public class CrmUser extends DataEntity<CrmUser> implements Serializable {
 		this.createUserId = createUserId;
 	}
 
-	@JsonIgnore
-	public Long getCrmOfficeId() {
-		return crmOfficeId;
-	}
+    @JsonIgnore
+    public Long getDeptId() {
+        return deptId;
+    }
 
-	public void setCrmOfficeId(Long crmOfficeId) {
-		this.crmOfficeId = crmOfficeId;
-	}
+    public void setDeptId(Long deptId) {
+        this.deptId = deptId;
+    }
 
-	public CrmOffice getCrmOffice() {
-		return crmOffice;
-	}
+    public Department getDepartment() {
+        return department;
+    }
 
-	public void setCrmOffice(CrmOffice crmOffice) {
-		this.crmOffice = crmOffice;
-	}
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
 
-	public CrmUserExtra getCrmUserExtra() {
+    public CrmUserExtra getCrmUserExtra() {
 		return crmUserExtra;
 	}
 
@@ -128,11 +128,11 @@ public class CrmUser extends DataEntity<CrmUser> implements Serializable {
 		this.crmUserExtra = crmUserExtra;
 	}
 
-	public List<CrmRole> getRoleList() {
+	public List<Role> getRoleList() {
 		return roleList;
 	}
 
-	public void setRoleList(List<CrmRole> roleList) {
+	public void setRoleList(List<Role> roleList) {
 		this.roleList = roleList;
 	}
 
@@ -145,11 +145,11 @@ public class CrmUser extends DataEntity<CrmUser> implements Serializable {
 	}
 
 	@JsonIgnore
-	public List<CrmPower> getPowerList() {
+	public List<Power> getPowerList() {
 		return powerList;
 	}
 
-	public void setPowerList(List<CrmPower> powerList) {
+	public void setPowerList(List<Power> powerList) {
 		this.powerList = powerList;
 	}
 
@@ -167,13 +167,6 @@ public class CrmUser extends DataEntity<CrmUser> implements Serializable {
 
 	public void setLoginDate(String loginDate) {
 		this.loginDate = loginDate;
-	}
-
-	@Override
-	public String toString() {
-		return "CrmUser [" + "account=" + account + "," + "crmOfficeId=" + crmOfficeId + "," + "email=" + email + ","
-				+ "type=" + type + "," + "mobile=" + mobile + "," + "password=" + password + "," + "createUserId="
-				+ createUserId + "]" + "Address [" + getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}
 
 }

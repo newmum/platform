@@ -1,6 +1,6 @@
 package net.evecom.core.rbac.model.service;
 
-import net.evecom.core.rbac.model.entity.CrmUser;
+import net.evecom.core.rbac.model.entity.User;
 import net.evecom.tools.constant.consts.CacheGroupConst;
 import net.evecom.utils.database.redis.RedisClient;
 import net.evecom.utils.request.CookieUtil;
@@ -30,7 +30,7 @@ public class AuthCertService {
      * @return
      * @throws Exception
      */
-    public String saveUser(CrmUser user, HttpServletResponse response) throws Exception {
+    public String saveUser(User user, HttpServletResponse response) throws Exception {
         int size = 0;//要改成从数据库配置表读
         int time = (size == 0 ? 30 * 60 : Integer.valueOf(size));
         String sid = UUID.randomUUID().toString();
@@ -60,14 +60,14 @@ public class AuthCertService {
      * @return
      * @throws Exception
      */
-    public CrmUser getUser(HttpServletRequest request) throws Exception {
+    public User getUser(HttpServletRequest request) throws Exception {
         String sid = getSID(request);
         return getUser(request, sid);
     }
 
-    public CrmUser getUser(HttpServletRequest request, String sid) throws Exception {
+    public User getUser(HttpServletRequest request, String sid) throws Exception {
         Object obj = redisClient.get(CacheGroupConst.SESSION_REDIS, sid);
-        return (CrmUser) obj;
+        return (User) obj;
     }
 
 
@@ -78,7 +78,7 @@ public class AuthCertService {
      * @param request
      * @throws Exception
      */
-    public void updateUser(CrmUser user, HttpServletRequest request) throws Exception {
+    public void updateUser(User user, HttpServletRequest request) throws Exception {
         String sid = getSID(request);
         Long time = redisClient.ttl(CacheGroupConst.SESSION_REDIS, sid);
         redisClient.set(CacheGroupConst.SESSION_REDIS, sid, user, time.intValue());

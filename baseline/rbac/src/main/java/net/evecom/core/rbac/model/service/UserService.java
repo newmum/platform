@@ -4,7 +4,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.evecom.core.rbac.model.entity.*;
 import net.evecom.core.rbac.base.BaseService;
 import net.evecom.core.rbac.model.dao.ICrmUserDao;
-import net.evecom.core.rbac.model.entity.*;
 import net.evecom.core.db.exception.ResourceException;
 import net.evecom.core.rbac.exception.UserException;
 import net.evecom.core.db.model.service.ResourceService;
@@ -19,8 +18,6 @@ import net.evecom.utils.request.IPUtils;
 import net.evecom.utils.string.RandomUtil;
 import net.evecom.utils.string.StringUtil;
 import net.evecom.utils.verify.CheckUtil;
-import org.beetl.sql.core.SQLManager;
-import org.beetl.sql.core.db.DBStyle;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,17 +44,17 @@ public class UserService extends BaseService {
     @Resource
     private ObjectMapper objectMapper;
 
-    public CrmUser add(CrmUser user) throws Exception {
+    public User add(User user) throws Exception {
         resourceService.add(user);
         CrmUserExtra userExtra = new CrmUserExtra();
-        userExtra.setCrmUserId(user.getId());
+        userExtra.setCrmUserId(user.getID());
         userExtra.preInsert();
         resourceService.add(userExtra);
         return user;
     }
 
-    public void delete(CrmUser user) throws Exception {
-        user.setStatus(CrmUser.DEL_FLAG_DELETE);
+    public void delete(User user) throws Exception {
+        user.setIsDel(User.YES);
         user.preUpdate();
         int i = userDao.updateTemplateById(user);
         if (i <= 0) {
@@ -65,8 +62,8 @@ public class UserService extends BaseService {
         }
     }
 
-    public void editCheck(CrmUser user) throws Exception {
-        if (CheckUtil.isNull(user.getId())) {
+    public void editCheck(User user) throws Exception {
+        if (CheckUtil.isNull(user.getID())) {
             throw new ResourceException(ResourceException.ID_NULL);
         }
         if (CheckUtil.isNull(user.getMobile()) && CheckUtil.isNull(user.getEmail())
@@ -74,17 +71,17 @@ public class UserService extends BaseService {
             throw new UserException(UserException.MOBILE_EMAIL_ACCOUNT_NULL);
         }
         if (CheckUtil.isNotNull(user.getMobile())) {
-            checkUser(user.getId(), user.getMobile(), 1);
+            checkUser(user.getID(), user.getMobile(), 1);
         }
         if (CheckUtil.isNotNull(user.getEmail())) {
-            checkUser(user.getId(), user.getEmail(), 2);
+            checkUser(user.getID(), user.getEmail(), 2);
         }
         if (CheckUtil.isNotNull(user.getAccount())) {
-            checkUser(user.getId(), user.getAccount(), 3);
+            checkUser(user.getID(), user.getAccount(), 3);
         }
     }
 
-    public CrmUser edit(CrmUser user) throws Exception {
+    public User edit(User user) throws Exception {
         user.preUpdate();
         int i = userDao.updateTemplateById(user);
         if (i <= 0) {
@@ -100,11 +97,11 @@ public class UserService extends BaseService {
      * @param validate 验证码
      * @return
      */
-    public CrmUser mobileloginCheck(String mobile, String validate) throws Exception {
+    public User mobileloginCheck(String mobile, String validate) throws Exception {
         if (!CheckUtil.isNotNull(validate)) {
             throw new UserException(UserException.VALIDATE_INPUT_NULL);
         }
-        CrmUser user = new CrmUser();
+        User user = new User();
         if (CheckUtil.isMobile(mobile)) {
             user.setMobile(mobile);
             user = userDao.templateOne(user);
@@ -128,11 +125,11 @@ public class UserService extends BaseService {
 
     public List<Long> batchdelete(Long[] ids) throws Exception {
         List<Long> result = new ArrayList<Long>();
-        CrmUser user = new CrmUser();
-        user.setStatus(CrmUser.DEL_FLAG_DELETE);
+        User user = new User();
+        user.setIsDel(User.YES);
         user.preUpdate();
         for (Long id : ids) {
-            user.setId(id);
+            user.setID(id);
             int i = userDao.updateTemplateById(user);
             if (i <= 0) {
                 result.add(id);
@@ -143,12 +140,11 @@ public class UserService extends BaseService {
 
     /**
      * 登录验证
-     *
      * @param account  手机号/邮箱/账号
      * @param password 密码
      * @return
      */
-    public CrmUser loginCheck(HttpSession session, String account, String password, String validate) throws Exception {
+    public User loginCheck(HttpSession session, String account, String password, String validate) throws Exception {
         Object check_code = session.getAttribute(CacheGroupConst.CHECK_CODE_NAME);
         if (check_code != null && !check_code.toString().equals(validate)) {
             throw new UserException(UserException.VALIDATE_ERROR);
@@ -156,7 +152,7 @@ public class UserService extends BaseService {
         if (CheckUtil.isNull(password)) {
             throw new UserException(UserException.PASSWORD_INPUT_NULL);
         }
-        CrmUser user = new CrmUser();
+        User user = new User();
         if (CheckUtil.isEmail(account)) {
             user.setEmail(account);
         } else if (CheckUtil.isMobile(account)) {
@@ -166,9 +162,6 @@ public class UserService extends BaseService {
         } else {
             throw new UserException(UserException.ACCOUNT_FORMAT_3TO20);
         }
-        SQLManager sqlManager = userDao.getSQLManager();
-        DBStyle dbStyle = sqlManager.getDbStyle();
-        dbStyle.getName();
         user = userDao.templateOne(user);
         if (user == null) {
             throw new UserException(UserException.USER_NO_EXIST);
@@ -179,36 +172,36 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public CrmUser login(CrmUser user, HttpServletResponse response, HttpServletRequest request) throws Exception {
+    public User login(User user, HttpServletResponse response, HttpServletRequest request) throws Exception {
         setUserExtra(user);
         try {
             logout(request, response);
         } catch (Exception e) {
 
         }
-        if(user.getId()==1){
+        if(user.getID()==1){
             //admin 用户 获取所有权限,菜单
             QueryParam queryParam=new QueryParam();
             queryParam.setNeedPage(false);
             queryParam.setNeedTotal(false);
             user.setMenuList((List<UiRouter>) resourceService.list(UiRouter.class,queryParam).getList());
-            user.setPowerList((List<CrmPower>) resourceService.list(CrmPower.class,queryParam).getList());
+            user.setPowerList((List<Power>) resourceService.list(Power.class,queryParam).getList());
         }else{
-            List<UiRouter> menuList = userDao.getMenuList(user.getId());
-            List<CrmPower> powerList = userDao.getPowerList(user.getId());
+            List<UiRouter> menuList = userDao.getMenuList(user.getID());
+            List<Power> powerList = userDao.getPowerList(user.getID());
             user.setMenuList(menuList);
             user.setPowerList(powerList);
         }
-        List<CrmRole> roleList = userDao.getRoleList(user.getId());
+        List<Role> roleList = userDao.getRoleList(user.getID());
         user.setRoleList(roleList);
 
 
         // 保存登录日志
         String login_ip = IPUtils.getIpAddr(request);
         System.out.println(login_ip);
-        CrmUserloginlog userLog = new CrmUserloginlog();
+        UserLoginLog userLog = new UserLoginLog();
         userLog.setIp(login_ip);
-        userLog.setCrmUserId(user.getId());
+        userLog.setCrmUserId(user.getID());
         user.setLoginIp(login_ip);
         user.setLoginDate(DTUtil.getNowDataStr());
         String sid = saveLoginUser(user, response);
@@ -225,22 +218,22 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public void setUserExtra(CrmUser user) {
+    public void setUserExtra(User user) {
         QueryParam<CrmUserExtra> queryParam = new QueryParam<>();
-        queryParam.append(CrmUserExtra::getCrmUserId, user.getId());
+        queryParam.append(CrmUserExtra::getCrmUserId, user.getID());
         CrmUserExtra userExtra;
         try {
             userExtra = (CrmUserExtra) resourceService.get(CrmUserExtra.class, queryParam);
-            CrmOffice office = (CrmOffice) resourceService.get(CrmOffice.class, user.getCrmOfficeId());
-            user.setCrmOffice(office);
+            Department dept = (Department) resourceService.get(Department.class, user.getDeptId());
+            user.setDepartment(dept);
         } catch (Exception e) {
             userExtra = new CrmUserExtra();
-            userExtra.setCrmUserId(user.getId());
+            userExtra.setCrmUserId(user.getID());
         }
         user.setCrmUserExtra(userExtra);
     }
 
-    public CrmUser passwordRecoveryCheck(String mobile, String email, String validate, String password)
+    public User passwordRecoveryCheck(String mobile, String email, String validate, String password)
             throws Exception {
         // 类型 1手机号找回2邮箱找回
         if (CheckUtil.isNull(validate)) {
@@ -249,7 +242,7 @@ public class UserService extends BaseService {
         if (CheckUtil.isNull(password)) {
             throw new UserException(UserException.PASSWORD_INPUT_NULL);
         }
-        CrmUser user = new CrmUser();
+        User user = new User();
         String hint = "";
         if (CheckUtil.isNotNull(mobile)) {
             if (!CheckUtil.isMobile(mobile)) {
@@ -266,7 +259,7 @@ public class UserService extends BaseService {
         } else {
             throw new UserException(UserException.MOBILE_EMAIL_NULL);
         }
-        CrmUser temp = userDao.templateOne(user);
+        User temp = userDao.templateOne(user);
         if (temp == null) {
             if (hint.equals("mobile")) {
                 throw new UserException(UserException.MOBILE_NO_EXIST);
@@ -274,7 +267,7 @@ public class UserService extends BaseService {
                 throw new UserException(UserException.EMAIL_NO_EXIST);
             }
         } else {
-            user.setId(temp.getId());
+            user.setID(temp.getID());
             String key = CacheGroupConst.FIND_CHECKCODE;
             if (hint.equals("mobile")) {
                 key += mobile;
@@ -294,7 +287,7 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public void passwordRecovery(CrmUser user) throws Exception {
+    public void passwordRecovery(User user) throws Exception {
         try {
             user.preUpdate();
             int i = userDao.updateTemplateById(user);
@@ -306,12 +299,12 @@ public class UserService extends BaseService {
         }
     }
 
-    public CrmUser registerCheck(String account, String validate, String mobile, String email, String password)
+    public User registerCheck(String account, String validate, String mobile, String email, String password)
             throws Exception {
         if (CheckUtil.isNull(validate)) {
             throw new UserException(UserException.VALIDATE_INPUT_NULL);
         }
-        CrmUser user = null;
+        User user = null;
         String key = CacheGroupConst.REGISTER_CHECKCODE;
         if (CheckUtil.isNotNull(mobile)) {
             user = checkUser(null, mobile, 1);
@@ -343,14 +336,14 @@ public class UserService extends BaseService {
      * @return
      * @throws Exception
      */
-    public CrmUser register(CrmUser user) throws Exception {
+    public User register(User user) throws Exception {
         user = add(user);
         if (user == null) {
             throw new UserException(UserException.REGISTER_ERROR);
         }
         // 新注册用户默认添加基础角色(id为2)
-        CrmUserRole crmUserRole = new CrmUserRole();
-        crmUserRole.setCrmUserId(user.getId());
+        UserRole crmUserRole = new UserRole();
+        crmUserRole.setCrmUserId(user.getID());
         crmUserRole.setCrmRoleId(2L);
         resourceService.add(crmUserRole);
         return user;
@@ -363,9 +356,9 @@ public class UserService extends BaseService {
      * @return
      * @throws Exception
      */
-    public CrmUser checkUser(Long id, String account, Integer type) throws Exception {
+    public User checkUser(Long id, String account, Integer type) throws Exception {
         //
-        CrmUser user = new CrmUser();
+        User user = new User();
         if (type == null) {
             throw new UserException(UserException.TYPE_NO_EXIST);
         }
@@ -390,8 +383,8 @@ public class UserService extends BaseService {
         } else {
             throw new UserException(UserException.TYPE_NO_EXIST);
         }
-        CrmUser temp = userDao.templateOne(user);
-        if (temp != null && temp.getId() != id) {
+        User temp = userDao.templateOne(user);
+        if (temp != null && temp.getID() != id) {
             if (type == 1) {
                 throw new UserException(UserException.MOBILE_HAS_EXIST);
             } else if (type == 2) {
@@ -426,9 +419,9 @@ public class UserService extends BaseService {
                 throw new UserException(UserException.USER_NO_LOGIN);
             }
         }
-        CrmUser user = new CrmUser();
+        User user = new User();
         user.setMobile(mobile);
-        CrmUser temp = userDao.templateOne(user);
+        User temp = userDao.templateOne(user);
         if ((id == 2) && temp != null) {
             throw new UserException(UserException.MOBILE_HAS_EXIST);
         } else if ((id == 3 || id == 1 || id == 4) && temp == null) {
@@ -492,9 +485,9 @@ public class UserService extends BaseService {
                 throw new UserException(UserException.USER_NO_LOGIN);
             }
         }
-        CrmUser user = new CrmUser();
+        User user = new User();
         user.setEmail(email);
-        CrmUser temp = userDao.templateOne(user);
+        User temp = userDao.templateOne(user);
         if ((id == 2) && temp != null) {
             throw new UserException(UserException.EMAIL_HAS_EXIST);
         } else if ((id == 3 || id == 4) && temp == null) {
@@ -572,22 +565,22 @@ public class UserService extends BaseService {
         // }
     }
 
-    public void perfectInfoCheck(HttpServletRequest request, CrmUser user) throws Exception {
-        CrmUser loginUser = null;
+    public void perfectInfoCheck(HttpServletRequest request, User user) throws Exception {
+        User loginUser = null;
         try {
             loginUser = loginUser(request);
         } catch (Exception e) {
             throw new UserException(UserException.USER_NO_LOGIN);
         }
-        if (loginUser.getId() != user.getId()) {
+        if (loginUser.getID() != user.getID()) {
             throw new UserException(UserException.ILLEGAL_USER);
         }
         editCheck(user);
     }
 
-    public void perfectInfo(CrmUser user, CrmUserExtra userExtra) throws Exception {
+    public void perfectInfo(User user, CrmUserExtra userExtra) throws Exception {
         edit(user);
-        if (CheckUtil.isNull(userExtra.getId())) {
+        if (CheckUtil.isNull(userExtra.getID())) {
             resourceService.add(userExtra);
         } else {
             resourceService.update(userExtra);
@@ -603,8 +596,8 @@ public class UserService extends BaseService {
      * @return
      * @throws Exception
      */
-    public CrmUser perfectMobileCheck(Long id, String mobile, String validate) throws Exception {
-        CrmUser user = checkUser(id, mobile, 1);
+    public User perfectMobileCheck(Long id, String mobile, String validate) throws Exception {
+        User user = checkUser(id, mobile, 1);
         Object redis_validate = redisClient.get(CacheGroupConst.CODE_REDIS,
                 CacheGroupConst.PERFECT_CHECKCODE + user.getMobile());
         redis_validate = (redis_validate == null ? "" : redis_validate.toString());
@@ -617,8 +610,8 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public CrmUser perfectEmailCheck(Long id, String email, String validate) throws Exception {
-        CrmUser user = checkUser(id, email, 2);
+    public User perfectEmailCheck(Long id, String email, String validate) throws Exception {
+        User user = checkUser(id, email, 2);
         Object redis_validate = redisClient.get(CacheGroupConst.CODE_REDIS,
                 CacheGroupConst.PERFECT_CHECKCODE + user.getEmail());
         redis_validate = (redis_validate == null ? "" : redis_validate.toString());
@@ -631,15 +624,15 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public List<CrmPower> getPowerByMenuId(HttpServletRequest request, Long menuId) throws Exception {
-        CrmUser user = loginUser(request);
+    public List<Power> getPowerByMenuId(HttpServletRequest request, Long menuId) throws Exception {
+        User user = loginUser(request);
         return getPowerByMenuId(user, menuId);
     }
 
-    public List<CrmPower> getPowerByMenuId(CrmUser user, Long menuId) throws Exception {
-        List<CrmPower> powerList = user.getPowerList();
-        List<CrmPower> resultList = new ArrayList<CrmPower>();
-        for (CrmPower power : powerList) {
+    public List<Power> getPowerByMenuId(User user, Long menuId) throws Exception {
+        List<Power> powerList = user.getPowerList();
+        List<Power> resultList = new ArrayList<Power>();
+        for (Power power : powerList) {
             Long id = power.getRouterId();
             if (id.equals(menuId)) {
                 resultList.add(power);
@@ -648,22 +641,22 @@ public class UserService extends BaseService {
         return resultList;
     }
 
-    public CrmUser updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        CrmUser user = loginUser(request);
-        if(user.getId()==1){
+    public User updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        User user = loginUser(request);
+        if(user.getID()==1){
             //admin 用户 获取所有权限,菜单
             QueryParam queryParam=new QueryParam();
             queryParam.setNeedPage(false);
             queryParam.setNeedTotal(false);
             user.setMenuList((List<UiRouter>) resourceService.list(UiRouter.class,queryParam).getList());
-            user.setPowerList((List<CrmPower>) resourceService.list(CrmPower.class,queryParam).getList());
+            user.setPowerList((List<Power>) resourceService.list(Power.class,queryParam).getList());
         }else{
-            List<UiRouter> menuList = userDao.getMenuList(user.getId());
-            List<CrmPower> powerList = userDao.getPowerList(user.getId());
+            List<UiRouter> menuList = userDao.getMenuList(user.getID());
+            List<Power> powerList = userDao.getPowerList(user.getID());
             user.setMenuList(menuList);
             user.setPowerList(powerList);
         }
-        List<CrmRole> roleList = userDao.getRoleList(user.getId());
+        List<Role> roleList = userDao.getRoleList(user.getID());
         user.setRoleList(roleList);
         updateLoginUser(user, request);
         return user;

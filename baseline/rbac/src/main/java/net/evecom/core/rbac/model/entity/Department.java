@@ -9,26 +9,26 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- *
- * @author xiejun
- * @since 1.0
+ * @ClassName: Department
+ * @Description: 组织机构对象
+ * @author： zhengc
+ * @date： 2018年10月30日
  */
-@Table(name = "crm_office")
-public class CrmOffice extends DataEntity<CrmOffice> implements Serializable {
+@Table(name = "SYTEM_DEPARTMENT")
+public class Department extends DataEntity<Department> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-	@Column(name = "parent_id")
-	@ApiModelProperty(value = "父类id")
-	@NotNull(message = "父类不能为空")
+	@Column(name = "PARENT_ID")
+	@ApiModelProperty(value = "上级机构编号")
+	@NotNull(message = "上级机构不能为空")
 	private Long parentId;
-	@Column(name = "name")
-	@ApiModelProperty(value = "名称")
+	@Column(name = "DEPT_NAME")
+	@ApiModelProperty(value = "组织机构名称")
 	@NotNull(message = "名称不能为空")
-	private String name;
-	@Column(name = "sort")
+	private String deptName;
+	@Column(name = "SORT")
 	@ApiModelProperty(value = "排序")
 	private Long sort;
-	@Column(name = "code")
+	@Column(name = "CODE")
 	@ApiModelProperty(value = "区域编码")
 	private String code;
 	@Column(name = "type")
@@ -70,12 +70,12 @@ public class CrmOffice extends DataEntity<CrmOffice> implements Serializable {
 		this.parentId = parentId;
 	}
 
-	public String getName() {
-		return name;
+	public String getDeptName() {
+		return deptName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 
 	public Long getSort() {
@@ -172,15 +172,6 @@ public class CrmOffice extends DataEntity<CrmOffice> implements Serializable {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-	}
-
-	@Override
-	public String toString() {
-		return "CrmOffice [" + "parentId=" + parentId + "," + "name=" + name + "," + "sort=" + sort + "," + "code="
-				+ code + "," + "type=" + type + "," + "grade=" + grade + "," + "address=" + address + "," + "zipCode="
-				+ zipCode + "," + "master=" + master + "," + "phone=" + phone + "," + "fax=" + fax + "," + "email="
-				+ email + "," + "createUserId=" + createUserId + "," + "remarks=" + remarks + "]" + "Address ["
-				+ getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}
 
 }
