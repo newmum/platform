@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月31日
  */
-@Table(name = "LOG_USER_LOGIN")
+@Table(name = "SYSTEM_USER_LOGIN_LOG")
 public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializable {
 
 	@Column(name = "ip")

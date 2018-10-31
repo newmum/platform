@@ -194,11 +194,8 @@ public class UserService extends BaseService {
         }
         List<Role> roleList = userDao.getRoleList(user.getID());
         user.setRoleList(roleList);
-
-
         // 保存登录日志
         String login_ip = IPUtils.getIpAddr(request);
-        System.out.println(login_ip);
         UserLoginLog userLog = new UserLoginLog();
         userLog.setIp(login_ip);
         userLog.setCrmUserId(user.getID());
@@ -206,7 +203,6 @@ public class UserService extends BaseService {
         user.setLoginDate(DTUtil.getNowDataStr());
         String sid = saveLoginUser(user, response);
         resourceService.add(userLog);
-
         // User temp = iUserDao.queryUsers(user.getId());
         // List<Role> roles = (List<Role>) temp.get("role");
         // List<Menu> menu = (List<Menu>) temp.get("menu");
@@ -214,7 +210,6 @@ public class UserService extends BaseService {
         // temp.setRoleList(roles);
         // temp.setMenuList(menu);
         // temp.setPowerList(power);
-
         return user;
     }
 

@@ -1,6 +1,7 @@
 package net.evecom.core.rbac.model.entity;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
 import net.evecom.core.db.model.entity.DataEntity;
 import org.beetl.sql.core.annotatoin.Table;
 
@@ -15,6 +16,7 @@ import java.io.Serializable;
  * @date： 2018年10月31日
  */
 @Table(name = "UI_ROUTER")
+@ToString
 public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

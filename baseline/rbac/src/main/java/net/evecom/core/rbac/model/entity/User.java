@@ -1,6 +1,7 @@
 package net.evecom.core.rbac.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 import net.evecom.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -16,6 +17,7 @@ import java.util.List;
  * @date： 2018年10月30日
  */
 @Table(name = "SYSTEM_USER")
+@ToString
 public class User extends DataEntity<User> implements Serializable {
 
 	@Column(name = "ACCOUNT")
