@@ -7,8 +7,8 @@ import net.evecom.core.db.database.query.QueryParam;
 import net.evecom.core.db.model.service.ResourceService;
 import net.evecom.core.mvc.model.entity.UiComponent;
 import net.evecom.core.rbac.base.BaseController;
-import net.evecom.core.rbac.model.entity.CrmPower;
-import net.evecom.core.rbac.model.entity.CrmUser;
+import net.evecom.core.rbac.model.entity.Power;
+import net.evecom.core.rbac.model.entity.User;
 import net.evecom.core.rbac.model.entity.UiRouter;
 import net.evecom.core.rbac.model.service.UserService;
 import net.evecom.tools.constant.consts.SuccessConst;
@@ -27,7 +27,7 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/views")
-@Api(value = "UI生成模块", tags = "UI生成模块")
+@Api(value = "UI构造模块", tags = "UI构造模块")
 public class ViewController extends BaseController {
 	@Autowired
 	private ResourceService resourceService;
@@ -37,7 +37,7 @@ public class ViewController extends BaseController {
 	@ApiOperation(value = "进入主页面", notes = "进入主页面")
 	@RequestMapping(value = "/showMain", method = RequestMethod.GET)
 	public Result<?> showMain() throws Exception {
-		CrmUser user = userService.loginUser(request);
+		User user = userService.loginUser(request);
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("user", user);
 		return Result.success(SuccessConst.OPERATE_SUCCESS, map);
@@ -47,7 +47,7 @@ public class ViewController extends BaseController {
 	@ApiOperation(value = "进入页面", notes = "进入页面")
 	@RequestMapping(value = "/{resourceName}", method = RequestMethod.GET)
 	public Result<?> view(@PathVariable(value = "resourceName") String name) throws Exception {
-		CrmUser user = userService.loginUser(request);
+		User user = userService.loginUser(request);
 		String stp_url = request.getRequestURI();
 		String stp_method = request.getMethod();
 		// String main_url = global.getKey("server.servlet.context-path");
@@ -55,25 +55,25 @@ public class ViewController extends BaseController {
 		main_url = (main_url == null ? "" : main_url);
 		stp_url = stp_url.substring(main_url.length());
 		List<UiComponent> compentlist =new ArrayList<UiComponent>();
-		CrmPower power = hasPower(user.getPowerList(), stp_url, stp_method);
+		Power power = hasPower(user.getPowerList(), stp_url, stp_method);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(power!=null){
 			QueryParam<UiRouter>queryParam=new QueryParam<>();
-			queryParam.append(UiRouter::getCrmPowerId,power.getId());
+			queryParam.append(UiRouter::getCrmPowerId,power.getID());
             UiRouter uiRouter= (UiRouter) resourceService.get(UiRouter.class,queryParam);
-//			List<CrmPower> list = userService.getPowerByMenuId(request, power.getRouterId());
+//			List<Power> list = userService.getPowerByMenuId(request, power.getRouterId());
 			//compentlist = uiComponentService.getComponents(user.getPowerList(), uiRouter.getId());
 		}
 		//map.put("components", compentlist);
 		return Result.success(SuccessConst.OPERATE_SUCCESS, map);
 	}
 
-	private static CrmPower hasPower(List<CrmPower> powerList, String url, String method) {
-		CrmPower crmPower = null;
+	private static Power hasPower(List<Power> powerList, String url, String method) {
+		Power crmPower = null;
 		if (powerList == null || powerList.size() == 0) {
 			return crmPower;
 		}
-		for (CrmPower power : powerList) {
+		for (Power power : powerList) {
 			String regex = "^" + power.getUrl().replaceAll("\\*", "\\.\\*") + "$";
 			if (Pattern.matches(regex, url) && power.getMethod().toUpperCase().equals(method)) {
 				crmPower = power;

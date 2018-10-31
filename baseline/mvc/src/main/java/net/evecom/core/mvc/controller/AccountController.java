@@ -5,7 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.evecom.core.rbac.base.BaseController;
-import net.evecom.core.rbac.model.entity.CrmUser;
+import net.evecom.core.rbac.model.entity.User;
 import net.evecom.core.rbac.model.entity.MessageEmail;
 import net.evecom.core.rbac.model.entity.MessageSms;
 import net.evecom.core.rbac.model.service.UserService;
@@ -33,7 +33,7 @@ public class AccountController extends BaseController {
             @ApiImplicitParam(name = "validateImageCode", value = "图形验证码(登录错误3次以上,为必填项)", dataType = "string", paramType = "query")})
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public Result<?> login(String account, String password, String validateImageCode) throws Exception {
-        CrmUser user = userService.loginCheck(session, account, password, validateImageCode);
+        User user = userService.loginCheck(session, account, password, validateImageCode);
         user = userService.login(user, response, request);
         return Result.success(SuccessConst.LOGIN_SUCCESS, user);
     }
@@ -44,7 +44,7 @@ public class AccountController extends BaseController {
             @ApiImplicitParam(name = "mobile", value = "手机号", dataType = "string", paramType = "query", required = true),
             @ApiImplicitParam(name = "validateCode", value = "短信验证码", dataType = "string", paramType = "query", required = true)})
     public Result<?> mobilelogin(String mobile, String validateCode) throws Exception {
-        CrmUser user = userService.mobileloginCheck(mobile, validateCode);
+        User user = userService.mobileloginCheck(mobile, validateCode);
         user = userService.login(user, response, request);
         return Result.success(SuccessConst.LOGIN_SUCCESS, user);
     }
@@ -95,7 +95,7 @@ public class AccountController extends BaseController {
             @ApiImplicitParam(name = "password", value = "密码", dataType = "string", required = true)})
     public Result<?> register(String account, String validateCode, String mobile, String email, String password)
             throws Exception {
-        CrmUser user = userService.registerCheck(account, validateCode, mobile, email, password);
+        User user = userService.registerCheck(account, validateCode, mobile, email, password);
         // 类型 1手机号2邮箱
         user.setAccount(account);
         user.setPassword(password);
@@ -111,7 +111,7 @@ public class AccountController extends BaseController {
     public Result<?> check(String account, Integer type) throws Exception {
         Long id = null;
         try {
-            id = userService.loginUser(request).getId();
+            id = userService.loginUser(request).getID();
         } catch (Exception e) {
         }
         userService.checkUser(id, account, type);
@@ -126,7 +126,7 @@ public class AccountController extends BaseController {
             @ApiImplicitParam(name = "password", value = "新密码", dataType = "string", required = true)})
     public Result<?> passwordRecovery(String mobile, String email, String validateCode, String password)
             throws Exception {
-        CrmUser user = userService.passwordRecoveryCheck(mobile, email, validateCode, password);
+        User user = userService.passwordRecoveryCheck(mobile, email, validateCode, password);
         userService.passwordRecovery(user);
         return Result.success(SuccessConst.OPERATE_SUCCESS);
     }
