@@ -1,5 +1,6 @@
 package net.evecom.core.db.database.query;
 
+import lombok.ToString;
 import net.evecom.tools.constant.consts.SqlConst;
 import net.evecom.utils.object.ClassUtil;
 import net.evecom.utils.verify.CheckUtil;
@@ -21,6 +22,7 @@ import java.util.function.Function;
  * @date： 2018年5月30日
  * @param <T>
  */
+@ToString
 public class QueryParam<T> {
     /**
      * 条件集合
@@ -197,7 +199,7 @@ public class QueryParam<T> {
             } else {
                 attr = method.substring(2);
             }
-            attr = attr.substring(0, 1).toLowerCase() + attr.substring(1);
+//            attr = attr.substring(0, 1).toLowerCase() + attr.substring(1);
 //			 获取类对应的列 暂不使用
             String columnName = "";
             String implClass = serializedLambda.getImplClass();

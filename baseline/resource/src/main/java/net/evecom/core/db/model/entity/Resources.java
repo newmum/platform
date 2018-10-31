@@ -1,6 +1,7 @@
 package net.evecom.core.db.model.entity;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
 import org.beetl.sql.core.annotatoin.Table;
 import org.hibernate.validator.constraints.Range;
 
@@ -15,6 +16,7 @@ import java.util.List;
  * @date： 2017年10月25日
  */
 @Table(name = "RESOURCES")
+@ToString
 public class Resources extends DataEntity<Resources> implements Serializable {
 
 	@Column(name = "name")

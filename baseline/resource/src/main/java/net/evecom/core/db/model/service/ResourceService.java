@@ -50,9 +50,6 @@ public class ResourceService{
     @Resource
     private ResPropService resPropService;
 
-    public ResourceService() {
-    }
-
     /**
      * 根据资源id获取指定资源
      *
@@ -94,8 +91,8 @@ public class ResourceService{
         if (className.isAnnotationPresent(Table.class)) {
             Table table = (Table) className.getAnnotation(Table.class);
             String resourceName = table.name();
-            QueryParam<?> param = new QueryParam<Object>();
-            param.append("id", id);
+            QueryParam<Resources> param = new QueryParam<Resources>();
+            param.append(Resources::getID, id);
             Resources resources = get(resourceName);
             return get(resources, param);
         } else {
@@ -111,8 +108,8 @@ public class ResourceService{
      * @return
      */
     public Object get(Resources resources, Long id) throws Exception {
-        QueryParam<?> param = new QueryParam<Object>();
-        param.append("id", id);
+        QueryParam<Resources> param = new QueryParam<Resources>();
+        param.append(Resources::getID, id);
         return get(resources, param);
     }
 
@@ -156,10 +153,10 @@ public class ResourceService{
         //addAdditionalPartSql
         Field field = null;
         Class<?> clazz = query.getClass().getSuperclass();
-        field = clazz.getDeclaredField("orderBy");
+        field = clazz.getDeclaredField(SqlConst.ORDERBY);
         field.setAccessible(true);
         OrderBy orderBy = (OrderBy) field.get(query);
-        field = clazz.getDeclaredField("groupBy");
+        field = clazz.getDeclaredField(SqlConst.GROUPBY);
         field.setAccessible(true);
         GroupBy groupBy = (GroupBy) field.get(query);
         StringBuilder sb=query.getSql();
@@ -462,10 +459,10 @@ public class ResourceService{
         //addAdditionalPartSql
         Field field = null;
         Class<?> clazz = query.getClass().getSuperclass();
-        field = clazz.getDeclaredField("orderBy");
+        field = clazz.getDeclaredField(SqlConst.ORDERBY);
         field.setAccessible(true);
         OrderBy orderBy = (OrderBy) field.get(query);
-        field = clazz.getDeclaredField("groupBy");
+        field = clazz.getDeclaredField(SqlConst.GROUPBY);
         field.setAccessible(true);
         GroupBy groupBy = (GroupBy) field.get(query);
         StringBuilder sb=query.getSql();
