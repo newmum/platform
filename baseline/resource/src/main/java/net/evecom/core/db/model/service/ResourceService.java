@@ -60,7 +60,7 @@ public class ResourceService{
      * @return
      */
     public Resources get(Long id) throws Exception {
-        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getId, id);
+        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getID, id);
         List<Resources> resourceList = resourceQuery.select();
         if (resourceList.size() <= 0) {
             throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + id + ";");
@@ -622,7 +622,7 @@ public class ResourceService{
     @RedisCacheAnno(type = "add")
     public void importData(Resources resources, List<List<Object>> list, HttpServletRequest request) throws Exception {
         List<Map<String, Object>> headList = getHeadList(resources, 2);
-        List<ResProp> resPropList = resPropService.getByResource(resources.getId());
+        List<ResProp> resPropList = resPropService.getByResource(resources.getID());
         Map<String, Object> resPropMap = new HashedMap();
         for (ResProp resProp : resPropList) {
             resPropMap.put(resProp.getJdbcField(), resProp);
@@ -687,7 +687,7 @@ public class ResourceService{
      */
     public List<Map<String, Object>> getHeadList(Resources resource, int type) throws Exception {
         QueryParam<ResProp> queryResProp = new QueryParam();
-        queryResProp.append(ResProp::getResourcesId, resource.getId());
+        queryResProp.append(ResProp::getResourcesId, resource.getID());
         queryResProp.append(ResProp::getSort, "", SqlConst.ORDERBY, SqlConst.DESC);
         List<ResProp> resPropList = (List<ResProp>) list(ResProp.class, queryResProp).getList();
         if (resPropList.size() == 0) {
@@ -697,8 +697,8 @@ public class ResourceService{
         QueryParam<ResPropExl> queryResPropExl = new QueryParam<>();
         StringBuffer sb = new StringBuffer();
         for (ResProp resProp : resPropList) {
-            sb.append(resProp.getId().toString() + ",");
-            mapResProp.put(resProp.getId(), resProp);
+            sb.append(resProp.getID().toString() + ",");
+            mapResProp.put(resProp.getID(), resProp);
         }
         queryResPropExl.append(ResPropExl::getResPropId, sb.toString().substring(0, sb.length() - 1), SqlConst.IN, SqlConst.AND);
         queryResPropExl.append(ResPropExl::getSort, "", SqlConst.ORDERBY, SqlConst.ASC);

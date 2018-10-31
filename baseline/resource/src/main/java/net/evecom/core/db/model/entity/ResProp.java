@@ -12,9 +12,11 @@ import java.util.List;
 
 /**
  * @ClassName: ResProp
- * @Description: 资源属性对象 @author： zhengc @date： 2017年10月25日
+ * @Description: 资源属性对象
+ * @author： zhengc
+ * @date： 2017年10月25日
  */
-@Table(name = "res_prop")
+@Table(name = "RES_PROP")
 public class ResProp extends DataEntity<ResProp> implements Serializable {
 
     private static final long serialVersionUID = 1L;

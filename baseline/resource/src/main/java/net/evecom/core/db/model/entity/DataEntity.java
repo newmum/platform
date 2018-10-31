@@ -11,35 +11,37 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * @ClassName: Resources
- * @Description: 对象抽象基类 @author： zhengc @date： 2014-05-16
+ * @ClassName: DataEntity
+ * @Description: JAVABEAN基类
+ * @author： zhengc
+ * @date： 2018-10-30
  */
 public abstract class DataEntity<T> implements Serializable {
-	/**
-	 * 删除标记（1：正常；2：删除；3：审核；）
-	 */
-	public static final int DEL_FLAG_NORMAL = 1;
-	public static final int DEL_FLAG_DELETE = 2;
-	public static final int DEL_FLAG_AUDIT = 3;
-	@Column(name = "id")
-	@ApiModelProperty(value = "id")
+
+    /**
+     * 是否标记（0：否；1：是；）
+     */
+    public static final int NO  = 0;
+    public static final int YES = 1;
+
+	@Column(name = "ID")
+	@ApiModelProperty(value = "ID")
 	@AutoID
-	protected Long id;
-	@Column(name = "utime")
+	protected Long ID;
+
+    @Column(name = "CREATE_DATE")
+    @ExcelField(align = 2, sort = 4, title = "创建时间")
+    @ApiModelProperty(value = "创建时间", hidden = true)
+    protected Date createDate;
+
+	@Column(name = "EDIT_DATE")
 	@ExcelField(align = 2, sort = 3, title = "更新时间")
 	@ApiModelProperty(value = "更新时间", hidden = true)
-	protected Date utime; // 更新日期
-	@Column(name = "atime")
-	@ExcelField(align = 2, sort = 4, title = "加入时间")
-	@ApiModelProperty(value = "加入时间", hidden = true)
-	protected Date atime; // 加入日期
-	@Column(name = "status")
-	@ApiModelProperty(value = "状态 1正常2删除3审核", hidden = true)
-	private Integer status = DEL_FLAG_NORMAL;
+	protected Date editDate;
 
-	public DataEntity() {
-		super();
-	}
+    @Column(name = "IS_DEL")
+    @ApiModelProperty(value = "是否删除：0否；1是；", hidden = true)
+    private Integer isDel = NO;
 
 	/**
 	 * 插入之前执行方法，需要手动调用
@@ -54,10 +56,10 @@ public abstract class DataEntity<T> implements Serializable {
 		// this.updateUser = user;
 		// this.createUser = user;
 		// }
-		if (this.utime == null) {
-			this.utime = DTUtil.nowDate();
+		if (this.editDate == null) {
+			this.editDate = DTUtil.nowDate();
 		}
-		this.atime = new Date();
+		this.createDate = new Date();
 	}
 
 	/**
@@ -68,41 +70,40 @@ public abstract class DataEntity<T> implements Serializable {
 		// if (StringUtils.isNotBlank(user.getId())) {
 		// this.updateUser = user;
 		// }
-		this.utime =DTUtil.nowDate();
+		this.editDate = DTUtil.nowDate();
 	}
 
-	public Integer getStatus() {
-		return status;
-	}
+    public Long getID() {
+        return ID;
+    }
 
-	public void setStatus(Integer status) {
-		this.status = status;
-	}
+    public void setID(Long ID) {
+        this.ID = ID;
+    }
 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date getUtime() {
-		return utime;
-	}
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getCreateDate() {
+        return createDate;
+    }
 
-	public void setUtime(Date utime) {
-		this.utime = utime;
-	}
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
+    }
 
-	public Long getId() {
-		return id;
-	}
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    public Date getEditDate() {
+        return editDate;
+    }
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public void setEditDate(Date editDate) {
+        this.editDate = editDate;
+    }
 
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-	public Date getAtime() {
-		return atime;
-	}
+    public Integer getIsDel() {
+        return isDel;
+    }
 
-	public void setAtime(Date atime) {
-		this.atime = atime;
-	}
-
+    public void setIsDel(Integer isDel) {
+        this.isDel = isDel;
+    }
 }

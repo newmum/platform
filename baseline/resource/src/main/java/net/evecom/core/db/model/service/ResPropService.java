@@ -41,7 +41,6 @@ public class ResPropService {
     public ResPropService() {
     }
 
-
     public void editCheck(ResProp resProp) throws Exception {
         QueryParam<ResProp> param = new QueryParam<ResProp>();
         param.setNeedPage(true);
@@ -49,7 +48,7 @@ public class ResPropService {
         param.setPageSize(1);
         param.append(ResProp::getResourcesId, resProp.getResourcesId());
         param.append(ResProp::getJdbcField, resProp.getJdbcField());
-        param.append(ResProp::getId, resProp.getId(), SqlConst.NOT_EQ);
+        param.append(ResProp::getID, resProp.getID(), SqlConst.NOT_EQ);
         boolean bo = resourceService.list(ResProp.class, param).getList().size() > 0;
         if (bo) {
             throw new ResourceException(ResourceException.JDBC_FIELD_HAS_EXIST);
@@ -62,7 +61,7 @@ public class ResPropService {
         resourceService.update(resProp);
         //删除旧的验证规则,重新添加
         QueryParam<ResPropVerify> paramResPropVerify = new QueryParam();
-        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getId());
+        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getID());
         resourceService.delete(ResPropVerify.class, paramResPropVerify);
         List<ResPropVerify> verifyList = resProp.getVerifyList();
         resourceService.add(verifyList);
@@ -73,13 +72,13 @@ public class ResPropService {
         ResPropExl resPropExl = resProp.getResPropExl();
         if (CheckUtil.isNull(resPropExl)) {
             resPropExl = ResPropExl.getDefaultData();
-            resPropExl.setResPropId(resProp.getId());
+            resPropExl.setResPropId(resProp.getID());
             resourceService.add(resPropExl);
-        } else if (CheckUtil.isNull(resPropExl.getId())) {
+        } else if (CheckUtil.isNull(resPropExl.getID())) {
             QueryParam<ResPropExl>resPropExlParam=new QueryParam<>();
-            resPropExlParam.append(ResPropExl::getResPropId,resProp.getId());
+            resPropExlParam.append(ResPropExl::getResPropId,resProp.getID());
             resourceService.delete(ResPropExl.class,resPropExlParam);
-            resPropExl.setResPropId(resProp.getId());
+            resPropExl.setResPropId(resProp.getID());
             resourceService.add(resPropExl);
         } else {
             resourceService.update(resPropExl);
@@ -139,7 +138,7 @@ public class ResPropService {
         if (CheckUtil.isNull(resPropExl.getTitle())) {
             resPropExl.setTitle(resProp.getTitle());
         }
-        resPropExl.setResPropId(resProp.getId());
+        resPropExl.setResPropId(resProp.getID());
         resourceService.add(resPropExl);
     }
 
@@ -157,31 +156,31 @@ public class ResPropService {
         sqlManager.executeUpdate(new SQLReady(delColumnSql));
         //删除资源属性
         QueryParam<ResProp> queryParam = new QueryParam();
-        queryParam.append(ResProp::getId, id);
+        queryParam.append(ResProp::getID, id);
         resourceService.delete(ResProp.class, queryParam);
         //删除验证属性
         QueryParam<ResPropVerify> paramResPropVerify = new QueryParam();
-        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getId());
+        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getID());
         resourceService.delete(ResPropVerify.class, paramResPropVerify);
         //删除导出规则
         QueryParam<ResPropExl> paramResPropExl = new QueryParam();
-        paramResPropExl.append(ResPropExl::getResPropId, resProp.getId());
+        paramResPropExl.append(ResPropExl::getResPropId, resProp.getID());
         resourceService.delete(ResPropExl.class, paramResPropExl);
 
     }
 
     public ResProp get(Long id) throws Exception {
         QueryParam<ResProp> paramResProp = new QueryParam<>();
-        paramResProp.append(ResProp::getId, id);
+        paramResProp.append(ResProp::getID, id);
         ResProp resProp = (ResProp) resourceService.get(ResProp.class, paramResProp);
         QueryParam<ResPropVerify> paramResPropVerify = new QueryParam<>();
-        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getId());
+        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getID());
         Page<?> page = resourceService.list(ResPropVerify.class, paramResPropVerify);
         if (page != null && page.getList() != null && page.getList().size() > 0) {
             resProp.setVerifyList((List<ResPropVerify>) page.getList());
         }
         QueryParam<ResPropExl> paramResPropExl = new QueryParam();
-        paramResPropExl.append(ResPropExl::getResPropId, resProp.getId());
+        paramResPropExl.append(ResPropExl::getResPropId, resProp.getID());
         Page<?> pageResPropExl = resourceService.list(ResPropExl.class, paramResPropExl);
         if (pageResPropExl != null && pageResPropExl.getList() != null && pageResPropExl.getList().size() > 0) {
             resProp.setResPropExl((ResPropExl) pageResPropExl.getList().get(0));
@@ -193,7 +192,7 @@ public class ResPropService {
         Page<ResProp> page = (Page<ResProp>) resourceService.list(ResProp.class, queryParam);
         for (ResProp resProp : page.getList()) {
             QueryParam<ResPropVerify> paramResPropVerify = new QueryParam<>();
-            paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getId());
+            paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getID());
             Page<?> temp = resourceService.list(ResPropVerify.class, paramResPropVerify);
             if (temp != null && temp.getList() != null && temp.getList().size() > 0) {
                 resProp.setVerifyList((List<ResPropVerify>) temp.getList());
@@ -237,7 +236,7 @@ public class ResPropService {
         if (resource.getResType() == 0) {
             list = tableColumnDao.getList(resource.getTableName());
             for (ResProp resProp : list) {
-                resProp.setResourcesId(resource.getId());
+                resProp.setResourcesId(resource.getID());
                 resProp.setTitle(resProp.getComments());
                 resProp.setUiView("{\"isShowFont\":0}");
                 JdbcUtil.setAttrType(resProp);

@@ -9,9 +9,11 @@ import java.io.Serializable;
 
 /**
  * @ClassName: ResPropExl
- * @Description: 资源属性报表对象 @author： zhengc @date： 2017年10月25日
+ * @Description: 资源属性报表对象
+ * @author： zhengc
+ * @date： 2017年10月25日
  */
-@Table(name = "res_prop_exl")
+@Table(name = "RES_PROP_EXL")
 public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
 
     private static final long serialVersionUID = 1L;

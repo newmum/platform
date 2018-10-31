@@ -10,12 +10,13 @@ import java.util.List;
 
 /**
  * @ClassName: Resources
- * @Description: 资源对象 @author： zhengc @date： 2017年10月25日
+ * @Description: 资源对象
+ * @author： zhengc
+ * @date： 2017年10月25日
  */
-@Table(name = "resources")
+@Table(name = "RESOURCES")
 public class Resources extends DataEntity<Resources> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "name")
 	@ApiModelProperty(value = "名称")
 	private String name;
