@@ -111,7 +111,7 @@ public class WebControllerAop {
 
 			obj = proceedingJoinPoint.proceed(args);// 调用执行目标方法
 			long end = System.currentTimeMillis();
-			System.out.println(">>>环绕通知的控制器名：" + proceedingJoinPoint.getSignature().getName() + "耗时" + (end - begin));
+			System.out.println(">>>控制器环绕通知：" + proceedingJoinPoint.getSignature().getName() + "耗时" + (end - begin));
 			sysLog.setTime(end - begin);
 			sysLog.setIsSuccess(1);
 		} catch (Throwable exception) {
