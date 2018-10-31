@@ -1,6 +1,6 @@
 cols
 ===
-	id,name
+	id,ACCOUNT
 
 condtion
 ===
@@ -8,7 +8,7 @@ where 1=1 and id = #id#
 
 tableName
 ===
-crm_user
+SYSTEM_USER
 
 get
 ===
@@ -20,7 +20,7 @@ update #use("tableName")# set status=#sysUser.status# where id=#sysUser.id#
 
 batchdelete
 ===
-update #use("tableName")# set status=#status# where id in(
+update #use("tableName")# set IS_DEL=#IS_DEL# where id in(
 @for(id in ids){
     #id#  #text(idLP.last?"":"," )#
 @}
@@ -28,9 +28,9 @@ update #use("tableName")# set status=#status# where id in(
 
 getRoleList
 ===
-select r.id,r.name from #use("tableName")# u
-left join crm_user_role ur ON u.id=ur.crm_user_id
-left join crm_role r ON r.id=ur.crm_role_id
+select r.id,r.role_name from #use("tableName")# u
+left join system_user_role ur ON u.id=ur.crm_user_id
+left join system_role r ON r.id=ur.crm_role_id
 where u.id=#userId# AND r.id IS NOT NULL
 group by r.id
 
