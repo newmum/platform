@@ -3,7 +3,7 @@ package net.evecom.core.mvc.model.service;
 import net.evecom.core.mvc.model.dao.SysFileDao;
 import net.evecom.core.mvc.model.entity.SysFile;
 import net.evecom.core.rbac.base.BaseService;
-import net.evecom.core.rbac.model.entity.CrmUser;
+import net.evecom.core.rbac.model.entity.User;
 import net.evecom.core.db.model.entity.Resources;
 import net.evecom.core.db.exception.ResourceException;
 import net.evecom.core.db.model.service.ResourceService;
@@ -49,7 +49,7 @@ public class SysFileService extends BaseService {
 	}
 
 	public void editCheck(SysFile sysFile,Long userId) throws Exception {
-        SysFile temp = (SysFile) resourceService.get(SysFile.class, sysFile.getId());
+        SysFile temp = (SysFile) resourceService.get(SysFile.class, sysFile.getID());
         QueryParam<SysFile> param = new QueryParam<>();
 		param.setNeedPage(true);
 		param.setPage(1);
@@ -57,7 +57,7 @@ public class SysFileService extends BaseService {
 		param.append(SysFile::getName, sysFile.getName());
 		param.append(SysFile::getParentId, temp.getParentId());
 		param.append(SysFile::getUserId, userId);
-		param.append(SysFile::getId, sysFile.getId(), SqlConst.NOT_EQ, SqlConst.AND);
+		param.append(SysFile::getID, sysFile.getID(), SqlConst.NOT_EQ, SqlConst.AND);
 		Boolean bo = resourceService.list(SysFile.class, param).getList().size() > 0;
 		if (bo) {
 			throw new ResourceException(ResourceException.NAME_HAS_EXIST);
@@ -157,7 +157,7 @@ public class SysFileService extends BaseService {
 		sysFile.setTrueName(fileName);
 		sysFile.setPath("/" + fileName);
 		resourceService.add(sysFile);
-		params.put("url","/sys_file/download/"+sysFile.getId());
+		params.put("url","/sys_file/download/"+sysFile.getID());
 		return params;
 	}
 	@Transactional(rollbackFor = Exception.class)
@@ -166,7 +166,7 @@ public class SysFileService extends BaseService {
 		List<SysFile> list = getChildFile(id);
 		Long[] ids = new Long[list.size()];
 		for (int i = 0; i < list.size(); i++) {
-			ids[i] = list.get(i).getId();
+			ids[i] = list.get(i).getID();
 		}
 		Resources resource = resourceService.get("sys_file");
 		resourceService.delete(resource, ids);
@@ -187,7 +187,7 @@ public class SysFileService extends BaseService {
 		StringBuffer sb = new StringBuffer();
 		Map<Long, SysFile> map = new HashMap<Long, SysFile>();
 		for (SysFile sysFile : list) {
-			map.put(sysFile.getId(), sysFile);
+			map.put(sysFile.getID(), sysFile);
 		}
 		while (parentId != 0L) {
 			SysFile sysFile = map.get(parentId);
@@ -204,8 +204,8 @@ public class SysFileService extends BaseService {
 		if (sysFile.getUserId() == 0L) {
 			upload += "common_file";
 		} else {
-			CrmUser user = loginUser(request);
-			upload += "upload" + "/" + user.getId();
+			User user = loginUser(request);
+			upload += "upload" + "/" + user.getID();
 		}
 		String path = upload + getParentPath(sysFile.getParentId()) + sysFile.getPath();
 		Map<String, String> result = new HashMap<String, String>();
