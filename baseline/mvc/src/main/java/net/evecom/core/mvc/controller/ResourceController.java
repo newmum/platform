@@ -67,8 +67,9 @@ public class ResourceController extends BaseController {
 	@ApiOperation(value = "根据动态条件查询数据列表", notes = "根据动态条件查询数据列表")
 	@RequestMapping(value = "/{resourceName}/list", method = RequestMethod.POST)
 	@ApiImplicitParams({
+			@ApiImplicitParam(name = "fields", value = "字段列(以逗号隔开)", dataType = "string", paramType = "query"),
 			@ApiImplicitParam(name = "param", value = "动态条件(json格式QueryParam对象)", dataType = "string", paramType = "query", required = true) })
-	public Result<Page<?>> list(@PathVariable(value = "resourceName") String name, String param) throws Exception {
+	public Result<Page<?>> list(@PathVariable(value = "resourceName") String name, String fields, String param) throws Exception {
 		if (CheckUtil.isNull(param)) {
 			throw new CommonException(CommonException.PARAM_NULL);
 		}
@@ -80,54 +81,8 @@ public class ResourceController extends BaseController {
 			throw new CommonException(CommonException.JSON_FORMAT_ERROR);
 		}
 		Resources resources = resourceService.get(name);
-		return Result.success(SuccessConst.OPERATE_SUCCESS, resourceService.list(resources, queryParam));
+		return Result.success(SuccessConst.OPERATE_SUCCESS, resourceService.list(resources, fields, queryParam));
 	}
-
-	@ApiOperation(value = "根据动态条件查询数据字段列表", notes = "根据动态条件查询数据字段列表")
-	@RequestMapping(value = "/{resourceName}/{fields}", method = RequestMethod.POST)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "fields", value = "字段名", dataType = "string", paramType = "query"),
-            @ApiImplicitParam(name = "param", value = "动态条件(json格式QueryParam对象)", dataType = "string", paramType = "query", required = true) })
-    public Result<Page<?>> lists(@PathVariable(value = "resourceName") String name, String fields, String param) throws Exception {
-		if (CheckUtil.isNull(param)) {
-			throw new CommonException(CommonException.PARAM_NULL);
-		}
-		QueryParam<?> queryParam = null;
-		try {
-			queryParam = objectMapper.readValue(param, QueryParam.class);
-		} catch (Exception e) {
-			e.printStackTrace();
-			throw new CommonException(CommonException.JSON_FORMAT_ERROR);
-		}
-		Resources resources = resourceService.get(name);
-		return Result.success(SuccessConst.OPERATE_SUCCESS, resourceService.lists(resources, fields, queryParam));
-	}
-
-    /**
-     * 根据动态条件查询数据的数量
-     * @param name
-     * @param param
-     * @return
-     * @throws Exception
-     */
-    @ApiOperation(value = "根据动态条件查询数据的数量", notes = "根据动态条件查询数据的数量")
-    @RequestMapping(value = "/{resourceName}/count", method = RequestMethod.POST)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "param", value = "动态条件(json格式QueryParam对象)", dataType = "string", paramType = "query", required = true) })
-    public Result<Page<?>> count(@PathVariable(value = "resourceName") String name, String param) throws Exception {
-        if (CheckUtil.isNull(param)) {
-            throw new CommonException(CommonException.PARAM_NULL);
-        }
-        QueryParam<?> queryParam = null;
-        try {
-            queryParam = objectMapper.readValue(param, QueryParam.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new CommonException(CommonException.JSON_FORMAT_ERROR);
-        }
-        Resources resources = resourceService.get(name);
-        return Result.success(SuccessConst.OPERATE_SUCCESS, resourceService.count(resources, queryParam));
-    }
 
 	@ApiOperation(value = "删除指定资源的数据", notes = "删除指定资源的数据")
 	@Token(remove = true)

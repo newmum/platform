@@ -81,6 +81,9 @@ public class WebServiceAop {
 			String cacheKey = "";
 			Resources resources = null;
 			for (Object temp_obj : args) {
+				if(temp_obj == null){
+				    continue;
+                }
 				boolean isFather = QueryParam.class.isAssignableFrom(temp_obj.getClass());
 				if (isFather) {
 					QueryParam<?> param = (QueryParam<?>) temp_obj;
