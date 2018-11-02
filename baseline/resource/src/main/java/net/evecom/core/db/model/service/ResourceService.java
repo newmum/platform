@@ -445,6 +445,61 @@ public class ResourceService{
     }
 
     private Page<?> listBySql(String sql, QueryParam<?> param) throws Exception {
+        return listsBySql(sql, "", param);
+    }
+
+    public Page<?> list(Class<?> clazz, QueryParam<?> param) throws Exception {
+        Page page = new Page<>();
+        Query<?> query = sqlManager.query(clazz);
+        query = QueryBuilder.getQuery(param.getList(), query);
+        int size = 20;//这里要读配置
+        if (param.isNeedPage() && param.getPageSize() < size) {
+            size = param.getPageSize();
+        }
+        long begin = 1L;
+        if (param.isNeedPage()) {
+            begin = param.getStartSize();
+        }
+        query = query.limit(begin, size);
+        List list = query.select();
+        page.setList(list);
+        if (param.isNeedTotal()) {
+            query = QueryBuilder.getQuery(param.getList(), query);
+            page.setTotal(query.count());
+        }
+        page.setPageSize(param.getPageSize());
+        page.setPage(param.getPage());
+        return page;
+    }
+
+    /**
+     * 指定字段查询数据
+     * @param resource
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    @RedisCacheAnno()
+    public Object lists(Resources resource, String fields, QueryParam<?> param) throws Exception {
+        if (resource == null) {
+            throw new ResourceException(ResourceException.RESOURCE_NO_FOUND);
+        }
+        if (resource.getResType() == 1) {
+            return getBySql(resource.getSql(), param);
+        }
+        Class clazz = Class.forName(resource.getClasspath());
+        return lists(clazz, fields, param);
+    }
+
+    /**
+     * 指定字段查询数据
+     * @param sql
+     * @param fields
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    private Page<?> listsBySql(String sql, String fields, QueryParam<?> param) throws Exception {
         Page page = new Page<>();
         Query<?> query = sqlManager.query(ResourceService.class);
         query = QueryBuilder.getQuery(param.getList(), query);
@@ -506,28 +561,127 @@ public class ResourceService{
         return page;
     }
 
-    public Page<?> list(Class<?> clazz, QueryParam<?> param) throws Exception {
+    /**
+     * 指定字段查询数据
+     * @param clazz
+     * @param fields
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public Object lists(Class clazz, String fields, QueryParam<?> param) throws Exception {
+        if (clazz == null) {
+            throw new ResourceException(ResourceException.RESOURCE_NO_FOUND);
+        }
+        Query<?> resourceQuery = QueryBuilder.getQuery(param.getList(), sqlManager.query(clazz));
+        List<?> resourceList = resourceQuery.select(fields);
+        if (resourceList.size() <= 0) {
+            throw new ResourceException(ResourceException.ID_NO_EXIST);
+        }
+        return resourceList;
+    }
+
+    /**
+     * 指定字段查询数据
+     * @param resource
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public Object count(Resources resource, QueryParam<?> param) throws Exception {
+        if (resource == null) {
+            throw new ResourceException(ResourceException.RESOURCE_NO_FOUND);
+        }
+        if (resource.getResType() == 1) {
+            return getBySql(resource.getSql(), param);
+        }
+        Class clazz = Class.forName(resource.getClasspath());
+        return count(clazz, param);
+    }
+
+    /**
+     * 根据指定条件查询数量
+     * @param sql
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    private Page<?> countBySql(String sql,QueryParam<?> param) throws Exception {
         Page page = new Page<>();
-        Query<?> query = sqlManager.query(clazz);
+        Query<?> query = sqlManager.query(ResourceService.class);
         query = QueryBuilder.getQuery(param.getList(), query);
+        query.setSql(new StringBuilder(sql+" "));
+//        通过beetl默认方法来设置sql语句
+//        Method method = null;
+//        Class<?> clazz = query.getClass();
+//        method = clazz.getDeclaredMethod("addAdditionalPartSql");
+//        method.setAccessible(true);
+//        method.invoke(query);
+//        sql = query.getSql().toString();
+        //addAdditionalPartSql
+        Field field = null;
+        Class<?> clazz = query.getClass().getSuperclass();
+        field = clazz.getDeclaredField(SqlConst.ORDERBY);
+        field.setAccessible(true);
+        OrderBy orderBy = (OrderBy) field.get(query);
+        field = clazz.getDeclaredField(SqlConst.GROUPBY);
+        field.setAccessible(true);
+        GroupBy groupBy = (GroupBy) field.get(query);
+        StringBuilder sb=query.getSql();
+        if (groupBy != null) {
+            sb.append(groupBy.getGroupBy()).append(" ");
+        }
+        if (orderBy != null) {
+            sb.append(orderBy.getOrderBy()).append(" ");
+        }
+        sql=sb.toString();
+
+        List<HashMap> list = new ArrayList<>();
         int size = 20;//这里要读配置
         if (param.isNeedPage() && param.getPageSize() < size) {
             size = param.getPageSize();
         }
-        long begin = 1L;
-        if (param.isNeedPage()) {
-            begin = param.getStartSize();
+        List<Object> params = query.getParams();
+        Object[] array = new Object[params.size()];
+        for (int i = 0; i < params.size(); i++) {
+            array[i] = params.get(i);
         }
-        query = query.limit(begin, size);
-        List list = query.select();
+        SQLReady sqlReady = new SQLReady(sql, array);
+        long pageNumber = 1L;
+        if (param.isNeedPage()) {
+            pageNumber = param.getPage();
+        }
+        long pageSize = size;
+        long offset = (pageNumber - 1) * pageSize + (sqlManager.isOffsetStartZero() ? 0 : 1);
+        String pageSql = sqlManager.getDbStyle().getPageSQLStatement(sql, offset, pageSize);
+        list = sqlManager.execute(new SQLReady(pageSql, sqlReady.getArgs()), HashMap.class);
         page.setList(list);
         if (param.isNeedTotal()) {
-            query = QueryBuilder.getQuery(param.getList(), query);
-            page.setTotal(query.count());
+            sql = sqlReady.getSql();
+            String countSql = PageKit.getCountSql(sql);
+            List<Long> countList = sqlManager.execute(new SQLReady(countSql, sqlReady.getArgs()), Long.class);
+            Long count = countList.get(0);
+            page.setTotal(count);
         }
         page.setPageSize(param.getPageSize());
         page.setPage(param.getPage());
         return page;
+    }
+
+    /**
+     * 根据指定条件查询数量
+     * @param clazz
+     * @param param
+     * @return
+     * @throws Exception
+     */
+    public Object count(Class clazz, QueryParam<?> param) throws Exception {
+        if (clazz == null) {
+            throw new ResourceException(ResourceException.RESOURCE_NO_FOUND);
+        }
+        Query<?> resourceQuery = QueryBuilder.getQuery(param.getList(), sqlManager.query(clazz));
+        Long resourceCount = resourceQuery.count();
+        return resourceCount;
     }
 
 //    public List<?> getAttribute(String name) throws Exception {
