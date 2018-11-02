@@ -11,9 +11,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface RedisCacheAnno {
 
-	/**
-	 * Alias for {@link #cacheNames}.
-	 */
 	@AliasFor("cacheNames")
 	String[] value() default {};
 
