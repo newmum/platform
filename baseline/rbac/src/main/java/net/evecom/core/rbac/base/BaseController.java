@@ -4,6 +4,8 @@ import net.evecom.core.rbac.model.entity.User;
 import net.evecom.tools.service.RequestBean;
 import net.evecom.tools.service.Result;
 import net.evecom.utils.verify.CheckUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -29,6 +31,8 @@ public class BaseController {
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	protected HttpSession session;
+
+	protected static Logger log = LoggerFactory.getLogger(BaseController.class);
 
 	/**
 	 * 请求该类的每个Action前都会首先执行它可以放置准备数据的操作

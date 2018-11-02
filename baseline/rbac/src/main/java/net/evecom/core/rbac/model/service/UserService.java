@@ -199,8 +199,6 @@ public class UserService extends BaseService {
         UserLoginLog userLog = new UserLoginLog();
         userLog.setIp(login_ip);
         userLog.setCrmUserId(user.getID());
-        user.setLoginIp(login_ip);
-        user.setLoginDate(DTUtil.getNowDataStr());
         String sid = saveLoginUser(user, response);
         resourceService.add(userLog);
         // User temp = iUserDao.queryUsers(user.getId());

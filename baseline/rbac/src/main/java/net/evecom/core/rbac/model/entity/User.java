@@ -51,10 +51,6 @@ public class User extends DataEntity<User> implements Serializable {
 	private List<UiRouter> menuList;
 	@ApiModelProperty(value = "菜单权限集合", hidden = true)
 	private List<Power> powerList;
-	@ApiModelProperty(value = "登录ip", hidden = true)
-	private String loginIp;
-	@ApiModelProperty(value = "登录时间", hidden = true)
-	private String loginDate;
 
 	public String getAccount() {
 		return account;
@@ -153,22 +149,6 @@ public class User extends DataEntity<User> implements Serializable {
 
 	public void setPowerList(List<Power> powerList) {
 		this.powerList = powerList;
-	}
-
-	public String getLoginIp() {
-		return loginIp;
-	}
-
-	public void setLoginIp(String loginIp) {
-		this.loginIp = loginIp;
-	}
-
-	public String getLoginDate() {
-		return loginDate;
-	}
-
-	public void setLoginDate(String loginDate) {
-		this.loginDate = loginDate;
 	}
 
 }

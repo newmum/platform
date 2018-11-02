@@ -4,6 +4,8 @@ import net.evecom.core.rbac.exception.UserException;
 import net.evecom.core.rbac.model.entity.User;
 import net.evecom.core.rbac.model.service.AuthCertService;
 import net.evecom.utils.verify.CheckUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +17,9 @@ import javax.servlet.http.HttpServletResponse;
  *
  */
 public class BaseService {
+
+    protected static Logger log = LoggerFactory.getLogger(BaseService.class);
+
     @Resource
 	AuthCertService authCertService;
     /**
