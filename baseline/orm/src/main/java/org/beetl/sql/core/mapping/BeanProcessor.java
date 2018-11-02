@@ -162,9 +162,6 @@ public class BeanProcessor {
 	 * @throws SQLException
 	 */
 	public <T> List<T> toBeanList(String sqlId,ResultSet rs, Class<T> type) throws SQLException {
-		
-		
-
 		if (!rs.next()) {
 			return new ArrayList<T>(0);
 		}
@@ -172,13 +169,10 @@ public class BeanProcessor {
 		PropertyDescriptor[] props = this.propertyDescriptors(type);
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int[] columnToProperty = this.mapColumnsToProperties(type,rsmd, props);
-
 		do {
 			results.add(this.createBean(sqlId,rs, type, props, columnToProperty));
 		} while (rs.next());
-
 		return results;
-		
 	}
 	
 	
@@ -196,7 +190,6 @@ public class BeanProcessor {
 		if(c==null){
 			throw new SQLException("不能映射成Map:"+c);
 		}
-		
 		ResultSetMetaData rsmd = rs.getMetaData();
 		int cols = rsmd.getColumnCount();
 //		String tableName = nc.getTableName(c);
@@ -214,7 +207,6 @@ public class BeanProcessor {
 			}
 			Class  classType = JavaType.jdbcJavaTypes.get(colType);
 			JavaSqlTypeHandler handler = handlers.get(classType);
-			
 			if(handler==null){
 				handler = this.defaultHandler;
 			}
@@ -222,16 +214,13 @@ public class BeanProcessor {
 			tp.setTarget(classType);
 			Object value = handler.getValue(tp);
 			result.put(this.nc.getPropertyName(c,columnName), value);
-			
 		}
-
 		return result;
 	}
 	
 	
 	public Object toBaseType(String sqlId,Class<?> c,ResultSet rs) throws SQLException {
 		ResultSetMetaData meta = rs.getMetaData();
-	
 		int count = meta.getColumnCount();
 		int index = 0;
 		if(count==1){
@@ -242,20 +231,16 @@ public class BeanProcessor {
 			String name1 = meta.getColumnName(1);
 			String  name2 = meta.getColumnName(2);
 			index = name2.equalsIgnoreCase("beetl_rn")?1:2;
-			
 		}
-		
 		if(index==0) {
 			throw new SQLException("Beetlsql查询期望返回一列，返回类型为"+c+" 但返回了"+count+"列，"+sqlId);
 		}
-		
 		TypeParameter tp = new TypeParameter(sqlId,dbName,c,rs,meta,index);
 		JavaSqlTypeHandler handler = handlers.get(c);
 		if(handler==null){
 			handler = this.defaultHandler;
 		}
 		return handler.getValue(tp);
-		
 	}
 
 	
