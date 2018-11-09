@@ -27,14 +27,14 @@ import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/views")
-@Api(value = "UI构造模块", tags = "UI构造模块")
+@Api(value = "UI模块", tags = "UI模块")
 public class ViewController extends BaseController {
 	@Autowired
 	private ResourceService resourceService;
 	@Autowired
 	private UserService userService;
 
-	@ApiOperation(value = "进入主页面", notes = "进入主页面")
+	@ApiOperation(value = "访问首页", notes = "访问首页")
 	@RequestMapping(value = "/showMain", method = RequestMethod.GET)
 	public Result<?> showMain() throws Exception {
 		User user = userService.loginUser(request);
@@ -44,7 +44,7 @@ public class ViewController extends BaseController {
 	}
 
 	@Token(save = true)
-	@ApiOperation(value = "进入页面", notes = "进入页面")
+	@ApiOperation(value = "访问路由", notes = "访问路由")
 	@RequestMapping(value = "/{resourceName}", method = RequestMethod.GET)
 	public Result<?> view(@PathVariable(value = "resourceName") String name) throws Exception {
 		User user = userService.loginUser(request);
