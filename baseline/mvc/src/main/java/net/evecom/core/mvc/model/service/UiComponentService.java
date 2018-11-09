@@ -35,7 +35,7 @@ public class UiComponentService extends BaseService {
     public List<UiComponent> getComponents(List<Power> list, Long routerId) throws Exception {
         StringBuffer sb = new StringBuffer();
         for (Power power : list) {
-            sb.append(power.getID().toString() + ",");
+            sb.append(power.getId().toString() + ",");
         }
         String value = sb.toString().substring(0, sb.length() - 1);
         QueryParam<UiComponent> param = new QueryParam<>();
@@ -48,19 +48,19 @@ public class UiComponentService extends BaseService {
         }
         for (UiComponent uiComponent : componentList) {
             if (uiComponent.getName().equals("table")||uiComponent.getName().equals("form")) {
-                List<UiComponent> childList = iUiComponentDao.getChildListById(uiComponent.getID());
+                List<UiComponent> childList = iUiComponentDao.getChildListById(uiComponent.getId());
                 uiComponent.setChildList(childList);
             }
         }
         sb = new StringBuffer();
         Map<Long, UiComponent> map = new HashMap<Long, UiComponent>();
         for (UiComponent uiComponent : componentList) {
-            map.put(uiComponent.getID(), uiComponent);
-            sb.append(uiComponent.getID().toString() + ",");
+            map.put(uiComponent.getId(), uiComponent);
+            sb.append(uiComponent.getId().toString() + ",");
             if (uiComponent.getChildList().size() > 0) {
                 for (UiComponent temp : uiComponent.getChildList()) {
-                    map.put(temp.getID(), temp);
-                    sb.append(temp.getID().toString() + ",");
+                    map.put(temp.getId(), temp);
+                    sb.append(temp.getId().toString() + ",");
                 }
             }
         }
@@ -99,8 +99,8 @@ public class UiComponentService extends BaseService {
         //为组件添加所有元素属性,并设置最初默认值
         if (bo) for (UiElement uiElement : page.getList()) {
             UiComponentProp prop = new UiComponentProp();
-            prop.setComponentId(uiComponent.getID());
-            prop.setElementId(uiElement.getID());
+            prop.setComponentId(uiComponent.getId());
+            prop.setElementId(uiElement.getId());
             prop.setPropValue(uiElement.getValue());
             prop.setIsUse(1);
             resourceService.add(prop);
@@ -112,10 +112,10 @@ public class UiComponentService extends BaseService {
 
     @Transactional
     public void update(UiComponent uiComponent) throws Exception {
-        UiComponent old_uiComponent = (UiComponent) resourceService.get(UiComponent.class, uiComponent.getID());
+        UiComponent old_uiComponent = (UiComponent) resourceService.get(UiComponent.class, uiComponent.getId());
         if (!old_uiComponent.getElementId().equals(uiComponent.getElementId())) {
             QueryParam<UiComponentProp> param = new QueryParam<UiComponentProp>();
-            param.append(UiComponentProp::getComponentId, uiComponent.getID());
+            param.append(UiComponentProp::getComponentId, uiComponent.getId());
             resourceService.delete(UiComponentProp.class, param);
             addUiProp(uiComponent);
         }
@@ -126,7 +126,7 @@ public class UiComponentService extends BaseService {
         List<UiComponent> list = getChildFile(id);
         Long[] ids = new Long[list.size() + 1];
         for (int i = 0; i < list.size(); i++) {
-            ids[i] = list.get(i).getID();
+            ids[i] = list.get(i).getId();
         }
         ids[ids.length - 1] = id;
         Resources resource = resourceService.get("ui_component");

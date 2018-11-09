@@ -59,7 +59,7 @@ public class ViewController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(power!=null){
 			QueryParam<UiRouter>queryParam=new QueryParam<>();
-			queryParam.append(UiRouter::getCrmPowerId,power.getID());
+			queryParam.append(UiRouter::getCrmPowerId,power.getId());
             UiRouter uiRouter= (UiRouter) resourceService.get(UiRouter.class,queryParam);
 //			List<Power> list = userService.getPowerByMenuId(request, power.getRouterId());
 			//compentlist = uiComponentService.getComponents(user.getPowerList(), uiRouter.getId());

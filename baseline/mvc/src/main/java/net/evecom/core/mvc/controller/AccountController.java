@@ -111,7 +111,7 @@ public class AccountController extends BaseController {
     public Result<?> check(String account, Integer type) throws Exception {
         Long id = null;
         try {
-            id = userService.loginUser(request).getID();
+            id = userService.loginUser(request).getId();
         } catch (Exception e) {
         }
         userService.checkUser(id, account, type);

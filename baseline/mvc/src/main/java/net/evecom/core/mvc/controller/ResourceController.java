@@ -184,7 +184,7 @@ public class ResourceController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/{resourceName}/import", method = RequestMethod.POST)
 	public Result<?> images(@PathVariable(value = "resourceName") String name, MultipartFile file) throws Exception {
-        PropertiesUtils global = new PropertiesUtils(SysFileService.class.getClassLoader().getResourceAsStream("application.properties"));
+        PropertiesUtils global = new PropertiesUtils(SysFileService.class.getClassLoader().getResourceAsStream("app.properties"));
 	    String ext = StringUtil.getExt(file.getOriginalFilename());
 		String fileName = RandomUtil.getUUID().concat(".").concat(ext);
 		String basePath = global.getKey("file.upload.dir") + "/temp";
@@ -206,7 +206,7 @@ public class ResourceController extends BaseController {
 			f.delete();
 		}
 		Resources resources = resourceService.get(name);
-		resourceService.importData(resources,list,request);
+		resourceService.importData(resources,list);
 		return Result.success(SuccessConst.OPERATE_SUCCESS);
 	}
 

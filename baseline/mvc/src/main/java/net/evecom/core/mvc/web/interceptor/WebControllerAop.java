@@ -104,7 +104,7 @@ public class WebControllerAop {
 				HttpServletRequest request = sra.getRequest();
 				PrintUtil.printRequestPara(request);
 				User user = authCertService.getUser(request);
-				Long id = user.getID();
+				Long id = user.getId();
 				sysLog.setUserId(id);
 			} catch (Exception e) {
 			}
