@@ -1,5 +1,6 @@
 package net.evecom.core.db.model.service;
 
+import net.evecom.core.db.model.entity.DataEntity;
 import net.evecom.core.db.model.entity.ResProp;
 import net.evecom.core.db.model.entity.ResPropExl;
 import net.evecom.core.db.model.entity.Resources;
@@ -28,7 +29,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -57,7 +57,7 @@ public class ResourceService{
      * @return
      */
     public Resources get(Long id) throws Exception {
-        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getID, id);
+        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getId, id);
         List<Resources> resourceList = resourceQuery.select();
         if (resourceList.size() <= 0) {
             throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + id + ";");
@@ -92,7 +92,7 @@ public class ResourceService{
             Table table = clazz.getAnnotation(Table.class);
             String resourceName = table.name();
             QueryParam<Resources> param = new QueryParam<Resources>();
-            param.append(Resources::getID, id);
+            param.append(Resources::getId, id);
             Resources resources = get(resourceName);
             return get(resources, param);
         } else {
@@ -109,7 +109,7 @@ public class ResourceService{
      */
     public Object get(Resources resources, Long id) throws Exception {
         QueryParam<Resources> param = new QueryParam<Resources>();
-        param.append(Resources::getID, id);
+        param.append(Resources::getId, id);
         return get(resources, param);
     }
 
@@ -257,10 +257,6 @@ public class ResourceService{
         List resourceList;
         Query<?> resourceQuery = sqlManager.query(clazz);
         resourceQuery = QueryBuilder.getQuery(param.getList(), resourceQuery);
-        if (param.isNeedTotal()) {
-            resourceQuery = QueryBuilder.getQuery(param.getList(), resourceQuery);
-            page.setTotal(resourceQuery.count());
-        }
         if (param.isNeedPage()) {
             resourceQuery = resourceQuery.limit(param.getStartSize(), param.getPageSize());
         }
@@ -272,6 +268,10 @@ public class ResourceService{
         page.setList(resourceList);
         page.setPageSize(param.getPageSize());
         page.setPage(param.getPage());
+        if (param.isNeedTotal()) {
+            resourceQuery = QueryBuilder.getQuery(param.getList(), resourceQuery);
+            page.setTotal(resourceQuery.count());
+        }
         return page;
     }
 
@@ -676,14 +676,14 @@ public class ResourceService{
     /**
      * 导入数据
      *
-     * @param resources 资源对象
+     * @param resource 资源对象
      * @param list      数据集合
      */
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "add")
-    public void importData(Resources resources, List<List<Object>> list, HttpServletRequest request) throws Exception {
-        List<Map<String, Object>> headList = getHeadList(resources, 2);
-        List<ResProp> resPropList = resPropService.getByResource(resources.getID());
+    public void importData(Resources resource, List<List<Object>> list) throws Exception {
+        List<Map<String, Object>> headList = getHeadList(resource, 2);
+        List<ResProp> resPropList = resPropService.getByResource(resource.getId());
         Map<String, Object> resPropMap = new HashedMap();
         for (ResProp resProp : resPropList) {
             resPropMap.put(resProp.getJdbcField(), resProp);
@@ -692,9 +692,9 @@ public class ResourceService{
         //均采用map方式进行导入
 //        if (resources.getResType() == 1) {
         //  sql 对象封装成map
-        importData = getImportData(headList, list, Map.class, resPropMap, request);
-        List<Map<String, Object>> dataList = new ArrayList<>();
-        add(resources, importData);
+        Class clazz = Class.forName(resource.getClasspath());
+        importData = getImportData(headList, list, clazz, resPropMap);
+        add(resource, importData);
 //        }
 //        else {
 //            //bean 对象封装成bean
@@ -705,16 +705,18 @@ public class ResourceService{
 //        }
     }
 
-    private List getImportData(List<Map<String, Object>> headList, List<List<Object>> list, Class<?> itemBean, Map<String, Object> resPropMap, HttpServletRequest request) throws Exception {
+    private List getImportData(List<Map<String, Object>> headList, List<List<Object>> list, Class<?> itemBean, Map<String, Object> resPropMap) throws Exception {
         List result = new ArrayList();
-//        if (Map.class.isAssignableFrom(itemBean)) {
         //均采用map方式进行导入
         Map<String, Object> baseData = new HashMap();
-        if (resPropMap.containsKey("atime")) {
-            baseData.put("atime", DTUtil.nowStr());
+        QueryParam<DataEntity> param = new QueryParam<>();
+        String createDate = param.getFunctionName(DataEntity::getCreateDate, itemBean);
+        String editDate = param.getFunctionName(DataEntity::getEditDate, itemBean);
+        if (resPropMap.containsKey(createDate)) {
+            baseData.put(createDate, DTUtil.nowStr());
         }
-        if (resPropMap.containsKey("utime")) {
-            baseData.put("utime", DTUtil.nowStr());
+        if (resPropMap.containsKey(editDate)) {
+            baseData.put(editDate, DTUtil.nowStr());
         }
         for (List<Object> tempList : list) {
             Map<String, Object> data = new HashMap();
@@ -724,19 +726,6 @@ public class ResourceService{
             }
             result.add(data);
         }
-//        } else {
-//            for (List<Object> tempList : list) {
-//                Map<String, Object> data = new HashMap();
-//                data.put("createUserId", crmUser.getId());
-//                data.put("atime", DTUtil.nowStr());
-//                data.put("utime", DTUtil.nowStr());
-//                for (int i = 0; i < headList.size(); i++) {
-//                    data.put(headList.get(i).get("name").toString(), tempList.get(i));
-//                }
-//                Object obj = ObjectConvert.mapToObject(data, itemBean);
-//                result.add(obj);
-//            }
-//        }
         return result;
     }
 
@@ -748,7 +737,7 @@ public class ResourceService{
      */
     public List<Map<String, Object>> getHeadList(Resources resource, int type) throws Exception {
         QueryParam<ResProp> queryResProp = new QueryParam();
-        queryResProp.append(ResProp::getResourcesId, resource.getID());
+        queryResProp.append(ResProp::getResourcesId, resource.getId());
         queryResProp.append(ResProp::getSort, "", SqlConst.ORDERBY, SqlConst.DESC);
         List<ResProp> resPropList = (List<ResProp>) list(ResProp.class, queryResProp).getList();
         if (resPropList.size() == 0) {
@@ -758,8 +747,8 @@ public class ResourceService{
         QueryParam<ResPropExl> queryResPropExl = new QueryParam<>();
         StringBuffer sb = new StringBuffer();
         for (ResProp resProp : resPropList) {
-            sb.append(resProp.getID().toString() + ",");
-            mapResProp.put(resProp.getID(), resProp);
+            sb.append(resProp.getId().toString() + ",");
+            mapResProp.put(resProp.getId(), resProp);
         }
         queryResPropExl.append(ResPropExl::getResPropId, sb.toString().substring(0, sb.length() - 1), SqlConst.IN, SqlConst.AND);
         queryResPropExl.append(ResPropExl::getSort, "", SqlConst.ORDERBY, SqlConst.ASC);

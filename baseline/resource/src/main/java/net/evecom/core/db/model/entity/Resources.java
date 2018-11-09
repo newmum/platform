@@ -17,7 +17,7 @@ import java.util.List;
  */
 @Table(name = "RESOURCES")
 @ToString
-public class Resources extends DataEntity<Resources> implements Serializable {
+public class Resources extends DataEntity<Resources> {
 
 	@Column(name = "name")
 	@ApiModelProperty(value = "名称")

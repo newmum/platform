@@ -25,9 +25,9 @@ public abstract class DataEntity<T> implements Serializable {
     public static final int YES = 1;
 
 	@Column(name = "ID")
-	@ApiModelProperty(value = "ID")
+	@ApiModelProperty(value = "编号")
 	@AutoID
-	protected Long ID;
+	protected Long id;
 
     @Column(name = "CREATE_DATE")
     @ExcelField(align = 2, sort = 4, title = "创建时间")
@@ -41,7 +41,7 @@ public abstract class DataEntity<T> implements Serializable {
 
     @Column(name = "IS_DEL")
     @ApiModelProperty(value = "是否删除：0否；1是；", hidden = true)
-    private Integer isDel = NO;
+    protected Integer isDel = NO;
 
 	/**
 	 * 插入之前执行方法，需要手动调用
@@ -73,12 +73,12 @@ public abstract class DataEntity<T> implements Serializable {
 		this.editDate = DTUtil.nowDate();
 	}
 
-    public Long getID() {
-        return ID;
+    public Long getId() {
+        return id;
     }
 
-    public void setID(Long ID) {
-        this.ID = ID;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

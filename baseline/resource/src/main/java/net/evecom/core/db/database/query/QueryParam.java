@@ -2,7 +2,7 @@ package net.evecom.core.db.database.query;
 
 import lombok.ToString;
 import net.evecom.tools.constant.consts.SqlConst;
-import net.evecom.utils.object.ClassUtil;
+import net.evecom.utils.string.StringUtil;
 import net.evecom.utils.verify.CheckUtil;
 import org.beetl.sql.core.query.Query;
 
@@ -49,13 +49,20 @@ public class QueryParam<T> {
      */
     private boolean needTotal;
 
+    private Class<T> clazz;
+
     public QueryParam() {
+        getList();
+    }
+
+    public QueryParam(Class<T> clazz) {
+        this.clazz = clazz;
         getList();
     }
 
     public List<QueryCondition> getList() {
         if (list == null) {
-            list = new ArrayList<QueryCondition>();
+            list = new ArrayList();
         }
         return list;
     }
@@ -120,24 +127,24 @@ public class QueryParam<T> {
         return this;
     }
 
-    public QueryParam<T> append(QueryProperty<T, ?> upperfier, Object value, String condition, String relation) {
-        return append(getFunctionName(upperfier), value, condition, relation);
-    }
-
     private QueryParam<T> append(String column, Object value, String condition) {
         return append(column, value, condition, SqlConst.AND);
-    }
-
-    public QueryParam<T> append(QueryProperty<T, ?> upperfier, Object value, String condition) {
-        return append(getFunctionName(upperfier), value, condition, SqlConst.AND);
     }
 
     public QueryParam<T> append(String column, Object value) {
         return append(column, value, SqlConst.EQ);
     }
 
-    public QueryParam<T> append(QueryProperty<T, ?> upperfier, Object value) {
-        return append(getFunctionName(upperfier), value, SqlConst.EQ);
+    public QueryParam<T> append(Property<T, ?> property, Object value, String condition, String relation) {
+        return append(getFunctionName(property, clazz), value, condition, relation);
+    }
+
+    public QueryParam<T> append(Property<T, ?> property, Object value, String condition) {
+        return append(getFunctionName(property, clazz), value, condition, SqlConst.AND);
+    }
+
+    public QueryParam<T> append(Property<T, ?> property, Object value) {
+        return append(getFunctionName(property, clazz), value, SqlConst.EQ);
     }
 
     public void clear() {
@@ -146,19 +153,6 @@ public class QueryParam<T> {
         needTotal = false;
         page = 1;
         pageSize = 20;
-    }
-
-    public void clearCondition() {
-        list.clear();
-    }
-
-    @Override
-    public String toString() {
-        return super.toString();
-    }
-
-    public String getStr() {
-        return "str";
     }
 
     private String getWhereSql(String sql, List<Object> params) {
@@ -187,41 +181,40 @@ public class QueryParam<T> {
         return sql;
     }
 
-    private String getFunctionName(QueryProperty<T, ?> property) {
+    public String getFunctionName(Property<T, ?> property, Class clazz) {
         try {
             Method declaredMethod = property.getClass().getDeclaredMethod("writeReplace");
             declaredMethod.setAccessible(Boolean.TRUE);
             SerializedLambda serializedLambda = (SerializedLambda) declaredMethod.invoke(property);
-            String method = serializedLambda.getImplMethodName();
-            String attr = null;
-            if (method.startsWith("get")) {
-                attr = method.substring(3);
+            String methodName = serializedLambda.getImplMethodName();
+            if (methodName.startsWith("get")) {
+                methodName = methodName.substring(3);
             } else {
-                attr = method.substring(2);
+                methodName = methodName.substring(2);
             }
-//            attr = attr.substring(0, 1).toLowerCase() + attr.substring(1);
-//			 获取类对应的列 暂不使用
-            String columnName = "";
-            String implClass = serializedLambda.getImplClass();
-            implClass = implClass.replaceAll("/", ".");
-            Class<?> obj = Class.forName(implClass);
-            List<Field> list = new ArrayList<Field>();
-            ClassUtil.getAllfield(list, obj);
-            for (Field field : list) {
-                if (field.getName().equals(attr)) {
+            methodName = StringUtil.toLowerCaseFirstOne(methodName);
+            if(clazz == null){
+                String implClass = serializedLambda.getImplClass();
+                implClass = implClass.replaceAll("/", ".");
+                clazz = Class.forName(implClass);
+            }
+            for(; clazz != Object.class ; clazz = clazz.getSuperclass()) {
+                try {
+                    Field field = clazz.getDeclaredField(methodName);
                     if (field.isAnnotationPresent(Column.class)) {
-                        Column column = (Column) field.getAnnotation(Column.class);
-                        columnName = column.name();
+                        Column column = field.getAnnotation(Column.class);
+                        methodName = column.name();
                         break;
                     }
+                } catch (Exception e) {
                 }
             }
-            return columnName;
+            return methodName;
         } catch (ReflectiveOperationException e) {
             throw new RuntimeException(e);
         }
     }
 
-    public interface QueryProperty<T, R> extends Function<T, R>, Serializable {
+    public interface Property<T, R> extends Function<T, R>, Serializable {
     }
 }
