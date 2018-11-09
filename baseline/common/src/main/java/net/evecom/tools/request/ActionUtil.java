@@ -19,7 +19,6 @@ public class ActionUtil {
 	 * 判断请求是否为ajax
 	 *
 	 * @param request
-	 * @param response
 	 * @return true ajax false 传统请求
 	 */
 	public static boolean isAjax(HttpServletRequest request) {

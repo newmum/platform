@@ -30,6 +30,7 @@ public class CommonException extends RuntimeException {
 	public static final String NO_LOGIN = "no_login";
 	public static final String NULL_POINTER = "null_pointer";
 	public static final String DATA_NULL = "data_null";
+	public static final String CLAZZ_NULL = "clazz_null";
 	public static final String PARAM_NULL = "param_null";
 	public static final String CLASS_NOT_FOUND = "class_not_found";
 	public static final String TABLE_HAS_EXIST = "table_has_exist";
