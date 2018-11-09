@@ -5,7 +5,6 @@ import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
 
 import javax.persistence.Column;
-import java.io.Serializable;
 
 /**
  *
@@ -13,9 +12,8 @@ import java.io.Serializable;
  * @since 1.0
  */
 @Table(name = "crm_user_extra")
-public class CrmUserExtra extends DataEntity<CrmUserExtra> implements Serializable {
+public class CrmUserExtra extends DataEntity<CrmUserExtra> {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "crm_user_id")
 	@ApiModelProperty(value = "用户id", hidden = true)
 	private Long crmUserId;

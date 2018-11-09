@@ -18,7 +18,7 @@ import java.util.List;
  */
 @Table(name = "SYSTEM_USER")
 @ToString
-public class User extends DataEntity<User> implements Serializable {
+public class User extends DataEntity<User> {
 
 	@Column(name = "ACCOUNT")
     @ApiModelProperty(value = "账号")

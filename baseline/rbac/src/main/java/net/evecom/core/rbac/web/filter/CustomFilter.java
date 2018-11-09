@@ -92,7 +92,7 @@ public class CustomFilter implements Filter {
             }
             User user = (User) obj;
             objectMapper.writeValueAsString(user);
-            if (user.getID() != 1) {// TODO 测试使用
+            if (user.getId() != 1) {// TODO 测试使用
                 List<Power> powerList = user.getPowerList();
                 boolean bo = hasPower(powerList, stp_url, stp_method);
                 if (!bo) {
@@ -140,14 +140,14 @@ public class CustomFilter implements Filter {
      */
     private void noPower(HttpServletRequest request, HttpServletResponse response, String message)
             throws IOException, ServletException {
-        boolean bo = ActionUtil.isAjax(request);
-        if (bo) {
-            String url = global.getKey("server.servlet.context-path");
-            response.sendRedirect(url + "?message=" + message);
-        } else {
+//        boolean bo = ActionUtil.isAjax(request);
+//        if (bo) {
+//            String url = global.getKey("server.servlet.context-path");
+//            response.sendRedirect(url + "?message=" + message);
+//        } else {
             String str = objectMapper.writeValueAsString(Result.failed(message));
             ActionUtil.renderString(response, str, "application/json");
-        }
+//        }
     }
 
     @Override

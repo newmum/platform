@@ -1,6 +1,7 @@
 package net.evecom.core.rbac.model.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.evecom.core.db.model.entity.Resources;
 import net.evecom.core.rbac.model.entity.*;
 import net.evecom.core.rbac.base.BaseService;
 import net.evecom.core.rbac.model.dao.ICrmUserDao;
@@ -47,7 +48,7 @@ public class UserService extends BaseService {
     public User add(User user) throws Exception {
         resourceService.add(user);
         CrmUserExtra userExtra = new CrmUserExtra();
-        userExtra.setCrmUserId(user.getID());
+        userExtra.setCrmUserId(user.getId());
         userExtra.preInsert();
         resourceService.add(userExtra);
         return user;
@@ -63,7 +64,7 @@ public class UserService extends BaseService {
     }
 
     public void editCheck(User user) throws Exception {
-        if (CheckUtil.isNull(user.getID())) {
+        if (CheckUtil.isNull(user.getId())) {
             throw new ResourceException(ResourceException.ID_NULL);
         }
         if (CheckUtil.isNull(user.getMobile()) && CheckUtil.isNull(user.getEmail())
@@ -71,13 +72,13 @@ public class UserService extends BaseService {
             throw new UserException(UserException.MOBILE_EMAIL_ACCOUNT_NULL);
         }
         if (CheckUtil.isNotNull(user.getMobile())) {
-            checkUser(user.getID(), user.getMobile(), 1);
+            checkUser(user.getId(), user.getMobile(), 1);
         }
         if (CheckUtil.isNotNull(user.getEmail())) {
-            checkUser(user.getID(), user.getEmail(), 2);
+            checkUser(user.getId(), user.getEmail(), 2);
         }
         if (CheckUtil.isNotNull(user.getAccount())) {
-            checkUser(user.getID(), user.getAccount(), 3);
+            checkUser(user.getId(), user.getAccount(), 3);
         }
     }
 
@@ -129,7 +130,7 @@ public class UserService extends BaseService {
         user.setIsDel(User.YES);
         user.preUpdate();
         for (Long id : ids) {
-            user.setID(id);
+            user.setId(id);
             int i = userDao.updateTemplateById(user);
             if (i <= 0) {
                 result.add(id);
@@ -179,7 +180,7 @@ public class UserService extends BaseService {
         } catch (Exception e) {
 
         }
-        if(user.getID()==1){
+        if(user.getId()==1){
             //admin 用户 获取所有权限,菜单
             QueryParam queryParam=new QueryParam();
             queryParam.setNeedPage(false);
@@ -187,18 +188,18 @@ public class UserService extends BaseService {
             user.setMenuList((List<UiRouter>) resourceService.list(UiRouter.class,queryParam).getList());
             user.setPowerList((List<Power>) resourceService.list(Power.class,queryParam).getList());
         }else{
-            List<UiRouter> menuList = userDao.getMenuList(user.getID());
-            List<Power> powerList = userDao.getPowerList(user.getID());
+            List<UiRouter> menuList = userDao.getMenuList(user.getId());
+            List<Power> powerList = userDao.getPowerList(user.getId());
             user.setMenuList(menuList);
             user.setPowerList(powerList);
         }
-        List<Role> roleList = userDao.getRoleList(user.getID());
+        List<Role> roleList = userDao.getRoleList(user.getId());
         user.setRoleList(roleList);
         // 保存登录日志
         String login_ip = IPUtils.getIpAddr(request);
         UserLoginLog userLog = new UserLoginLog();
         userLog.setIp(login_ip);
-        userLog.setCrmUserId(user.getID());
+        userLog.setCrmUserId(user.getId());
         String sid = saveLoginUser(user, response);
         resourceService.add(userLog);
         // User temp = iUserDao.queryUsers(user.getId());
@@ -212,16 +213,17 @@ public class UserService extends BaseService {
     }
 
     public void setUserExtra(User user) {
-        QueryParam<CrmUserExtra> queryParam = new QueryParam<>();
-        queryParam.append(CrmUserExtra::getCrmUserId, user.getID());
+        QueryParam<CrmUserExtra> param = new QueryParam<>(CrmUserExtra.class);
+        param.append(CrmUserExtra::getCrmUserId, user.getId());
+        param.getFunctionName(CrmUserExtra::getCrmUserId, CrmUserExtra.class);
         CrmUserExtra userExtra;
         try {
-            userExtra = (CrmUserExtra) resourceService.get(CrmUserExtra.class, queryParam);
+            userExtra = (CrmUserExtra) resourceService.get(CrmUserExtra.class, param);
             Department dept = (Department) resourceService.get(Department.class, user.getDeptId());
             user.setDepartment(dept);
         } catch (Exception e) {
             userExtra = new CrmUserExtra();
-            userExtra.setCrmUserId(user.getID());
+            userExtra.setCrmUserId(user.getId());
         }
         user.setCrmUserExtra(userExtra);
     }
@@ -260,7 +262,7 @@ public class UserService extends BaseService {
                 throw new UserException(UserException.EMAIL_NO_EXIST);
             }
         } else {
-            user.setID(temp.getID());
+            user.setId(temp.getId());
             String key = CacheGroupConst.FIND_CHECKCODE;
             if (hint.equals("mobile")) {
                 key += mobile;
@@ -336,7 +338,7 @@ public class UserService extends BaseService {
         }
         // 新注册用户默认添加基础角色(id为2)
         UserRole crmUserRole = new UserRole();
-        crmUserRole.setCrmUserId(user.getID());
+        crmUserRole.setCrmUserId(user.getId());
         crmUserRole.setCrmRoleId(2L);
         resourceService.add(crmUserRole);
         return user;
@@ -377,7 +379,7 @@ public class UserService extends BaseService {
             throw new UserException(UserException.TYPE_NO_EXIST);
         }
         User temp = userDao.templateOne(user);
-        if (temp != null && temp.getID() != id) {
+        if (temp != null && temp.getId() != id) {
             if (type == 1) {
                 throw new UserException(UserException.MOBILE_HAS_EXIST);
             } else if (type == 2) {
@@ -565,7 +567,7 @@ public class UserService extends BaseService {
         } catch (Exception e) {
             throw new UserException(UserException.USER_NO_LOGIN);
         }
-        if (loginUser.getID() != user.getID()) {
+        if (loginUser.getId() != user.getId()) {
             throw new UserException(UserException.ILLEGAL_USER);
         }
         editCheck(user);
@@ -573,7 +575,7 @@ public class UserService extends BaseService {
 
     public void perfectInfo(User user, CrmUserExtra userExtra) throws Exception {
         edit(user);
-        if (CheckUtil.isNull(userExtra.getID())) {
+        if (CheckUtil.isNull(userExtra.getId())) {
             resourceService.add(userExtra);
         } else {
             resourceService.update(userExtra);
@@ -636,7 +638,7 @@ public class UserService extends BaseService {
 
     public User updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
         User user = loginUser(request);
-        if(user.getID()==1){
+        if(user.getId()==1){
             //admin 用户 获取所有权限,菜单
             QueryParam queryParam=new QueryParam();
             queryParam.setNeedPage(false);
@@ -644,12 +646,12 @@ public class UserService extends BaseService {
             user.setMenuList((List<UiRouter>) resourceService.list(UiRouter.class,queryParam).getList());
             user.setPowerList((List<Power>) resourceService.list(Power.class,queryParam).getList());
         }else{
-            List<UiRouter> menuList = userDao.getMenuList(user.getID());
-            List<Power> powerList = userDao.getPowerList(user.getID());
+            List<UiRouter> menuList = userDao.getMenuList(user.getId());
+            List<Power> powerList = userDao.getPowerList(user.getId());
             user.setMenuList(menuList);
             user.setPowerList(powerList);
         }
-        List<Role> roleList = userDao.getRoleList(user.getID());
+        List<Role> roleList = userDao.getRoleList(user.getId());
         user.setRoleList(roleList);
         updateLoginUser(user, request);
         return user;
