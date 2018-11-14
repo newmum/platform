@@ -76,8 +76,15 @@ public class QueryCondition {
 
 	public String getRelation() {
         if(CheckUtil.isNull(relation)){
-            relation = SqlConst.AND;
+			relation = SqlConst.AND;
         }
+		return relation;
+	}
+
+	public String getRelation1() {
+		if(CheckUtil.isNull(relation)){
+			relation = SqlConst.ASC;
+		}
 		return relation;
 	}
 

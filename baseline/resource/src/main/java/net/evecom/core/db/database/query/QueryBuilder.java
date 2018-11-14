@@ -31,7 +31,7 @@ public class QueryBuilder {
                     order_list.add(qc);
                 } else if (qc.getCondition().equals(SqlConst.GROUPBY)) {
                     group_list.add(qc);
-                } else {
+                }else {
                     Object value = qc.getValue();
                     if (!CheckUtil.isNull(value)) {
                         select_list.add(qc);
@@ -92,25 +92,26 @@ public class QueryBuilder {
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < order_list.size(); i++) {
                 QueryCondition sc = order_list.get(i);
-                String relation = sc.getRelation();
-                if (relation.equals(SqlConst.DESC) || relation.equals(SqlConst.ASC)) {
+                String relation = sc.getRelation1();
+                if (relation.equals(SqlConst.DESC ) || relation.equals(SqlConst.ASC) || relation.equals("")) {
                     sb.append(sc.getAttrName());
                     sb.append(" " + sc.getRelation());
                     if (i != order_list.size() - 1) {
                         sb.append(",");
                     }
-                } else {
+                }
+                else {
                     System.out.println("order by 条件不能跟随===>>>>" + relation);
                 }
             }
             query.orderBy(sb.toString());
         }
-        // String sql = query.getSql().toString();
-        // System.out.println("sql:" + sql);
-        // List<Object> params = query.getParams();
-        // for (Object object : params) {
-        // System.out.print("," + object.toString());
-        // }
+         /*String sql = query.getSql().toString();
+         System.out.println("sql:" + sql);
+         List<Object> params = query.getParams();
+         for (Object object : params) {
+         System.out.print("," + object.toString());
+         }*/
         return query;
     }
 
@@ -233,11 +234,6 @@ public class QueryBuilder {
                 break;
         }
 
-        /*if (sc.getRelation().equals(SqlConst.OR)) {
-            condition = query.condition().orEq(sc.getAttrName(), sc.getValue());
-        } else if (sc.getRelation().equals(SqlConst.AND)) {
-            condition = query.condition().andEq(sc.getAttrName(), sc.getValue());
-        }*/
         list.remove(0);
         for (QueryCondition sc_child : list) {
             condition = getCondition(condition, sc_child);
