@@ -2,6 +2,7 @@ package net.evecom.core.db.database.query;
 
 import net.evecom.tools.constant.consts.SqlConst;
 import net.evecom.utils.verify.CheckUtil;
+import org.beetl.sql.core.query.OrderBy;
 
 /**
  * @ClassName: QueryCondition
@@ -76,15 +77,13 @@ public class QueryCondition {
 
 	public String getRelation() {
         if(CheckUtil.isNull(relation)){
-			relation = SqlConst.AND;
+            if(this.condition!=null
+                    && this.condition.equals(SqlConst.ORDERBY)){
+                relation = SqlConst.ASC;
+            }else{
+                relation = SqlConst.AND;
+            }
         }
-		return relation;
-	}
-
-	public String getRelation1() {
-		if(CheckUtil.isNull(relation)){
-			relation = SqlConst.ASC;
-		}
 		return relation;
 	}
 

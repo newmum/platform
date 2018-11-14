@@ -92,7 +92,7 @@ public class QueryBuilder {
             StringBuffer sb = new StringBuffer();
             for (int i = 0; i < order_list.size(); i++) {
                 QueryCondition sc = order_list.get(i);
-                String relation = sc.getRelation1();
+                String relation = sc.getRelation();
                 if (relation.equals(SqlConst.DESC ) || relation.equals(SqlConst.ASC) || relation.equals("")) {
                     sb.append(sc.getAttrName());
                     sb.append(" " + sc.getRelation());
