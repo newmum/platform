@@ -45,6 +45,12 @@ public class UserService extends BaseService {
     @Resource
     private ObjectMapper objectMapper;
 
+    /**
+     *
+     * @param user
+     * @return
+     * @throws Exception
+     */
     public User add(User user) throws Exception {
         resourceService.add(user);
         CrmUserExtra userExtra = new CrmUserExtra();

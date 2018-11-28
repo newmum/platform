@@ -12,7 +12,6 @@
         <module>engine</module>
         <module>baseline</module>
         <module>project</module>
-        <module>monitor</module>
     </modules>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
