@@ -1,10 +1,9 @@
 package net.evecom.core.rbac.model.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.evecom.core.db.model.entity.Resources;
 import net.evecom.core.rbac.model.entity.*;
 import net.evecom.core.rbac.base.BaseService;
-import net.evecom.core.rbac.model.dao.ICrmUserDao;
+import net.evecom.core.rbac.model.dao.UserDao;
 import net.evecom.core.db.exception.ResourceException;
 import net.evecom.core.rbac.exception.UserException;
 import net.evecom.core.db.model.service.ResourceService;
@@ -14,7 +13,6 @@ import net.evecom.tools.exception.CommonException;
 import net.evecom.tools.message.email.SendEmail;
 import net.evecom.tools.message.sms.SendSMS;
 import net.evecom.utils.database.redis.RedisClient;
-import net.evecom.utils.datetime.DTUtil;
 import net.evecom.utils.request.IPUtils;
 import net.evecom.utils.string.RandomUtil;
 import net.evecom.utils.string.StringUtil;
@@ -37,7 +35,7 @@ public class UserService extends BaseService {
     @Resource(name = "redisClient")
     protected RedisClient redisClient;
     @Resource
-    private ICrmUserDao userDao;
+    private UserDao userDao;
     @Resource(name = "sendEmail")
     private SendEmail sendEmail;
     @Resource

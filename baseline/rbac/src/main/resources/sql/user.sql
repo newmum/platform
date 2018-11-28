@@ -32,7 +32,7 @@ select r.id,r.role_name from #use("tableName")# u
 left join system_user_role ur ON u.id=ur.crm_user_id
 left join system_role r ON r.id=ur.crm_role_id
 where u.id=#userId# AND r.id IS NOT NULL
-group by r.id
+group by r.id,r.role_name
 
 getPowerList
 ===
