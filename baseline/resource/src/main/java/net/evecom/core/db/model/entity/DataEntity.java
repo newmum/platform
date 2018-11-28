@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import net.evecom.utils.report.exl.ExcelField;
 import net.evecom.utils.datetime.DTUtil;
 import io.swagger.annotations.ApiModelProperty;
+import org.beetl.sql.core.annotatoin.AssignID;
 import org.beetl.sql.core.annotatoin.AutoID;
 
 import javax.persistence.Column;
@@ -26,7 +27,6 @@ public abstract class DataEntity<T> implements Serializable {
 
 	@Column(name = "ID")
 	@ApiModelProperty(value = "编号")
-	@AutoID
 	protected Long id;
 
     @Column(name = "CREATE_DATE")
@@ -73,6 +73,7 @@ public abstract class DataEntity<T> implements Serializable {
 		this.editDate = DTUtil.nowDate();
 	}
 
+    @AssignID("simple")
     public Long getId() {
         return id;
     }

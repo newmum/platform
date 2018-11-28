@@ -138,6 +138,18 @@
             <version>${swagger2.version}</version>
         </dependency>
     </dependencies>
+    <distributionManagement>
+        <repository>
+            <id>nexus</id>
+            <name>Nexus release Repository</name>
+            <url>http://192.168.200.127:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>nexus</id>
+            <name>Nexus snapshots Repository</name>
+            <url>http://192.168.200.127:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
     <build>
         <plugins>
             <plugin>
@@ -187,7 +199,6 @@
                     </webResources>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 </project>

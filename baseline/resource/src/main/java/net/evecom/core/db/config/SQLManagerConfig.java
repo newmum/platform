@@ -69,7 +69,7 @@ public class SQLManagerConfig {
 	public BeetlSqlScannerConfigurer getBeetlSqlScannerConfigurer() {
 		System.out.println("beetl examSqlScannerConfigurer init");
 		BeetlSqlScannerConfigurer conf = new BeetlSqlScannerConfigurer();
-		conf.setBasePackage("net.evecom.*.*.model.dao");
+		conf.setBasePackage("net.evecom.**.model.dao");
 		conf.setDaoSuffix("Dao");
 		conf.setSqlManagerFactoryBeanName("examSqlManager");
 		return conf;

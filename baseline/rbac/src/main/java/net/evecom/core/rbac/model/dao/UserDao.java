@@ -9,7 +9,8 @@ import org.beetl.sql.core.mapper.BaseMapper;
 
 import java.util.List;
 
-public interface ICrmUserDao extends BaseMapper<User> {
+public interface UserDao extends BaseMapper<User> {
+
 	int batchdelete(@Param("ids") Long[] ids, @Param("status") int status);
 
 	List<Role> getRoleList(@Param("userId") Long userId);
@@ -18,5 +19,5 @@ public interface ICrmUserDao extends BaseMapper<User> {
 
 	List<UiRouter> getMenuList(@Param("userId") Long userId);
 
-	public User queryUsers(@Param("userId") Long userId);
+	User queryUsers(@Param("userId") Long userId);
 }
