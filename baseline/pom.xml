@@ -18,8 +18,9 @@
         <module>resource</module>
         <module>rbac</module>
         <module>mvc</module>
-
     </modules>
+    <dependencies>
 
+    </dependencies>
 
 </project>

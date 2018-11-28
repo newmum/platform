@@ -8,7 +8,7 @@ import java.util.*;
 
 public class JdbcUtil {
 
-
+    
     public static Boolean isHasLength(String columnName) {
         boolean bo = false;
         switch (columnName.toLowerCase()) {
