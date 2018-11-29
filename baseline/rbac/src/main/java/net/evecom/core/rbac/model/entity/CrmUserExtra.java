@@ -11,31 +11,31 @@ import javax.persistence.Column;
  * @author xiejun
  * @since 1.0
  */
-@Table(name = "crm_user_extra")
+@Table(name = "SYS_USER_EXTRA")
 public class CrmUserExtra extends DataEntity<CrmUserExtra> {
 
-	@Column(name = "crm_user_id")
+	@Column(name = "USER_ID")
 	@ApiModelProperty(value = "用户id", hidden = true)
 	private Long crmUserId;
-	@Column(name = "name")
+	@Column(name = "USER_NAME")
 	@ApiModelProperty(value = "姓名")
 	private String name;
-	@Column(name = "user_img")
+	@Column(name = "USER_IMG")
 	@ApiModelProperty(value = "头像")
 	private String userImg;
-	@Column(name = "qq")
+	@Column(name = "QQ")
 	@ApiModelProperty(value = "qq")
 	private String qq;
-	@Column(name = "address")
+	@Column(name = "ADDRESS")
 	@ApiModelProperty(value = "地址")
 	private String address;
-	@Column(name = "sex")
+	@Column(name = "SEX")
 	@ApiModelProperty(value = "性别")
 	private int sex;
-	@Column(name = "birthday")
+	@Column(name = "BIRTHDAY")
 	@ApiModelProperty(value = "生日")
 	private String birthday;
-	@Column(name = "remarks")
+	@Column(name = "REMARK")
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 

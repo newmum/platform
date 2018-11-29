@@ -29,7 +29,7 @@ public class User extends DataEntity<User> {
     @Column(name = "EMAIL")
     @ApiModelProperty(value = "邮箱", hidden = true)
     private String email;
-	@Column(name = "DEPT_ID")
+	@Column(name = "OFFICE_ID")
 	@ApiModelProperty(value = "机构编号", hidden = true)
 	private Long deptId;
 	@ApiModelProperty(value = "用户机构对象", hidden = true)
