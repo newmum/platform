@@ -11,7 +11,7 @@ import javax.persistence.Column;
  * @author xiejun
  * @since 1.0
  */
-@Table(name = "SYS_USER_EXTRA")
+@Table(name = "RM_USER_EXTRA_T")
 public class CrmUserExtra extends DataEntity<CrmUserExtra> {
 
 	@Column(name = "USER_ID")

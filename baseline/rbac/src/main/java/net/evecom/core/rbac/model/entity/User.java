@@ -16,7 +16,7 @@ import java.util.List;
  * @author： zhengc
  * @date： 2018年10月30日
  */
-@Table(name = "SYSTEM_USER")
+@Table(name = "RM_USER_T")
 @ToString
 public class User extends DataEntity<User> {
 
@@ -84,7 +84,7 @@ public class User extends DataEntity<User> {
 		this.mobile = mobile;
 	}
 
-	@JsonIgnore
+	//@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
