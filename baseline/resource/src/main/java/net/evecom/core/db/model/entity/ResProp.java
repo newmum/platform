@@ -16,18 +16,18 @@ import java.util.List;
  * @author： zhengc
  * @date： 2017年10月25日
  */
-@Table(name = "RES_PROP")
+@Table(name = "DB_RESOURCE_PROP_T")
 public class ResProp extends DataEntity<ResProp> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Column(name = "resources_id")
+    @Column(name = "RESOURCE_ID")
     @ApiModelProperty(value = "资源id")
     @NotNull(message = "资源id不能为空")
     private Long resourcesId;
-    @Column(name = "name")
+    @Column(name = "PROP_NAME")
     @ApiModelProperty(value = "属性名")
     private String name;
-    @Column(name = "type")
+    @Column(name = "PROP_TYPE")
     @ApiModelProperty(value = "属性类型")
     @NotNull(message = "属性类型不能为空")
     private String type;
@@ -37,29 +37,29 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
     @Column(name = "jdbc_type")
     @ApiModelProperty(value = "数据库字段类型")
     private String jdbcType;
-    @Column(name = "length")
+    @Column(name = "FIELD_LENGTH")
     @ApiModelProperty(value = "数据库字段长度")
     private String length;
     @Column(name = "ui_view")
     @ApiModelProperty(value = "界面展示")
     private String uiView;
-    @Column(name = "is_pk")
+    @Column(name = "IS_PK")
     @ApiModelProperty(value = "是否主键（1：主键）", hidden = true)
     private int isPk = 0;        // 是否主键（1：主键）
-    @Column(name = "is_auto")
+    @Column(name = "IS_AUTO")
     @ApiModelProperty(value = "是否自增（1：是）", hidden = true)
     private int isAuto = 0;        // 是否主键（1：主键）AUTO_INCREMENT
     @Column(name = "value")
     @ApiModelProperty(value = "默认值")
     private String value;        // 默认值
-    @Column(name = "title")
+    @Column(name = "TITLE")
     @ApiModelProperty(value = "标题")
     private String title;        //标题
     @Column(name = "sort")
     @ApiModelProperty(value = "排序")
     private int sort = 0;
-    @Column(name = "is_system")
-    @ApiModelProperty(value = "是否是系统字段(0不是,1是)")
+    @Column(name = "IS_USE")
+    @ApiModelProperty(value = "是否启用")
     private int isSystem = 0;
     @Column(name = "comments")
     @ApiModelProperty(value = "字段备注", hidden = true)

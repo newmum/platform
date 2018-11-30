@@ -57,7 +57,7 @@ public class ResourceService{
      * @return
      */
     public Resources get(Long id) throws Exception {
-        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getId, id);
+        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getTid, id);
         List<Resources> resourceList = resourceQuery.select();
         if (resourceList.size() <= 0) {
             throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + id + ";");
@@ -72,7 +72,7 @@ public class ResourceService{
      * @return
      */
     public Resources get(String resourceName) throws Exception {
-        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getName, resourceName);
+        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getResourceName, resourceName);
         List<Resources> resourceList = resourceQuery.select();
         if (resourceList.size() <= 0) {
             throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + resourceName + ";");
@@ -92,7 +92,7 @@ public class ResourceService{
             Table table = clazz.getAnnotation(Table.class);
             String resourceName = table.name();
             QueryParam<Resources> param = new QueryParam<Resources>();
-            param.append(Resources::getId, id);
+            param.append(Resources::getTid, id);
             Resources resources = get(resourceName);
             return get(resources, param);
         } else {
@@ -109,7 +109,7 @@ public class ResourceService{
      */
     public Object get(Resources resources, Long id) throws Exception {
         QueryParam<Resources> param = new QueryParam<Resources>();
-        param.append(Resources::getId, id);
+        param.append(Resources::getTid, id);
         return get(resources, param);
     }
 
@@ -365,7 +365,7 @@ public class ResourceService{
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "add")
     public void add(Resources resources, Map<String, Object> hashMap) throws Exception {
-        Map<String, Object> map = JdbcUtil.getInsertSql(resources.getName(), hashMap);
+        Map<String, Object> map = JdbcUtil.getInsertSql(resources.getResourceName(), hashMap);
         List<Object> params = (List<Object>) map.get("params");
         Object[] array = new Object[params.size()];
         for (int i = 0; i < params.size(); i++) {
@@ -387,7 +387,7 @@ public class ResourceService{
     public void add(Resources resources, List<Map<String, Object>> list) throws Exception {
         for (int j = 0; j < list.size(); j++) {
             Map<String, Object> hashMap = list.get(j);
-            Map<String, Object> map = JdbcUtil.getInsertSql(resources.getName(), hashMap);
+            Map<String, Object> map = JdbcUtil.getInsertSql(resources.getResourceName(), hashMap);
             List<Object> params = (List<Object>) map.get("params");
             Object[] array = new Object[params.size()];
             for (int i = 0; i < params.size(); i++) {
@@ -568,7 +568,7 @@ public class ResourceService{
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "edit")
     public void update(Resources resources, Map<String, Object> hashMap) throws Exception {
-        Map<String, Object> map = JdbcUtil.getUpdateSql(resources.getName(), hashMap);
+        Map<String, Object> map = JdbcUtil.getUpdateSql(resources.getResourceName(), hashMap);
         List<Object> params = (List<Object>) map.get("params");
         Object[] array = new Object[params.size()];
         for (int i = 0; i < params.size(); i++) {
@@ -620,7 +620,7 @@ public class ResourceService{
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "del")
     public void delete(Resources resources, Map<String, Object> hashMap) throws Exception {
-        Map<String, Object> map = JdbcUtil.getDeleteSql(resources.getName(), hashMap);
+        Map<String, Object> map = JdbcUtil.getDeleteSql(resources.getResourceName(), hashMap);
         System.out.println("deleteSql:" + map.get("deleteSql").toString());
         List<Object> params = (List<Object>) map.get("params");
         Object[] array = new Object[params.size()];
@@ -657,8 +657,8 @@ public class ResourceService{
     public void export(Resources resource, QueryParam<?> queryParam, HttpServletResponse response) throws Exception {
         List dataList = list(resource, queryParam).getList();
         List<Map<String, Object>> headList = getHeadList(resource, 1);
-        String fileName = resource.getName() + "数据" + DTUtil.getTodayString4() + ".xlsx";
-        ExportExcel exportExcel = new ExportExcel(resource.getName() + "数据", headList, dataList).write(response, fileName).dispose();
+        String fileName = resource.getResourceName() + "数据" + DTUtil.getTodayString4() + ".xlsx";
+        ExportExcel exportExcel = new ExportExcel(resource.getResourceName() + "数据", headList, dataList).write(response, fileName).dispose();
     }
 
     /**
@@ -669,8 +669,8 @@ public class ResourceService{
      */
     public void importTemplate(Resources resource, HttpServletResponse response) throws Exception {
         List<Map<String, Object>> headList = getHeadList(resource, 2);
-        String fileName = resource.getName() + "导入模板" + DTUtil.getTodayString4() + ".xlsx";
-        ExportExcel exportExcel = new ExportExcel(resource.getName() + "导入模板", headList, null).write(response, fileName).dispose();
+        String fileName = resource.getResourceName() + "导入模板" + DTUtil.getTodayString4() + ".xlsx";
+        ExportExcel exportExcel = new ExportExcel(resource.getResourceName() + "导入模板", headList, null).write(response, fileName).dispose();
     }
 
     /**
@@ -683,7 +683,7 @@ public class ResourceService{
     @RedisCacheAnno(type = "add")
     public void importData(Resources resource, List<List<Object>> list) throws Exception {
         List<Map<String, Object>> headList = getHeadList(resource, 2);
-        List<ResProp> resPropList = resPropService.getByResource(resource.getId());
+        List<ResProp> resPropList = resPropService.getByResource(resource.getTid());
         Map<String, Object> resPropMap = new HashedMap();
         for (ResProp resProp : resPropList) {
             resPropMap.put(resProp.getJdbcField(), resProp);
@@ -710,8 +710,8 @@ public class ResourceService{
         //均采用map方式进行导入
         Map<String, Object> baseData = new HashMap();
         QueryParam<DataEntity> param = new QueryParam<>();
-        String createDate = param.getFunctionName(DataEntity::getCreateDate, itemBean);
-        String editDate = param.getFunctionName(DataEntity::getEditDate, itemBean);
+        String createDate = param.getFunctionName(DataEntity::getCreateTime, itemBean);
+        String editDate = param.getFunctionName(DataEntity::getUpdateTime, itemBean);
         if (resPropMap.containsKey(createDate)) {
             baseData.put(createDate, DTUtil.nowStr());
         }
@@ -737,7 +737,7 @@ public class ResourceService{
      */
     public List<Map<String, Object>> getHeadList(Resources resource, int type) throws Exception {
         QueryParam<ResProp> queryResProp = new QueryParam();
-        queryResProp.append(ResProp::getResourcesId, resource.getId());
+        queryResProp.append(ResProp::getResourcesId, resource.getTid());
         queryResProp.append(ResProp::getSort, "", SqlConst.ORDERBY, SqlConst.DESC);
         List<ResProp> resPropList = (List<ResProp>) list(ResProp.class, queryResProp).getList();
         if (resPropList.size() == 0) {
@@ -747,8 +747,8 @@ public class ResourceService{
         QueryParam<ResPropExl> queryResPropExl = new QueryParam<>();
         StringBuffer sb = new StringBuffer();
         for (ResProp resProp : resPropList) {
-            sb.append(resProp.getId().toString() + ",");
-            mapResProp.put(resProp.getId(), resProp);
+            sb.append(resProp.getTid().toString() + ",");
+            mapResProp.put(resProp.getTid(), resProp);
         }
         queryResPropExl.append(ResPropExl::getResPropId, sb.toString().substring(0, sb.length() - 1), SqlConst.IN, SqlConst.AND);
         queryResPropExl.append(ResPropExl::getSort, "", SqlConst.ORDERBY, SqlConst.ASC);

@@ -25,19 +25,19 @@ public abstract class DataEntity<T> implements Serializable {
     public static final int NO  = 0;
     public static final int YES = 1;
 
-	@Column(name = "ID")
+	@Column(name = "TID")
 	@ApiModelProperty(value = "编号")
-	protected Long id;
+	protected Long tid;
 
-    @Column(name = "CREATE_DATE")
+    @Column(name = "CREATE_TIME")
     @ExcelField(align = 2, sort = 4, title = "创建时间")
     @ApiModelProperty(value = "创建时间", hidden = true)
-    protected Date createDate;
+    protected Date createTime;
 
-	@Column(name = "EDIT_DATE")
+	@Column(name = "UPDATE_TIME")
 	@ExcelField(align = 2, sort = 3, title = "更新时间")
 	@ApiModelProperty(value = "更新时间", hidden = true)
-	protected Date editDate;
+	protected Date updateTime;
 
     @Column(name = "IS_DEL")
     @ApiModelProperty(value = "是否删除：0否；1是；", hidden = true)
@@ -56,10 +56,10 @@ public abstract class DataEntity<T> implements Serializable {
 		// this.updateUser = user;
 		// this.createUser = user;
 		// }
-		if (this.editDate == null) {
-			this.editDate = DTUtil.nowDate();
+		if (this.updateTime == null) {
+			this.updateTime = DTUtil.nowDate();
 		}
-		this.createDate = new Date();
+		this.updateTime = new Date();
 	}
 
 	/**
@@ -70,34 +70,31 @@ public abstract class DataEntity<T> implements Serializable {
 		// if (StringUtils.isNotBlank(user.getId())) {
 		// this.updateUser = user;
 		// }
-		this.editDate = DTUtil.nowDate();
+		this.updateTime = DTUtil.nowDate();
 	}
-
     @AssignID("simple")
-    public Long getId() {
-        return id;
+    public Long getTid() {
+        return tid;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setTid(Long tid) {
+        this.tid = tid;
     }
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getCreateDate() {
-        return createDate;
+    public Date getCreateTime() {
+        return createTime;
     }
 
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    public Date getEditDate() {
-        return editDate;
+    public Date getUpdateTime() {
+        return updateTime;
     }
 
-    public void setEditDate(Date editDate) {
-        this.editDate = editDate;
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 
     public Integer getIsDel() {

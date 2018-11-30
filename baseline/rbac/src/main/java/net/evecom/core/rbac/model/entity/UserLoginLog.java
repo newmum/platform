@@ -14,18 +14,18 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月31日
  */
-@Table(name = "SYSTEM_USER_LOGIN_LOG")
+@Table(name = "LOG_USER_LOGIN_T")
 public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializable {
 
-	@Column(name = "ip")
+	@Column(name = "IP")
 	@ApiModelProperty(value = "登录ip")
 	@NotNull(message = "登录ip不能为空")
 	private String ip;
-	@Column(name = "crm_user_id")
+	@Column(name = "USER_ID")
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户id不能为空")
 	private Long crmUserId;
-	@Column(name = "remarks")
+	@Column(name = "REMARK")
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 

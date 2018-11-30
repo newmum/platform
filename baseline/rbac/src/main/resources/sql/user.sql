@@ -1,14 +1,14 @@
 cols
 ===
-	id,ACCOUNT
+	TID,ACCOUNT
 
 condtion
 ===
-where 1=1 and id = #id#
+where 1=1 and TID = #id#
 
 tableName
 ===
-SYSTEM_USER
+RM_USER_T
 
 get
 ===
@@ -16,11 +16,11 @@ select * from #use("tableName")# #use("condtion")#
 
 delete
 ===
-update #use("tableName")# set status=#sysUser.status# where id=#sysUser.id#
+update #use("tableName")# set status=#sysUser.status# where TID=#sysUser.id#
 
 batchdelete
 ===
-update #use("tableName")# set IS_DEL=#IS_DEL# where id in(
+update #use("tableName")# set IS_DEL=#IS_DEL# where TID in(
 @for(id in ids){
     #id#  #text(idLP.last?"":"," )#
 @}
@@ -28,47 +28,47 @@ update #use("tableName")# set IS_DEL=#IS_DEL# where id in(
 
 getRoleList
 ===
-select r.id,r.role_name from #use("tableName")# u
-left join system_user_role ur ON u.id=ur.crm_user_id
-left join system_role r ON r.id=ur.crm_role_id
-where u.id=#userId# AND r.id IS NOT NULL
-group by r.id,r.role_name
+select r.TID,r.ROLE_NAME from #use("tableName")# u
+left join RM_ROLE_POWER_RELA_T ur ON u.TID=ur.ROLE_ID
+left join RM_ROLE_T r ON r.TID=ur.ROLE_ID
+where u.TID=#userId# AND r.TID IS NOT NULL
+group by r.TID,r.ROLE_NAME
 
 getPowerList
 ===
-select * from crm_power where id in
-	(select crm_power_id From crm_role_power where
-		crm_role_id
+select * from RM_POWER_T where TID in
+	(select POWER_ID From RM_ROLE_POWER_RELA_T where
+		ROLE_ID
 		in(
-		select crm_role_id From crm_user_role where crm_user_id=#userId#
+		select ROLE_ID From RM_USER_ROLE_RELA_T where USER_ID=#userId#
 		)
 	)
 
 getMenuList
 ===
-select r.*,p.method method,p.url url from ui_router  r
-left join crm_power p on  r.crm_power_id =p.id
-where FIND_IN_SET(r.id,getRouterParentList(
+select r.*,p.METHOD method,p.URL url from RM_MENU_T r
+left join RM_POWER_T p on  r.POWER_ID =p.TID
+where FIND_IN_SET(r.TID,getRouterParentList(
 (
-select group_concat(r.id) from ui_router  r
-left join crm_power p on  r.crm_power_id =p.id
-	where r.crm_power_id
+select group_concat(r.TID) from RM_MENU_T r
+left join RM_POWER_T p on  r.POWER_ID =p.TID
+	where r.POWER_ID
 		in(
-		select id from crm_power where id in
-			(select crm_power_id from crm_role_power where crm_role_id
-			in(select crm_role_id from crm_user_role where crm_user_id=#userId#)
+		select TID from RM_POWER_T where TID in
+			(select POWER_ID from RM_ROLE_POWER_RELA_T where ROLE_ID
+			in(select ROLE_ID from RM_USER_ROLE_RELA_T where USER_ID=#userId#)
 			)
 		)
 )
-)) order by r.sort desc
+)) order by r.SORT desc
 
 
 queryUsers
 ===
 
-select * from #use("tableName")# WHERE id=#userId#
-	@ orm.many({"id":"userId"},"user.getRoleList","Role");
-	@ orm.many({"id":"userId"},"user.getMenuList","Menu");
-	@ orm.many({"id":"userId"},"user.getPowerList","Power");
+select * from #use("tableName")# WHERE TID=#userId#
+	@ orm.many({"TID":"userId"},"user.getRoleList","Role");
+	@ orm.many({"TID":"userId"},"user.getMenuList","Menu");
+	@ orm.many({"TID":"userId"},"user.getPowerList","Power");
 
 

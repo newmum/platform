@@ -92,7 +92,7 @@ public class CustomFilter implements Filter {
             }
             User user = (User) obj;
             objectMapper.writeValueAsString(user);
-            if (user.getId() != 1) {// TODO 测试使用
+            if (user.getTid() != 1) {// TODO 测试使用
                 List<Power> powerList = user.getPowerList();
                 boolean bo = hasPower(powerList, stp_url, stp_method);
                 if (!bo) {

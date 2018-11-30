@@ -14,21 +14,21 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月30日
  */
-@Table(name = "SYSTEM_ROLE")
+@Table(name = "RM_ROLE_T")
 public class Role extends DataEntity<Role> implements Serializable {
 
 	@Column(name = "ROLE_NAME")
 	@ApiModelProperty(value = "角色名称")
 	@ExcelField(align = 2, sort = 1, title = "角色名称")
 	private String roleName;
-	@Column(name = "DEPT_ID")
+	@Column(name = "OFFICE_ID")
 	@ApiModelProperty(value = "机构编号")
 	@ExcelField(align = 2, sort = 2, title = "机构编号")
 	private Long deptId;
 	@Column(name = "ROLE_TYPE")
 	@ApiModelProperty(value = "角色类型")
 	private int roleType;
-	@Column(name = "CREATE_USER_ID")
+	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人编号", hidden = true)
 	private Long createUserId;
 	@Column(name = "REMARKS")

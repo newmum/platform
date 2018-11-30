@@ -15,24 +15,24 @@ import java.util.List;
  * @author： zhengc
  * @date： 2017年10月25日
  */
-@Table(name = "RESOURCES")
+@Table(name = "DB_RESOURCE_T")
 @ToString
 public class Resources extends DataEntity<Resources> {
 
-	@Column(name = "name")
+	@Column(name = "RESOURCE_NAME")
 	@ApiModelProperty(value = "名称")
-	private String name;
-	@Column(name = "classpath")
+	private String resourceName;
+	@Column(name = "CLASSPATH")
 	@ApiModelProperty(value = "路径")
 	private String classpath;
-	@Column(name = "table_name")
+	@Column(name = "TABLENAME")
 	@ApiModelProperty(value = "表名")
 	private String tableName;
-	@Column(name = "is_cache")
+	@Column(name = "IS_CACHE")
 	@Range(min = 0, max = 1, message = "缓存状态错误(0不缓存1缓存)")
 	@ApiModelProperty(value = "是否缓存(0不缓存1缓存)")
 	private Integer isCache;
-	@Column(name = "sql")
+	@Column(name = "RESOURCE_SQL")
 	@ApiModelProperty(value = "sql模板")
 	private String sql;
 	@Column(name = "res_type")
@@ -61,12 +61,12 @@ public class Resources extends DataEntity<Resources> {
 		this.isCreate = isCreate;
 	}
 
-	public String getName() {
-		return name;
+	public String getResourceName() {
+		return resourceName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setResourceName(String resourceName) {
+		this.resourceName = resourceName;
 	}
 
 	public String getClasspath() {
@@ -111,7 +111,7 @@ public class Resources extends DataEntity<Resources> {
 
 	@Override
 	public String toString() {
-		return "Resources [" + "name=" + name + "classpath=" + classpath + "tableName=" + tableName + "isCache="
+		return "Resources [" + "name=" + resourceName + "classpath=" + classpath + "tableName=" + tableName + "isCache="
 				+ isCache + "sql=" + sql + "resType=" + resType + "]" + "Address [" + getClass().getName() + "@"
 				+ Integer.toHexString(hashCode()) + "]";
 	}

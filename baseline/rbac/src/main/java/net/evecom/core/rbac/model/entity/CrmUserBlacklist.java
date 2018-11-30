@@ -23,7 +23,7 @@ public class CrmUserBlacklist extends DataEntity<CrmUserBlacklist> implements Se
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户不能为空")
 	private Long crmUserId;
-	@Column(name = "ip")
+	@Column(name = "IP")
 	@ApiModelProperty(value = "ip地址")
 	@Pattern(regexp = RegexUtil.IP, message = "ip地址输入有误")
 	private String ip;

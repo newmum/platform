@@ -15,49 +15,49 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月31日
  */
-@Table(name = "UI_ROUTER")
+@Table(name = "RM_MENU_T")
 @ToString
 public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "parent_id")
+	@Column(name = "PARENT_ID")
 	@ApiModelProperty(value = "父类id")
 	@NotNull(message = "父类不能为空")
 	private Long parentId;
-	@Column(name = "title")
+	@Column(name = "TITLE")
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
 	private String title;
-	@Column(name = "sort")
+	@Column(name = "SORT")
 	@ApiModelProperty(value = "排序")
 	private Long sort;
-	@Column(name = "path")
+	@Column(name = "PATH")
 	@ApiModelProperty(value = "界面路径")
 	private String path;
-	@Column(name = "path_type")
+	@Column(name = "PATH_TYPE")
 	@ApiModelProperty(value = "链接类型(1是超链接 2不是超链接)", hidden = true)
 	private int pathType;
-	@Column(name = "href")
+	@Column(name = "HREF")
 	@ApiModelProperty(value = "链接")
 	private String href;
-	@Column(name = "name")
+	@Column(name = "NAME")
 	@ApiModelProperty(value = "路由名")
 	private String name;
-	@Column(name = "icon")
+	@Column(name = "ICON")
 	@ApiModelProperty(value = "图标")
 	private String icon;
-	@Column(name = "is_menu")
+	@Column(name = "IS_SHOW")
 	@ApiModelProperty(value = "是否展示")
 	private int isMenu;
-	@Column(name = "crm_power_id")
+	@Column(name = "POWER_ID")
 	@ApiModelProperty(value = "权限id")
 	private Long crmPowerId;
-	@Column(name = "create_user_id")
+	@Column(name = "CREATE_ID")
 	@ApiModelProperty(value = "创建人id", hidden = true)
 	private Long createUserId;
-	@Column(name = "remarks")
+	/*@Column(name = "remarks")
 	@ApiModelProperty(value = "备注")
-	private String remarks;
+	private String remarks;*/
 	@ApiModelProperty(value = "请求方式")
 	private String method;
 	@ApiModelProperty(value = "请求路径")
@@ -167,13 +167,13 @@ public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 		this.createUserId = createUserId;
 	}
 
-	public String getRemarks() {
+	/*public String getRemarks() {
 		return remarks;
 	}
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-	}
+	}*/
 
 	@Override
 	public String toString() {

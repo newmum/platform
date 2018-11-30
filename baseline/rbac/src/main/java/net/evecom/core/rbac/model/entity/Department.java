@@ -14,51 +14,51 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月30日
  */
-@Table(name = "SYTEM_DEPARTMENT")
+@Table(name = "RM_OFFICE_T")
 public class Department extends DataEntity<Department> implements Serializable {
 
 	@Column(name = "PARENT_ID")
 	@ApiModelProperty(value = "上级机构编号")
 	@NotNull(message = "上级机构不能为空")
 	private Long parentId;
-	@Column(name = "DEPT_NAME")
+	@Column(name = "TITLE")
 	@ApiModelProperty(value = "组织机构名称")
 	@NotNull(message = "名称不能为空")
 	private String deptName;
 	@Column(name = "SORT")
 	@ApiModelProperty(value = "排序")
 	private Long sort;
-	@Column(name = "CODE")
+	@Column(name = "AREA_CODE")
 	@ApiModelProperty(value = "区域编码")
 	private String code;
-	@Column(name = "type")
+	@Column(name = "OFFICE_TYPE")
 	@ApiModelProperty(value = "机构类型")
 	private Long type;
-	@Column(name = "grade")
+	@Column(name = "LEVEL")
 	@ApiModelProperty(value = "机构等级")
 	private Long grade;
-	@Column(name = "address")
+	@Column(name = "ADDRESS")
 	@ApiModelProperty(value = "地址")
 	private String address;
-	@Column(name = "zip_code")
+	@Column(name = "ZIP")
 	@ApiModelProperty(value = "邮政编码")
 	private String zipCode;
-	@Column(name = "master")
+	/*@Column(name = "master")
 	@ApiModelProperty(value = "负责人")
-	private Long master;
-	@Column(name = "phone")
+	private Long master;*/
+	@Column(name = "PHONE")
 	@ApiModelProperty(value = "电话")
 	private String phone;
-	@Column(name = "fax")
+	@Column(name = "FAX")
 	@ApiModelProperty(value = "传真")
 	private String fax;
-	@Column(name = "email")
+	@Column(name = "EMAIL")
 	@ApiModelProperty(value = "邮箱")
 	private String email;
-	@Column(name = "create_user_id")
+	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人id", hidden = true)
 	private Long createUserId;
-	@Column(name = "remarks")
+	@Column(name = "OFFICE_DESC")
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 
@@ -126,13 +126,13 @@ public class Department extends DataEntity<Department> implements Serializable {
 		this.zipCode = zipCode;
 	}
 
-	public Long getMaster() {
+	/*public Long getMaster() {
 		return master;
 	}
 
 	public void setMaster(Long master) {
 		this.master = master;
-	}
+	}*/
 
 	public String getPhone() {
 		return phone;

@@ -14,14 +14,14 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月30日
  */
-@Table(name = "crm_user_role")
+@Table(name = "RM_ROLE_POWER_RELA_T")
 public class UserRole extends DataEntity<UserRole> implements Serializable {
 
-	@Column(name = "crm_user_id")
+	@Column(name = "TID")
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户不能为空")
 	private Long crmUserId;
-	@Column(name = "crm_role_id")
+	@Column(name = "ROLE_ID")
 	@ApiModelProperty(value = "角色id")
 	@NotNull(message = "角色不能为空")
 	private Long crmRoleId;

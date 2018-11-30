@@ -13,11 +13,11 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2017年10月25日
  */
-@Table(name = "RES_PROP_EXL")
+@Table(name = "db_resource_prop_verify_t")
 public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Column(name = "res_prop_id")
+    @Column(name = "PROP_ID")
     @ApiModelProperty(value = "资源属性id")
     private Long resPropId;
     @Column(name = "title")

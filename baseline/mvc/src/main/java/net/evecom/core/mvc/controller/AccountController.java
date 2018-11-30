@@ -5,6 +5,7 @@ import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import net.evecom.core.rbac.base.BaseController;
+import net.evecom.core.rbac.model.entity.Power;
 import net.evecom.core.rbac.model.entity.User;
 import net.evecom.core.rbac.model.entity.MessageEmail;
 import net.evecom.core.rbac.model.entity.MessageSms;
@@ -12,12 +13,15 @@ import net.evecom.core.rbac.model.service.UserService;
 import net.evecom.tools.constant.consts.SuccessConst;
 import net.evecom.tools.service.Result;
 import net.evecom.utils.request.VerifyCodeUtils;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.apache.catalina.servlet4preview.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/account")
@@ -111,7 +115,7 @@ public class AccountController extends BaseController {
     public Result<?> check(String account, Integer type) throws Exception {
         Long id = null;
         try {
-            id = userService.loginUser(request).getId();
+            id = userService.loginUser(request).getTid();
         } catch (Exception e) {
         }
         userService.checkUser(id, account, type);
@@ -136,5 +140,20 @@ public class AccountController extends BaseController {
     public Result<?> logout() throws Exception {
         userService.logout(request, response);
         return Result.success(SuccessConst.OPERATE_SUCCESS);
+    }
+
+    @ApiOperation(value = "个人信息", notes = "个人信息")
+    @RequestMapping(value = "/", method = RequestMethod.GET)
+    public Result<?> get() throws Exception {
+        User user = userService.loginUser(request);
+        //List<Power> list = new ArrayList<>();
+        //userService.getPowerByMenuId(request,user.getId());
+//        Map map = new HashMap<>();
+//        map.put("user",user);
+//        map.put("list",userService.getPowerByMenuId(request,user.getId()));
+        /*service.get() user.id
+            service.list()
+                    map.put(user)*/
+        return Result.success(SuccessConst.OPERATE_SUCCESS, user);
     }
 }

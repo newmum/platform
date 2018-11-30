@@ -93,7 +93,7 @@ public class WebControllerAop {
 			if (bo) {
 				Signature signature = proceedingJoinPoint.getSignature();
 				sysLog.setMethod(proceedingJoinPoint.getTarget().getClass().getName()+"."+signature.getName());
-				sysLog.setCreateDate(DTUtil.nowDate());
+				sysLog.setCreateTime(DTUtil.nowDate());
 				sysLog.setParameter(objectMapper.writeValueAsString(args));
 				System.out.println("本次请求入参是:" + objectMapper.writeValueAsString(args));
 			}
@@ -104,7 +104,7 @@ public class WebControllerAop {
 				HttpServletRequest request = sra.getRequest();
 				PrintUtil.printRequestPara(request);
 				User user = authCertService.getUser(request);
-				Long id = user.getId();
+				Long id = user.getTid();
 				sysLog.setUserId(id);
 			} catch (Exception e) {
 			}

@@ -14,29 +14,29 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月31日
  */
-@Table(name = "SYSTEM_POWER")
+@Table(name = "RM_POWER_T")
 public class Power extends DataEntity<Power> implements Serializable {
 
-	@Column(name = "name")
+	@Column(name = "POWER_NAME")
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
 	private String name;
-	@Column(name = "method")
+	@Column(name = "METHOD")
 	@ApiModelProperty(value = "请求方式")
 	@NotNull(message = "请求方式不能为空")
 	private String method;
-	@Column(name = "url")
+	@Column(name = "URL")
 	@ApiModelProperty(value = "请求路径")
 	@NotNull(message = "请求路径不能为空")
 	private String url;
-	@Column(name = "router_id")
+	@Column(name = "MENU_ID")
 	@ApiModelProperty(value = "菜单id")
 	private Long routerId;
-	@Column(name = "CREATE_USER_ID")
+	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人id", hidden = true)
 	private Long createUserId;
-	@Column(name = "remarks")
-	@ApiModelProperty(value = "备注")
+	@Column(name = "POWER_DESC")
+	@ApiModelProperty(value = "权限描述")
 	private String remarks;
 
 	public String getName() {
