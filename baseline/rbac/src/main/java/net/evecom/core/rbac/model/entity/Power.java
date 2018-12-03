@@ -14,13 +14,13 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月31日
  */
-@Table(name = "RM_POWER_T")
+@Table(name = "RM_PRIV_T")
 public class Power extends DataEntity<Power> implements Serializable {
 
-	@Column(name = "POWER_NAME")
+	@Column(name = "PRIV_NAME")
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
-	private String name;
+	private String privName;
 	@Column(name = "METHOD")
 	@ApiModelProperty(value = "请求方式")
 	@NotNull(message = "请求方式不能为空")
@@ -31,20 +31,20 @@ public class Power extends DataEntity<Power> implements Serializable {
 	private String url;
 	@Column(name = "MENU_ID")
 	@ApiModelProperty(value = "菜单id")
-	private Long routerId;
+	private Long menuId;
 	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人id", hidden = true)
-	private Long createUserId;
-	@Column(name = "POWER_DESC")
+	private Long createUser;
+	@Column(name = "PRIV_DESC")
 	@ApiModelProperty(value = "权限描述")
-	private String remarks;
+	private String privDesc;
 
-	public String getName() {
-		return name;
+	public String getPrivName() {
+		return privName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setPrivName(String privName) {
+		this.privName = privName;
 	}
 
 	public String getMethod() {
@@ -63,34 +63,34 @@ public class Power extends DataEntity<Power> implements Serializable {
 		this.url = url;
 	}
 
-	public Long getRouterId() {
-		return routerId;
+	public Long getMenuId() {
+		return menuId;
 	}
 
-	public void setRouterId(Long routerId) {
-		this.routerId = routerId;
+	public void setMenuId(Long menuId) {
+		this.menuId = menuId;
 	}
 
-	public Long getCreateUserId() {
-		return createUserId;
+	public Long getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateUser(Long createUser) {
+		this.createUser = createUser;
 	}
 
-	public String getRemarks() {
-		return remarks;
+	public String getPrivDesc() {
+		return privDesc;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setPrivDesc(String privDesc) {
+		this.privDesc = privDesc;
 	}
 
 	@Override
 	public String toString() {
-		return "Power [" + "name=" + name + "," + "method=" + method + "," + "url=" + url + "," + "routerId="
-				+ routerId + "," + "createUserId=" + createUserId + "," + "remarks=" + remarks + "]" + "Address ["
+		return "Power [" + "name=" + privName + "," + "method=" + method + "," + "url=" + url + "," + "routerId="
+				+ menuId + "," + "createUserId=" + createUser + "," + "remarks=" + privDesc + "]" + "Address ["
 				+ getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}
 

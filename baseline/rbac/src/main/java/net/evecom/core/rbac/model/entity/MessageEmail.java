@@ -12,28 +12,22 @@ import java.io.Serializable;
  * @author xiejun
  * @since 1.0
  */
- @Table(name = "message_email")
+ @Table(name = "msg_email_t")
 public class MessageEmail  extends DataEntity<MessageEmail> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "name")
-	@ApiModelProperty(value = "名称")
+	@Column(name = "TITLE")
+	@ApiModelProperty(value = "标题")
 	private String name;
-	@Column(name = "content")
+	@Column(name = "CONTENT")
 	@ApiModelProperty(value = "内容")
 	private String content;
-	@Column(name = "theme")
-	@ApiModelProperty(value = "主题")
-	private String theme;
-	@Column(name = "type")
+	@Column(name = "EMAIL_TYPE")
 	@ApiModelProperty(value = "类型")
 	private int type;
-	@Column(name = "create_user_id")
+	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人id")
 	private Long createUserId;
-	@Column(name = "remarks")
-	@ApiModelProperty(value = "备注")
-	private String remarks;
 
 	public String getName() {
 		return name;
@@ -49,13 +43,7 @@ public class MessageEmail  extends DataEntity<MessageEmail> implements Serializa
 	public void setContent(String content) {
 		this.content = content;
 	}
-	public String getTheme() {
-		return theme;
-	}
 
-	public void setTheme(String theme) {
-		this.theme = theme;
-	}
 	public int getType() {
 		return type;
 	}
@@ -70,23 +58,14 @@ public class MessageEmail  extends DataEntity<MessageEmail> implements Serializa
 	public void setCreateUserId(Long createUserId) {
 		this.createUserId = createUserId;
 	}
-	public String getRemarks() {
-		return remarks;
-	}
-
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}
 
 	@Override
 	public String toString() {
 		return "MessageEmail ["+
 		"name=" + name + ","+
 		"content=" + content + ","+
-		"theme=" + theme + ","+
 		"type=" + type + ","+
 		"createUserId=" + createUserId + ","+
-		"remarks=" + remarks +
 		"]"+"Address ["+
 		getClass().getName() + "@" +
 		Integer.toHexString(hashCode())+

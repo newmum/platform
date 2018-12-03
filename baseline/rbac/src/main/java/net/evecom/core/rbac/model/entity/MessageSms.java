@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author xiejun
  * @since 1.0
  */
-@Table(name = "message_sms")
+@Table(name = "msg_sms_t")
 public class MessageSms extends DataEntity<MessageSms> implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@ApiModelProperty(value = "名称")

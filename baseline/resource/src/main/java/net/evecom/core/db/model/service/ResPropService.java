@@ -47,7 +47,7 @@ public class ResPropService {
         param.setPage(1);
         param.setPageSize(1);
         param.append(ResProp::getResourcesId, resProp.getResourcesId());
-        param.append(ResProp::getJdbcField, resProp.getJdbcField());
+        param.append(ResProp::getTableField, resProp.getTableField());
         param.append(ResProp::getTid, resProp.getTid(), SqlConst.NOT_EQ);
         boolean bo = resourceService.list(ResProp.class, param).getList().size() > 0;
         if (bo) {
@@ -61,7 +61,7 @@ public class ResPropService {
         resourceService.update(resProp);
         //删除旧的验证规则,重新添加
         QueryParam<ResPropVerify> paramResPropVerify = new QueryParam();
-        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getTid());
+        paramResPropVerify.append(ResPropVerify::getPropId, resProp.getTid());
         resourceService.delete(ResPropVerify.class, paramResPropVerify);
         List<ResPropVerify> verifyList = resProp.getVerifyList();
         resourceService.add(verifyList);
@@ -72,13 +72,13 @@ public class ResPropService {
         ResPropExl resPropExl = resProp.getResPropExl();
         if (CheckUtil.isNull(resPropExl)) {
             resPropExl = ResPropExl.getDefaultData();
-            resPropExl.setResPropId(resProp.getTid());
+            resPropExl.setPropId(resProp.getTid());
             resourceService.add(resPropExl);
         } else if (CheckUtil.isNull(resPropExl.getTid())) {
             QueryParam<ResPropExl>resPropExlParam=new QueryParam<>();
-            resPropExlParam.append(ResPropExl::getResPropId,resProp.getTid());
+            resPropExlParam.append(ResPropExl::getPropId,resProp.getTid());
             resourceService.delete(ResPropExl.class,resPropExlParam);
-            resPropExl.setResPropId(resProp.getTid());
+            resPropExl.setPropId(resProp.getTid());
             resourceService.add(resPropExl);
         } else {
             resourceService.update(resPropExl);
@@ -91,7 +91,7 @@ public class ResPropService {
         param.setPage(1);
         param.setPageSize(1);
         param.append(ResProp::getResourcesId, resProp.getResourcesId());
-        param.append(ResProp::getJdbcField, resProp.getJdbcField());
+        param.append(ResProp::getTableField, resProp.getTableField());
         boolean bo = resourceService.list(ResProp.class, param).getList().size() > 0;
         if (bo) {
             throw new ResourceException(ResourceException.JDBC_FIELD_HAS_EXIST);
@@ -104,7 +104,7 @@ public class ResPropService {
         //找到表格,添加列
         Resources resources = (Resources) resourceService.get(Resources.class, resProp.getResourcesId());
         String tableName = resources.getTableName();
-        JdbcUtil.setJdbcType(sqlManager.getDbStyle().getName(), resProp);
+        JdbcUtil.setpropType(sqlManager.getDbStyle().getName(), resProp);
         String addColumnSql = JdbcUtil.getAddColumn(tableName, resProp);
         System.out.println("addColumnSql:" + addColumnSql);
         try {
@@ -138,7 +138,7 @@ public class ResPropService {
         if (CheckUtil.isNull(resPropExl.getTitle())) {
             resPropExl.setTitle(resProp.getTitle());
         }
-        resPropExl.setResPropId(resProp.getTid());
+        resPropExl.setPropId(resProp.getTid());
         resourceService.add(resPropExl);
     }
 
@@ -151,7 +151,7 @@ public class ResPropService {
             throw new CommonException(CommonException.SYSTEM_FIELD_NOT_DELETE);
         }
         Resources resources = (Resources) resourceService.get(Resources.class, resProp.getResourcesId());
-        String delColumnSql = JdbcUtil.delColumn(resources.getTableName(), resProp.getJdbcField());
+        String delColumnSql = JdbcUtil.delColumn(resources.getTableName(), resProp.getTableField());
         System.out.println("delColumnSql:" + delColumnSql);
         sqlManager.executeUpdate(new SQLReady(delColumnSql));
         //删除资源属性
@@ -160,11 +160,11 @@ public class ResPropService {
         resourceService.delete(ResProp.class, queryParam);
         //删除验证属性
         QueryParam<ResPropVerify> paramResPropVerify = new QueryParam();
-        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getTid());
+        paramResPropVerify.append(ResPropVerify::getPropId, resProp.getTid());
         resourceService.delete(ResPropVerify.class, paramResPropVerify);
         //删除导出规则
         QueryParam<ResPropExl> paramResPropExl = new QueryParam();
-        paramResPropExl.append(ResPropExl::getResPropId, resProp.getTid());
+        paramResPropExl.append(ResPropExl::getPropId, resProp.getTid());
         resourceService.delete(ResPropExl.class, paramResPropExl);
 
     }
@@ -174,13 +174,13 @@ public class ResPropService {
         paramResProp.append(ResProp::getTid, id);
         ResProp resProp = (ResProp) resourceService.get(ResProp.class, paramResProp);
         QueryParam<ResPropVerify> paramResPropVerify = new QueryParam<>();
-        paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getTid());
+        paramResPropVerify.append(ResPropVerify::getPropId, resProp.getTid());
         Page<?> page = resourceService.list(ResPropVerify.class, paramResPropVerify);
         if (page != null && page.getList() != null && page.getList().size() > 0) {
             resProp.setVerifyList((List<ResPropVerify>) page.getList());
         }
         QueryParam<ResPropExl> paramResPropExl = new QueryParam();
-        paramResPropExl.append(ResPropExl::getResPropId, resProp.getTid());
+        paramResPropExl.append(ResPropExl::getPropId, resProp.getTid());
         Page<?> pageResPropExl = resourceService.list(ResPropExl.class, paramResPropExl);
         if (pageResPropExl != null && pageResPropExl.getList() != null && pageResPropExl.getList().size() > 0) {
             resProp.setResPropExl((ResPropExl) pageResPropExl.getList().get(0));
@@ -192,7 +192,7 @@ public class ResPropService {
         Page<ResProp> page = (Page<ResProp>) resourceService.list(ResProp.class, queryParam);
         for (ResProp resProp : page.getList()) {
             QueryParam<ResPropVerify> paramResPropVerify = new QueryParam<>();
-            paramResPropVerify.append(ResPropVerify::getResPropId, resProp.getTid());
+            paramResPropVerify.append(ResPropVerify::getPropId, resProp.getTid());
             Page<?> temp = resourceService.list(ResPropVerify.class, paramResPropVerify);
             if (temp != null && temp.getList() != null && temp.getList().size() > 0) {
                 resProp.setVerifyList((List<ResPropVerify>) temp.getList());
@@ -213,7 +213,7 @@ public class ResPropService {
         queryParam.append(ResProp::getResourcesId, resourceId);
         List<ResProp> list = list(queryParam).getList();
         for (ResProp resProp : list) {
-            Object obj = map.get(resProp.getJdbcField());
+            Object obj = map.get(resProp.getTableField());
             List<ResPropVerify> verifyList = resProp.getVerifyList();
             if (verifyList == null || verifyList.size() == 0) {
                 continue;
@@ -233,12 +233,11 @@ public class ResPropService {
     @RedisCacheAnno(type = "add")
     public List<ResProp> setBaseResProp(Resources resource) throws Exception {
         List<ResProp> list = new ArrayList<>();
-        if (resource.getResType() == 0) {
+        if (resource.getResourceType() == 0) {
             list = tableColumnDao.getList(resource.getTableName());
             for (ResProp resProp : list) {
                 resProp.setResourcesId(resource.getTid());
-                resProp.setTitle(resProp.getComments());
-                resProp.setUiView("{\"isShowFont\":0}");
+                resProp.setTitle(resProp.getFieldComment());
                 JdbcUtil.setAttrType(resProp);
                 addData(resProp);
             }

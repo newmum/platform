@@ -48,7 +48,7 @@ public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 	private String icon;
 	@Column(name = "IS_SHOW")
 	@ApiModelProperty(value = "是否展示")
-	private int isMenu;
+	private int isShow;
 	@Column(name = "POWER_ID")
 	@ApiModelProperty(value = "权限id")
 	private Long crmPowerId;
@@ -143,12 +143,12 @@ public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 		this.icon = icon;
 	}
 
-	public int getIsMenu() {
-		return isMenu;
+	public int getIsShow() {
+		return isShow;
 	}
 
-	public void setIsMenu(int isMenu) {
-		this.isMenu = isMenu;
+	public void setIsShow(int isShow) {
+		this.isShow = isShow;
 	}
 
 	public Long getCrmPowerId() {
@@ -179,7 +179,7 @@ public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 	public String toString() {
 		return "UiRouter [" + "parentId=" + parentId + "," + "title=" + title + "," + "sort=" + sort + "," + "path="
 				+ path + "," + "pathType=" + pathType + "," + "href=" + href + "," + "name=" + name + "," + "icon="
-				+ icon + "," + "isMenu=" + isMenu + "," + "crmPowerId=" + crmPowerId + "," + "createUserId="
+				+ icon + "," + "isMenu=" + isShow + "," + "crmPowerId=" + crmPowerId + "," + "createUserId="
 				+ createUserId + "]" + "Address [" + getClass().getName() + "@"
 				+ Integer.toHexString(hashCode()) + "]";
 	}

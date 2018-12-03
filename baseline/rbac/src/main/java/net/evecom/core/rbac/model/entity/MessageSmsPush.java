@@ -11,7 +11,7 @@ import java.io.Serializable;
  * @author xiejun
  * @since 1.0
  */
-@Table(name = "message_sms_push")
+@Table(name = "msg_sms_push_t")
 public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serializable {
 
     private static final long serialVersionUID = 1L;

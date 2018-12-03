@@ -29,15 +29,15 @@ update #use("tableName")# set IS_DEL=#IS_DEL# where TID in(
 getRoleList
 ===
 select r.TID,r.ROLE_NAME from #use("tableName")# u
-left join RM_ROLE_POWER_RELA_T ur ON u.TID=ur.ROLE_ID
+left join RM_ROLE_PRIV_RELA_T ur ON u.TID=ur.ROLE_ID
 left join RM_ROLE_T r ON r.TID=ur.ROLE_ID
 where u.TID=#userId# AND r.TID IS NOT NULL
 group by r.TID,r.ROLE_NAME
 
-getPowerList
+getPRIVList
 ===
-select * from RM_POWER_T where TID in
-	(select POWER_ID From RM_ROLE_POWER_RELA_T where
+select * from RM_PRIV_T where TID in
+	(select PRIV_ID From RM_ROLE_PRIV_RELA_T where
 		ROLE_ID
 		in(
 		select ROLE_ID From RM_USER_ROLE_RELA_T where USER_ID=#userId#
@@ -47,15 +47,15 @@ select * from RM_POWER_T where TID in
 getMenuList
 ===
 select r.*,p.METHOD method,p.URL url from RM_MENU_T r
-left join RM_POWER_T p on  r.POWER_ID =p.TID
+left join RM_PRIV_T p on  r.PRIV_ID =p.TID
 where FIND_IN_SET(r.TID,getRouterParentList(
 (
 select group_concat(r.TID) from RM_MENU_T r
-left join RM_POWER_T p on  r.POWER_ID =p.TID
-	where r.POWER_ID
+left join RM_PRIV_T p on  r.PRIV_ID =p.TID
+	where r.PRIV_ID
 		in(
-		select TID from RM_POWER_T where TID in
-			(select POWER_ID from RM_ROLE_POWER_RELA_T where ROLE_ID
+		select TID from RM_PRIV_T where TID in
+			(select PRIV_ID from RM_ROLE_PRIV_RELA_T where ROLE_ID
 			in(select ROLE_ID from RM_USER_ROLE_RELA_T where USER_ID=#userId#)
 			)
 		)
@@ -69,6 +69,6 @@ queryUsers
 select * from #use("tableName")# WHERE TID=#userId#
 	@ orm.many({"TID":"userId"},"user.getRoleList","Role");
 	@ orm.many({"TID":"userId"},"user.getMenuList","Menu");
-	@ orm.many({"TID":"userId"},"user.getPowerList","Power");
+	@ orm.many({"TID":"userId"},"user.getPRIVList","PRIV");
 
 

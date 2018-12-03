@@ -34,11 +34,11 @@ public class Resources extends DataEntity<Resources> {
 	private Integer isCache;
 	@Column(name = "RESOURCE_SQL")
 	@ApiModelProperty(value = "sql模板")
-	private String sql;
-	@Column(name = "res_type")
+	private String resourceSql;
+	@Column(name = "RESOURCE_TYPE")
 	@Range(min = 0, max = 1, message = "类型错误(0基本类型1sql类型)")
 	@ApiModelProperty(value = "类型(0基本类型1sql类型)")
-	private Integer resType;
+	private Integer resourceType;
 
 	@ApiModelProperty(value = "是否创建表格(0不创建1创建)")
 	private Integer isCreate;
@@ -93,26 +93,26 @@ public class Resources extends DataEntity<Resources> {
 		this.isCache = isCache;
 	}
 
-	public String getSql() {
-		return sql;
+	public String getResourceSql() {
+		return resourceSql;
 	}
 
-	public void setSql(String sql) {
-		this.sql = sql;
+	public void setResourceSql(String resourceSql) {
+		this.resourceSql = resourceSql;
 	}
 
-	public Integer getResType() {
-		return resType;
+	public Integer getResourceType() {
+		return resourceType;
 	}
 
-	public void setResType(Integer resType) {
-		this.resType = resType;
+	public void setResourceType(Integer resourceType) {
+		this.resourceType = resourceType;
 	}
 
 	@Override
 	public String toString() {
 		return "Resources [" + "name=" + resourceName + "classpath=" + classpath + "tableName=" + tableName + "isCache="
-				+ isCache + "sql=" + sql + "resType=" + resType + "]" + "Address [" + getClass().getName() + "@"
+				+ isCache + "sql=" + resourceSql + "resType=" + resourceType + "]" + "Address [" + getClass().getName() + "@"
 				+ Integer.toHexString(hashCode()) + "]";
 	}
 

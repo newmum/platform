@@ -146,14 +146,6 @@ public class AccountController extends BaseController {
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public Result<?> get() throws Exception {
         User user = userService.loginUser(request);
-        //List<Power> list = new ArrayList<>();
-        //userService.getPowerByMenuId(request,user.getId());
-//        Map map = new HashMap<>();
-//        map.put("user",user);
-//        map.put("list",userService.getPowerByMenuId(request,user.getId()));
-        /*service.get() user.id
-            service.list()
-                    map.put(user)*/
         return Result.success(SuccessConst.OPERATE_SUCCESS, user);
     }
 }

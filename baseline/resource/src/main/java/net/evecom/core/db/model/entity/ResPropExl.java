@@ -13,42 +13,38 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2017年10月25日
  */
-@Table(name = "db_resource_prop_verify_t")
+@Table(name = "db_resource_prop_exl_t")
 public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Column(name = "PROP_ID")
     @ApiModelProperty(value = "资源属性id")
-    private Long resPropId;
-    @Column(name = "title")
+    private Long propId;
+    @Column(name = "TITLE")
     @ApiModelProperty(value = "标题")
     private String title;
     @Range(min = 0, max = 1, message = "显示状态错误(0不显示,1显示)")
-    @Column(name = "is_show")
+    @Column(name = "IS_SHOW")
     @ApiModelProperty(value = "是否显示(0不显示,1显示)")
     private Integer isShow;
     @Column(name = "show_type")
     @ApiModelProperty(value = "显示类型(1,基本,2关联表)")
     private Integer showType;
-    @Column(name = "table")
-    @ApiModelProperty(value = "关联表名")
-    private String table;
-    @Column(name = "sort")
-    @ApiModelProperty(value = "排序")
-    private Long sort;
-    @Column(name = "align")
+    @Column(name = "ALIGN")
     @ApiModelProperty(value = "导出字段对齐方式（0：自动；1：靠左；2：居中；3：靠右）")
     private Integer align;
-    @Column(name = "type")
+    @Column(name = "PROP_TYPE")
     @ApiModelProperty(value = "字段类型（0：导出导入；1：仅导出；2：仅导入）")
     private Integer type;
+    @Column(name = "SORT")
+    @ApiModelProperty(value = "排序")
+    private Integer sort;
 
     public static ResPropExl getDefaultData(){
         ResPropExl resPropExl=new ResPropExl();
         resPropExl.setAlign(2);
         resPropExl.setType(0);
         resPropExl.setIsShow(1);
-        resPropExl.setSort(0L);
         resPropExl.setShowType(1);
         return resPropExl;
     }
@@ -58,12 +54,12 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
 
     }
 
-    public Long getResPropId() {
-        return resPropId;
+    public Long getPropId() {
+        return propId;
     }
 
-    public void setResPropId(Long resPropId) {
-        this.resPropId = resPropId;
+    public void setPropId(Long propId) {
+        this.propId = propId;
     }
 
     public String getTitle() {
@@ -90,22 +86,6 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
         this.showType = showType;
     }
 
-    public String getTable() {
-        return table;
-    }
-
-    public void setTable(String table) {
-        this.table = table;
-    }
-
-    public Long getSort() {
-        return sort;
-    }
-
-    public void setSort(Long sort) {
-        this.sort = sort;
-    }
-
     public Integer getAlign() {
         return align;
     }
@@ -122,16 +102,23 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
         this.type = type;
     }
 
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
     @Override
     public String toString() {
         return "ResPropExl [" +
-                "resPropId=" + resPropId + "," +
+                "resPropId=" + propId + "," +
                 "title=" + title + "," +
                 "isShow=" + isShow + "," +
                 "showType=" + showType + "," +
-                "table=" + table + "," +
-                "sort=" + sort + "," +
                 "align=" + align + "," +
+                "sort=" + sort + "," +
                 "type=" + type +
                 "]" + "Address [" +
                 getClass().getName() + "@" +

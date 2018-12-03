@@ -26,44 +26,32 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
     private Long resourcesId;
     @Column(name = "PROP_NAME")
     @ApiModelProperty(value = "属性名")
-    private String name;
+    private String propName;
     @Column(name = "PROP_TYPE")
     @ApiModelProperty(value = "属性类型")
     @NotNull(message = "属性类型不能为空")
-    private String type;
-    @Column(name = "jdbc_field")
-    @ApiModelProperty(value = "数据库字段名", hidden = true)
-    private String jdbcField;
-    @Column(name = "jdbc_type")
-    @ApiModelProperty(value = "数据库字段类型")
-    private String jdbcType;
+    private String propType;
     @Column(name = "FIELD_LENGTH")
     @ApiModelProperty(value = "数据库字段长度")
-    private String length;
-    @Column(name = "ui_view")
-    @ApiModelProperty(value = "界面展示")
-    private String uiView;
+    private String fieldLength;
     @Column(name = "IS_PK")
     @ApiModelProperty(value = "是否主键（1：主键）", hidden = true)
     private int isPk = 0;        // 是否主键（1：主键）
     @Column(name = "IS_AUTO")
     @ApiModelProperty(value = "是否自增（1：是）", hidden = true)
     private int isAuto = 0;        // 是否主键（1：主键）AUTO_INCREMENT
-    @Column(name = "value")
-    @ApiModelProperty(value = "默认值")
-    private String value;        // 默认值
     @Column(name = "TITLE")
     @ApiModelProperty(value = "标题")
     private String title;        //标题
-    @Column(name = "sort")
-    @ApiModelProperty(value = "排序")
-    private int sort = 0;
+    @Column(name = "TABLE_FIELD")
+    @ApiModelProperty(value = "字段名")
+    private String tableField;
     @Column(name = "IS_USE")
     @ApiModelProperty(value = "是否启用")
     private int isSystem = 0;
-    @Column(name = "comments")
+    @Column(name = "FIELD_COMMENT")
     @ApiModelProperty(value = "字段备注", hidden = true)
-    private String comments;
+    private String fieldComment;
     @ApiModelProperty(value = "字段验证", hidden = true)
     private List<ResPropVerify> verifyList;
     @ApiModelProperty(value = "字段导出规则", hidden = true)
@@ -95,6 +83,14 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.resPropExl = resPropExl;
     }
 
+    public String getTableField() {
+        return tableField;
+    }
+
+    public void setTableField(String tableField) {
+        this.tableField = tableField;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -103,21 +99,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.title = title;
     }
 
-    public int getSort() {
-        return sort;
-    }
 
-    public void setSort(int sort) {
-        this.sort = sort;
-    }
-
-    public String getUiView() {
-        return uiView;
-    }
-
-    public void setUiView(String uiView) {
-        this.uiView = uiView;
-    }
 
     public int getIsAuto() {
         return isAuto;
@@ -127,12 +109,20 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.isAuto = isAuto;
     }
 
-    public String getValue() {
-        return value;
+    public String getPropType() {
+        return propType;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setPropType(String propType) {
+        this.propType = propType;
+    }
+
+    public String getFieldLength() {
+        return fieldLength;
+    }
+
+    public void setFieldLength(String fieldLength) {
+        this.fieldLength = fieldLength;
     }
 
     public List<ResPropVerify> getVerifyList() {
@@ -143,12 +133,12 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.verifyList = verifyList;
     }
 
-    public String getComments() {
-        return comments;
+    public String getFieldComment() {
+        return fieldComment;
     }
 
-    public void setComments(String comments) {
-        this.comments = comments;
+    public void setFieldComment(String fieldComment) {
+        this.fieldComment = fieldComment;
     }
 
     public int getIsPk() {
@@ -159,22 +149,6 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.isPk = isPk;
     }
 
-    public String getLength() {
-        return length;
-    }
-
-    public void setLength(String length) {
-        this.length = length;
-    }
-
-    public String getJdbcType() {
-        return jdbcType;
-    }
-
-    public void setJdbcType(String jdbcType) {
-        this.jdbcType = jdbcType;
-    }
-
     public Long getResourcesId() {
         return resourcesId;
     }
@@ -183,37 +157,22 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.resourcesId = resourcesId;
     }
 
-    public String getName() {
-        if (CheckUtil.isNull(name)) {
-            name = GenCodeUtile.setColName(this.jdbcField);
+    public String getPropName() {
+        if (CheckUtil.isNull(propName)) {
+            propName = GenCodeUtile.setColName(this.propType);
         }
-        return name;
+        return propName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPropName(String propName) {
+        this.propName = propName;
     }
 
-    public String getJdbcField() {
-        return jdbcField;
-    }
-
-    public void setJdbcField(String jdbcField) {
-        this.jdbcField = jdbcField;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 
     @Override
     public String toString() {
-        return "ResourceAttribute [" + "resourcesId=" + resourcesId + "name=" + name + "jdbcField=" + jdbcField
-                + "type=" + type + "]" + "Address [" + getClass().getName() + "@" + Integer.toHexString(hashCode())
+        return "ResourceAttribute [" + "resourcesId=" + resourcesId + "name=" + propName +
+                "type=" + propType + "]" + "Address [" + getClass().getName() + "@" + Integer.toHexString(hashCode())
                 + "]";
     }
 

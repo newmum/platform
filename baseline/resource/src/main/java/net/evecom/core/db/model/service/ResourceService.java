@@ -124,8 +124,8 @@ public class ResourceService{
         if (resource == null) {
             throw new ResourceException(ResourceException.RESOURCE_NO_FOUND);
         }
-        if (resource.getResType() == 1) {
-            return getBySql(resource.getSql(), param);
+        if (resource.getResourceType() == 1) {
+            return getBySql(resource.getResourceSql(), param);
         }
         Class clazz = Class.forName(resource.getClasspath());
         return get(clazz, param);
@@ -225,8 +225,8 @@ public class ResourceService{
      */
     @RedisCacheAnno()
     public Page<?> list(Resources resource, String fields, QueryParam<?> param) throws Exception {
-        if (resource.getResType() == 1) {
-            return listBySql(resource.getSql(), param);
+        if (resource.getResourceType() == 1) {
+            return listBySql(resource.getResourceSql(), param);
         }
         Class<?> itemBean = Class.forName(resource.getClasspath());
         return list(itemBean, fields, param);
@@ -686,7 +686,7 @@ public class ResourceService{
         List<ResProp> resPropList = resPropService.getByResource(resource.getTid());
         Map<String, Object> resPropMap = new HashedMap();
         for (ResProp resProp : resPropList) {
-            resPropMap.put(resProp.getJdbcField(), resProp);
+            resPropMap.put(resProp.getTableField(), resProp);
         }
         List importData;
         //均采用map方式进行导入
@@ -738,7 +738,7 @@ public class ResourceService{
     public List<Map<String, Object>> getHeadList(Resources resource, int type) throws Exception {
         QueryParam<ResProp> queryResProp = new QueryParam();
         queryResProp.append(ResProp::getResourcesId, resource.getTid());
-        queryResProp.append(ResProp::getSort, "", SqlConst.ORDERBY, SqlConst.DESC);
+        //queryResProp.append(ResProp::getSort, "", SqlConst.ORDERBY, SqlConst.DESC);
         List<ResProp> resPropList = (List<ResProp>) list(ResProp.class, queryResProp).getList();
         if (resPropList.size() == 0) {
             resPropList = resPropService.setBaseResProp(resource);
@@ -750,7 +750,7 @@ public class ResourceService{
             sb.append(resProp.getTid().toString() + ",");
             mapResProp.put(resProp.getTid(), resProp);
         }
-        queryResPropExl.append(ResPropExl::getResPropId, sb.toString().substring(0, sb.length() - 1), SqlConst.IN, SqlConst.AND);
+        queryResPropExl.append(ResPropExl::getPropId, sb.toString().substring(0, sb.length() - 1), SqlConst.IN, SqlConst.AND);
         queryResPropExl.append(ResPropExl::getSort, "", SqlConst.ORDERBY, SqlConst.ASC);
         if (type == 1) {
             queryResPropExl.append(ResPropExl::getType, "0,1", SqlConst.IN, SqlConst.AND);
@@ -761,9 +761,9 @@ public class ResourceService{
         List<Map<String, Object>> headList = new ArrayList<>();
         for (ResPropExl resPropExl : resPropExlList) {
             Map<String, Object> map = IterableForamt.objectToMap(resPropExl);
-            map.put("name", mapResProp.get(resPropExl.getResPropId()).getName());
-            map.put("javaType", mapResProp.get(resPropExl.getResPropId()).getType());
-            map.put("jdbcField", mapResProp.get(resPropExl.getResPropId()).getJdbcField());
+            map.put("name", mapResProp.get(resPropExl.getPropId()).getPropName());
+            map.put("javaType", mapResProp.get(resPropExl.getPropId()).getPropType());
+            map.put("jdbcField", mapResProp.get(resPropExl.getPropId()).getTableField());
             headList.add(map);
         }
         return headList;

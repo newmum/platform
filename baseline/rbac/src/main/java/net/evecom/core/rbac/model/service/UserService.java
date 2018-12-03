@@ -521,7 +521,7 @@ public class UserService extends BaseService {
             MessageEmailPush messageEmailPush=new MessageEmailPush();
             messageEmailPush.setContent(text);
             messageEmailPush.setEmail(email);
-            messageEmailPush.setTheme(messageEmail.getTheme());
+            //messageEmailPush.setTheme(messageEmail.getTheme());
             messageEmailPush.setType(messageEmail.getType());
             messageEmailPush.setName(messageEmail.getName());
             //RsMq.send("sys_log", "java-platform-rsmq", "controller", sysLog);
@@ -632,7 +632,7 @@ public class UserService extends BaseService {
         List<Power> powerList = user.getPowerList();
         List<Power> resultList = new ArrayList<Power>();
         for (Power power : powerList) {
-            Long id = power.getRouterId();
+            Long id = power.getMenuId();
             if (id.equals(menuId)) {
                 resultList.add(power);
             }

@@ -34,9 +34,9 @@ public class JdbcUtil {
         sb.append("CREATE TABLE " + tableName + " (");
         for (int i = 0; i < columnList.size(); i++) {
             ResProp col = columnList.get(i);
-            sb.append(col.getJdbcField() + " " + col.getJdbcType());
-            if (CheckUtil.isNotNull(col.getLength()) && isHasLength(col.getType())) {
-                sb.append("(" + col.getLength() + ")");
+            sb.append(col.getTableField() + " " + col.getPropType());
+            if (CheckUtil.isNotNull(col.getFieldLength()) && isHasLength(col.getPropType())) {
+                sb.append("(" + col.getFieldLength() + ")");
             }
             sb.append(" ");
             if (col.getIsAuto() == 1) {
@@ -46,7 +46,7 @@ public class JdbcUtil {
             if (col.getIsPk() == 1) {
                 sb.append("PRIMARY KEY");
             }
-            sb.append(" COMMENT \"" + col.getComments() + "\",");
+            sb.append(" COMMENT \"" + col.getFieldComment() + "\",");
         }
         String str = sb.toString().substring(0, sb.length() - 1) + ")";
         return str;
@@ -61,9 +61,9 @@ public class JdbcUtil {
     public static String getAddColumn(String tableName, ResProp resProp) {
         StringBuffer sb = new StringBuffer();
         sb.append("alter table " + tableName + " ");
-        sb.append("add " + resProp.getJdbcField() + " " + resProp.getJdbcType());
-        if (CheckUtil.isNotNull(resProp.getLength())&& isHasLength(resProp.getType())) {
-            sb.append("(" + resProp.getLength() + ")");
+        sb.append("add " + resProp.getTableField() + " " + resProp.getPropType());
+        if (CheckUtil.isNotNull(resProp.getFieldLength())&& isHasLength(resProp.getPropType())) {
+            sb.append("(" + resProp.getFieldLength() + ")");
         }
         return sb.toString();
     }
@@ -77,12 +77,12 @@ public class JdbcUtil {
     public static void setAttrType(ResProp resProp) {
         // 设置数据与java类型匹配
         String str = "";
-        str = resProp.getJdbcType();
-        resProp.setName(GenCodeUtile.setColName(resProp.getJdbcField()));
-        resProp.setType(jdbcToJava(str));
+        str = resProp.getPropType();
+        resProp.setPropName(GenCodeUtile.setColName(resProp.getTableField()));
+        resProp.setPropType(jdbcToJava(str));
     }
 
-    public static void setJdbcType(String dbType, ResProp resProp)  throws Exception{
+    public static void setpropType(String dbType, ResProp resProp)  throws Exception{
         switch (dbType.toLowerCase()) {
             case "mysql":
                 javaToJdbcByMysql(resProp);
@@ -96,107 +96,107 @@ public class JdbcUtil {
     }
 
     private static void javaToJdbcByOracle(ResProp resProp) throws Exception {
-        if (CheckUtil.isNull(resProp.getType())) {
+        if (CheckUtil.isNull(resProp.getPropType())) {
             throw new CommonException(CommonException.RES_PROP_TYPE_IS_NULL);
         }
-        String jdbcType = null;
-        switch (resProp.getType().toLowerCase()) {
+        String propType = null;
+        switch (resProp.getPropType().toLowerCase()) {
             case "char":
-                jdbcType = "CHAR";
+                propType = "CHAR";
                 break;
             case "int":
-                jdbcType = "NUMBER";
+                propType = "NUMBER";
                 break;
             case "string":
-                jdbcType = "VARCHAR";
+                propType = "VARCHAR";
                 break;
             case "double":
-                jdbcType = "NUMBER";
+                propType = "NUMBER";
                 break;
             case "date":
-                jdbcType = "DATE";
+                propType = "DATE";
                 break;
             case "long":
-                jdbcType = "NUMBER";
+                propType = "NUMBER";
                 break;
             case "text":
-                jdbcType = "CLOB";
+                propType = "CLOB";
                 break;
             default:
-                jdbcType = "请为java类型\"" + resProp.getType() + "\"设置对应oracle-jdbc类型";
+                propType = "请为java类型\"" + resProp.getPropType() + "\"设置对应oracle-jdbc类型";
                 break;
         }
-        resProp.setJdbcType(jdbcType);
+        resProp.setPropType(propType);
     }
 
     private static void javaToJdbcByMysql(ResProp resProp) throws Exception {
-        if (CheckUtil.isNull(resProp.getType())) {
+        if (CheckUtil.isNull(resProp.getPropType())) {
             throw new CommonException(CommonException.RES_PROP_TYPE_IS_NULL);
         }
-        String jdbcType = null;
-        switch (resProp.getType().toLowerCase()) {
+        String propType = null;
+        switch (resProp.getPropType().toLowerCase()) {
             case "long":
-                jdbcType = "bigint";
-                resProp.setType("Long");
-                resProp.setLength("20");
+                propType = "bigint";
+                resProp.setPropType("Long");
+                resProp.setFieldLength("20");
                 break;
             case "int":
-                if(!CheckUtil.isNum(resProp.getLength())){
+                if(!CheckUtil.isNum(resProp.getFieldLength())){
                     throw new CommonException(CommonException.INT_INPUT_NOT_NUM);
                 }
-                Integer intLen = Integer.valueOf(resProp.getLength());
+                Integer intLen = Integer.valueOf(resProp.getFieldLength());
                 if(intLen<=0){
                     throw new CommonException(CommonException.INT_INPUT_LESS_ONE);
                 }
                 if(intLen<=255){
-                    jdbcType = "int";//255
+                    propType = "int";//255
                 }else{
-                    jdbcType = "bigint";//20
-                    resProp.setType("Long");
-                    resProp.setLength("20");
+                    propType = "bigint";//20
+                    resProp.setPropType("Long");
+                    resProp.setFieldLength("20");
                 }
                 break;
             case "string":
-                if(!CheckUtil.isNum(resProp.getLength())){
+                if(!CheckUtil.isNum(resProp.getFieldLength())){
                     throw new CommonException(CommonException.STRING_INPUT_NOT_NUM);
                 }
-                Integer strLen = Integer.valueOf(resProp.getLength());
+                Integer strLen = Integer.valueOf(resProp.getFieldLength());
                 if(strLen<=0){
                     throw new CommonException(CommonException.STRING_INPUT_LESS_ONE);
                 }
                 if(strLen<=1000){
-                    jdbcType = "varchar";
+                    propType = "varchar";
                 }else{
-                    jdbcType = "text";
-                    resProp.setLength(null);
+                    propType = "text";
+                    resProp.setFieldLength(null);
                 }
                 break;
             case "double":
                 String reg = "^([1-5][0-9]|[6][0-5]|[1-9])(,([1-2][0-9]|[3][0]|[0-9]))?$";
-                if( CheckUtil.match(resProp.getLength(),reg)){
-                    jdbcType = "decimal";//65,30
+                if( CheckUtil.match(resProp.getFieldLength(),reg)){
+                    propType = "decimal";//65,30
                 }else{
                     throw new CommonException(CommonException.DECIMAL_FORMAT_65_30);
                 }
                 break;
             case "date":
-                jdbcType = "datetime";
-                resProp.setLength(null);
+                propType = "datetime";
+                resProp.setFieldLength(null);
                 break;
             default:
-                jdbcType = "请为java类型\"" + resProp.getType() + "\"设置对应mysql-jdbc类型";
+                propType = "请为java类型\"" + resProp.getPropType() + "\"设置对应mysql-jdbc类型";
                 break;
         }
-        resProp.setJdbcType(jdbcType);
+        resProp.setPropType(propType);
     }
 
 
-    public static String jdbcToJava(String jdbcType) {
-        if (CheckUtil.isNull(jdbcType)) {
+    public static String jdbcToJava(String propType) {
+        if (CheckUtil.isNull(propType)) {
             return null;
         }
         String javaType = "";
-        switch (jdbcType) {
+        switch (propType) {
             case "int":
                 javaType = "Long";
                 break;
@@ -225,7 +225,7 @@ public class JdbcUtil {
                 javaType = "String";
                 break;
             default:
-                javaType = "请为数据库类型\"" + jdbcType + "\"设置对应java类型";
+                javaType = "请为数据库类型\"" + propType + "\"设置对应java类型";
                 break;
         }
         return javaType;

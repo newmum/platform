@@ -12,14 +12,14 @@ import java.io.Serializable;
  * @author xiejun
  * @since 1.0
  */
-@Table(name = "crm_user_group")
+@Table(name = "rm_user_group_rela_t")
 public class CrmUserGroup extends DataEntity<CrmUserGroup> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "crm_user_id")
+	@Column(name = "USER_ID")
 	@ApiModelProperty(value = "用户id")
 	private Long crmUserId;
-	@Column(name = "group_id")
+	@Column(name = "GROUP_ID")
 	@ApiModelProperty(value = "分组id")
 	private Long groupId;
 

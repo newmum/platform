@@ -12,7 +12,7 @@ import java.io.Serializable;
  * @author xiejun
  * @since 1.0
  */
- @Table(name = "message_email_push")
+ @Table(name = "msg_email_push_t")
 public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements Serializable {
 
 	private static final long serialVersionUID = 1L;

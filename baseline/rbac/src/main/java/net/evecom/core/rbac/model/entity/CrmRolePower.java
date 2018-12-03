@@ -13,11 +13,11 @@ import java.io.Serializable;
  * @author xiejun
  * @since 1.0
  */
-@Table(name = "RM_ROLE_POWER_RELA_T")
+@Table(name = "RM_ROLE_PRIV_RELA_T")
 public class CrmRolePower extends DataEntity<CrmRolePower> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "POWER_ID")
+	@Column(name = "PRIV_ID")
 	@ApiModelProperty(value = "权限id")
 	@NotNull(message = "权限不能为空")
 	private Long crmPowerId;

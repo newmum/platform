@@ -15,15 +15,15 @@ import java.io.Serializable;
  * @author xiejun
  * @since 1.0
  */
-@Table(name = "crm_user_blacklist")
+@Table(name = "rm_blacklist_t")
 public class CrmUserBlacklist extends DataEntity<CrmUserBlacklist> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "crm_user_id")
+	@Column(name = "TID")
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户不能为空")
 	private Long crmUserId;
-	@Column(name = "IP")
+	@Column(name = "USER_IP")
 	@ApiModelProperty(value = "ip地址")
 	@Pattern(regexp = RegexUtil.IP, message = "ip地址输入有误")
 	private String ip;

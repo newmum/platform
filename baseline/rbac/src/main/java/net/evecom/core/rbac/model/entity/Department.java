@@ -14,7 +14,7 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月30日
  */
-@Table(name = "RM_OFFICE_T")
+@Table(name = "rm_department_t")
 public class Department extends DataEntity<Department> implements Serializable {
 
 	@Column(name = "PARENT_ID")
@@ -31,7 +31,7 @@ public class Department extends DataEntity<Department> implements Serializable {
 	@Column(name = "AREA_CODE")
 	@ApiModelProperty(value = "区域编码")
 	private String code;
-	@Column(name = "OFFICE_TYPE")
+	@Column(name = "DEPT_TYPE")
 	@ApiModelProperty(value = "机构类型")
 	private Long type;
 	@Column(name = "LEVEL")
@@ -58,7 +58,7 @@ public class Department extends DataEntity<Department> implements Serializable {
 	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人id", hidden = true)
 	private Long createUserId;
-	@Column(name = "OFFICE_DESC")
+	@Column(name = "DEPT_DESC")
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 

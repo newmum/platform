@@ -21,7 +21,7 @@ public class Role extends DataEntity<Role> implements Serializable {
 	@ApiModelProperty(value = "角色名称")
 	@ExcelField(align = 2, sort = 1, title = "角色名称")
 	private String roleName;
-	@Column(name = "OFFICE_ID")
+	@Column(name = "DEPT_ID")
 	@ApiModelProperty(value = "机构编号")
 	@ExcelField(align = 2, sort = 2, title = "机构编号")
 	private Long deptId;
