@@ -5,13 +5,13 @@
     <parent>
         <artifactId>baseline</artifactId>
         <groupId>net.evecom</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
     <packaging>jar</packaging>
-    <artifactId>common</artifactId>
+    <artifactId>baseline-common</artifactId>
     <name>${project.artifactId}</name>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <properties>
         <apache.ant.version>1.10.5</apache.ant.version>
         <apache.lang3.version>3.8.1</apache.lang3.version>
