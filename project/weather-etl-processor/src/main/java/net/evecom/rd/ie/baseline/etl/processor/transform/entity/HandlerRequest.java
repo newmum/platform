@@ -1,4 +1,4 @@
-package net.evecom.etl.processor.transform.entity;
+package net.evecom.rd.ie.baseline.etl.processor.transform.entity;
 
 import lombok.Builder;
 import lombok.Getter;

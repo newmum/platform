@@ -1,8 +1,8 @@
-package net.evecom.etl.processor.transform;
+package net.evecom.rd.ie.baseline.etl.processor.transform;
 
-import net.evecom.etl.processor.transform.chain.BaseChain;
-import net.evecom.etl.processor.transform.entity.HandlerRequest;
-import net.evecom.etl.processor.transform.entity.HandlerResult;
+import net.evecom.rd.ie.baseline.etl.processor.transform.chain.BaseChain;
+import net.evecom.rd.ie.baseline.etl.processor.transform.entity.HandlerRequest;
+import net.evecom.rd.ie.baseline.etl.processor.transform.entity.HandlerResult;
 
 import java.util.ArrayList;
 
@@ -36,9 +36,9 @@ public class ProcessHandle {
     public HandlerResult execute(HandlerRequest handlerRequest) {
         ArrayList<IProcessor> handlers = new ArrayList<IProcessor>();
         handlers.addAll(handlerList);
-        handlers.add(getProcessor("net.evecom.etl.processor.transform.handle.TextHandle"));
-        handlers.add(getProcessor("net.evecom.etl.processor.transform.handle.TyphoonHandle"));
-        handlers.add(getProcessor("net.evecom.etl.processor.transform.handle.WordHandle"));
+        handlers.add(getProcessor("TextHandle"));
+        handlers.add(getProcessor("TyphoonHandle"));
+        handlers.add(getProcessor("WordHandle"));
         BaseChain baseChain = new BaseChain(handlers, handlerRequest, 0);
         return baseChain.proceed(handlerRequest);
     }

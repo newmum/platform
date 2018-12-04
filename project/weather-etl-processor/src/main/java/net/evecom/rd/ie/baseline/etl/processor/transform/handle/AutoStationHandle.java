@@ -1,15 +1,15 @@
-package net.evecom.etl.processor.transform.handle;
+package net.evecom.rd.ie.baseline.etl.processor.transform.handle;
 
-import net.evecom.etl.processor.transform.IProcessor;
-import net.evecom.etl.processor.transform.entity.HandlerRequest;
-import net.evecom.etl.processor.transform.entity.HandlerResult;
+import net.evecom.rd.ie.baseline.etl.processor.transform.IProcessor;
+import net.evecom.rd.ie.baseline.etl.processor.transform.entity.HandlerRequest;
+import net.evecom.rd.ie.baseline.etl.processor.transform.entity.HandlerResult;
 import org.springframework.stereotype.Service;
 
 @Service
-public class TextHandle implements IProcessor {
+public class AutoStationHandle implements IProcessor {
 
     @Override
-    public HandlerResult process(IProcessor.Chain chain) {
+    public HandlerResult process(Chain chain) {
         HandlerRequest handlerRequest = chain.request();
         if (handlerRequest.getSyncQty() > 2) {
             return chain.proceed(handlerRequest.toBuilder().remark("HandleA：量大于2继续===>").build());

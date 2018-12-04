@@ -1,9 +1,9 @@
-package net.evecom.etl.processor.config;
+package net.evecom.rd.ie.baseline.etl.processor.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.evecom.core.db.model.service.ResourceService;
-import net.evecom.core.rbac.model.service.UserService;
-import net.evecom.utils.database.redis.RedisClient;
+import net.evecom.rd.ie.baseline.core.db.model.service.ResourceService;
+import net.evecom.rd.ie.baseline.core.rbac.model.service.UserService;
+import net.evecom.rd.ie.baseline.utils.database.redis.RedisClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 

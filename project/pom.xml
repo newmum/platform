@@ -5,17 +5,24 @@
     <parent>
         <artifactId>platform-parent</artifactId>
         <groupId>net.evecom</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>project</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
     <modules>
         <module>weather-etl-processor</module>
         <module>weather-etl-mgr</module>
     </modules>
+    <dependencies>
+        <dependency>
+            <groupId>net.evecom</groupId>
+            <artifactId>baseline-web</artifactId>
+            <version>${baseline.version}</version>
+        </dependency>
 
+    </dependencies>
 
 </project>
