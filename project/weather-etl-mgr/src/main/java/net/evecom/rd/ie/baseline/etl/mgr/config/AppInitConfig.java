@@ -1,9 +1,6 @@
-package net.evecom.etl.mgr.config;
+package net.evecom.rd.ie.baseline.etl.mgr.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.evecom.core.db.model.service.ResourceService;
-import net.evecom.core.rbac.model.service.UserService;
-import net.evecom.utils.database.redis.RedisClient;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
@@ -12,12 +9,6 @@ import javax.annotation.Resource;
 @Component
 public class AppInitConfig implements CommandLineRunner {
 
-    @Resource(name = "redisClient")
-    protected RedisClient redisClient;
-    @Resource
-    private ResourceService resourceService;
-    @Resource
-    private UserService userService;
     @Resource
     private ObjectMapper objectMapper;
 

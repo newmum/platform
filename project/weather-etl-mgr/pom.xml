@@ -14,11 +14,6 @@
 
     <dependencies>
         <dependency>
-            <groupId>net.evecom</groupId>
-            <artifactId>mvc</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
@@ -50,7 +45,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>net.evecom.etl.mgr.EtlMgrApp</mainClass>
+                    <mainClass>net.evecom.rd.ie.baseline.etl.mgr.EtlMgrApp</mainClass>
                 </configuration>
                 <executions>
                     <execution>

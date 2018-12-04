@@ -1,4 +1,4 @@
-package net.evecom.etl.mgr;
+package net.evecom.rd.ie.baseline.etl.mgr;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
