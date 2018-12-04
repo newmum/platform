@@ -1,9 +1,9 @@
-package net.evecom.core.db.database.pool;
+package net.evecom.rd.ie.baseline.core.db.database.pool;
 
 import com.alibaba.druid.filter.Filter;
 import com.alibaba.druid.pool.DruidDataSource;
 import com.alibaba.druid.support.spring.stat.DruidStatInterceptor;
-import net.evecom.utils.file.PropertiesUtils;
+import net.evecom.rd.ie.baseline.utils.file.PropertiesUtils;
 import org.springframework.aop.support.JdkRegexpMethodPointcut;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

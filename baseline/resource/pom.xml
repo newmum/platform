@@ -5,12 +5,12 @@
     <parent>
         <artifactId>baseline</artifactId>
         <groupId>net.evecom</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>resource</artifactId>
-    <version>1.0.0</version>
+    <artifactId>baseline-resource</artifactId>
+    <version>1.0.1</version>
     <properties>
         <persistence.version>1.0.2</persistence.version>
         <hibernate-validation.version>5.2.0.Final</hibernate-validation.version>
@@ -19,7 +19,7 @@
     <dependencies>
         <dependency>
             <groupId>net.evecom</groupId>
-            <artifactId>common</artifactId>
+            <artifactId>baseline-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>

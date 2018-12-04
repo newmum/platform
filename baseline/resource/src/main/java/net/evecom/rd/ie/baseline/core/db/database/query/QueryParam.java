@@ -1,9 +1,9 @@
-package net.evecom.core.db.database.query;
+package net.evecom.rd.ie.baseline.core.db.database.query;
 
 import lombok.ToString;
-import net.evecom.tools.constant.consts.SqlConst;
-import net.evecom.utils.string.StringUtil;
-import net.evecom.utils.verify.CheckUtil;
+import net.evecom.rd.ie.baseline.tools.constant.consts.SqlConst;
+import net.evecom.rd.ie.baseline.utils.string.StringUtil;
+import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.beetl.sql.core.query.Query;
 
 import javax.persistence.Column;

@@ -1,4 +1,4 @@
-package net.evecom.core.db.annotatoin;
+package net.evecom.rd.ie.baseline.core.db.annotatoin;
 
 import java.lang.annotation.*;
 
