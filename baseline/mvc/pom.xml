@@ -5,19 +5,19 @@
     <parent>
         <artifactId>baseline</artifactId>
         <groupId>net.evecom</groupId>
-        <version>1.0.0</version>
+        <version>1.0.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>mvc</artifactId>
-    <version>1.0.0</version>
+    <artifactId>baseline-web</artifactId>
+    <version>1.0.1</version>
     <properties>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>net.evecom</groupId>
-            <artifactId>rbac</artifactId>
+            <artifactId>baseline-rbac</artifactId>
             <version>${project.version}</version>
         </dependency>
 

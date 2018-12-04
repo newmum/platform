@@ -1,12 +1,12 @@
-package net.evecom.core.mvc.web.interceptor;
+package net.evecom.rd.ie.baseline.core.mvc.web.interceptor;
 
-import net.evecom.core.db.model.entity.DataEntity;
-import net.evecom.core.db.model.entity.Resources;
-import net.evecom.core.db.model.service.ResourceService;
-import net.evecom.core.db.database.query.QueryParam;
-import net.evecom.utils.database.redis.RedisCacheAnno;
-import net.evecom.utils.database.redis.RedisClient;
-import net.evecom.utils.verify.CheckUtil;
+import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
+import net.evecom.rd.ie.baseline.core.db.model.entity.Resources;
+import net.evecom.rd.ie.baseline.core.db.model.service.ResourceService;
+import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
+import net.evecom.rd.ie.baseline.utils.database.redis.RedisCacheAnno;
+import net.evecom.rd.ie.baseline.utils.database.redis.RedisClient;
+import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -15,15 +15,9 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.annotatoin.Table;
 import org.springframework.stereotype.Component;
-import org.springframework.web.context.request.RequestAttributes;
-import org.springframework.web.context.request.RequestContextHolder;
 
 import javax.annotation.Resource;
-import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Map;
 
 @Component
 @Aspect
@@ -103,7 +97,7 @@ public class WebServiceAop {
 			}
 			int is_cache = 0;
 			try {
-				if (resources == null&&CheckUtil.isNotNull(cacheKey)) {
+				if (resources == null&& CheckUtil.isNotNull(cacheKey)) {
 					resources = resourceService.get(cacheKey);
 				}
 				is_cache = resources.getIsCache();

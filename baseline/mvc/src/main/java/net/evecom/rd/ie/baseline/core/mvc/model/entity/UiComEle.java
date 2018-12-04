@@ -1,7 +1,7 @@
-package net.evecom.core.mvc.model.entity;
+package net.evecom.rd.ie.baseline.core.mvc.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.evecom.core.db.model.entity.DataEntity;
+import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
 

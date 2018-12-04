@@ -1,6 +1,6 @@
-package net.evecom.core.mvc.config;
+package net.evecom.rd.ie.baseline.core.mvc.config;
 
-import net.evecom.core.rbac.web.filter.CustomFilter;
+import net.evecom.rd.ie.baseline.core.rbac.web.filter.CustomFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.MultipartConfigFactory;
 import org.springframework.context.annotation.Bean;

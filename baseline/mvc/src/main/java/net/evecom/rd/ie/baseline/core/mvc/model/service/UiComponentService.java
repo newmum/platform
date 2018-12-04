@@ -1,17 +1,17 @@
-package net.evecom.core.mvc.model.service;
+package net.evecom.rd.ie.baseline.core.mvc.model.service;
 
-import net.evecom.core.mvc.model.dao.IUiComponentDao;
-import net.evecom.core.mvc.model.entity.UiElement;
-import net.evecom.core.rbac.base.BaseService;
-import net.evecom.core.rbac.model.entity.Power;
-import net.evecom.core.db.model.entity.Resources;
-import net.evecom.core.mvc.model.entity.UiComEle;
-import net.evecom.core.mvc.model.entity.UiComponent;
-import net.evecom.core.mvc.model.entity.UiComponentProp;
-import net.evecom.core.db.model.service.ResourceService;
-import net.evecom.tools.constant.consts.SqlConst;
-import net.evecom.core.db.database.query.QueryParam;
-import net.evecom.tools.service.Page;
+import net.evecom.rd.ie.baseline.core.mvc.model.dao.IUiComponentDao;
+import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiElement;
+import net.evecom.rd.ie.baseline.core.rbac.base.BaseService;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Power;
+import net.evecom.rd.ie.baseline.core.db.model.entity.Resources;
+import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiComEle;
+import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiComponent;
+import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiComponentProp;
+import net.evecom.rd.ie.baseline.core.db.model.service.ResourceService;
+import net.evecom.rd.ie.baseline.tools.constant.consts.SqlConst;
+import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
+import net.evecom.rd.ie.baseline.tools.service.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

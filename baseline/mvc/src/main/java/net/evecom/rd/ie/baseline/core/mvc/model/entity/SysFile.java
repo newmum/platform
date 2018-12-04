@@ -1,7 +1,7 @@
-package net.evecom.core.mvc.model.entity;
+package net.evecom.rd.ie.baseline.core.mvc.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import net.evecom.core.db.model.entity.DataEntity;
+import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
 
@@ -10,9 +10,9 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- *
- * @author xiejun
- * @since 1.0
+ * @Description: 文件实体类
+ * @author： zhengc
+ * @date： 2018年11月20日
  */
 @Table(name = "sys_file")
 public class SysFile extends DataEntity<SysFile> implements Serializable {

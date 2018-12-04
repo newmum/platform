@@ -1,7 +1,7 @@
-package net.evecom.core.mvc.model.entity;
+package net.evecom.rd.ie.baseline.core.mvc.model.entity;
 
-import net.evecom.core.db.model.entity.DataEntity;
-import net.evecom.utils.verify.CheckUtil;
+import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
+import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
 
@@ -11,9 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
- * @author xiejun
- * @since 1.0
+ * @Description: UI组件实体类
+ * @author： zhengc
+ * @date： 2018年11月20日
  */
 @Table(name = "ui_component")
 public class UiComponent extends DataEntity<UiComponent> implements Serializable {
