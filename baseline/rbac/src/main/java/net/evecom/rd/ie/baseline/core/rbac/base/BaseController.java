@@ -1,9 +1,9 @@
-package net.evecom.core.rbac.base;
+package net.evecom.rd.ie.baseline.core.rbac.base;
 
-import net.evecom.core.rbac.model.entity.User;
-import net.evecom.tools.service.RequestBean;
-import net.evecom.tools.service.Result;
-import net.evecom.utils.verify.CheckUtil;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
+import net.evecom.rd.ie.baseline.tools.service.RequestBean;
+import net.evecom.rd.ie.baseline.tools.service.Result;
+import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;

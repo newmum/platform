@@ -1,9 +1,9 @@
-package net.evecom.core.rbac.model.dao;
+package net.evecom.rd.ie.baseline.core.rbac.model.dao;
 
-import net.evecom.core.rbac.model.entity.Power;
-import net.evecom.core.rbac.model.entity.UiRouter;
-import net.evecom.core.rbac.model.entity.Role;
-import net.evecom.core.rbac.model.entity.User;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Power;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.UiRouter;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Role;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import org.beetl.sql.core.annotatoin.Param;
 import org.beetl.sql.core.mapper.BaseMapper;
 
