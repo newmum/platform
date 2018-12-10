@@ -1,6 +1,5 @@
 package net.evecom.rd.ie.baseline.core.mvc.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
@@ -12,17 +11,13 @@ import net.evecom.rd.ie.baseline.core.rbac.base.BaseController;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.MessageEmail;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.MessageSms;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.UserExtra;
 import net.evecom.rd.ie.baseline.core.rbac.model.service.UserService;
-import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.utils.request.VerifyCodeUtils;
 import net.evecom.rd.ie.baseline.tools.constant.consts.SuccessConst;
 import net.evecom.rd.ie.baseline.tools.service.Result;
-import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Iterator;
 
 @RestController
 @RequestMapping("/account")
@@ -32,8 +27,6 @@ public class AccountController extends BaseController {
     private UserService userService;
     @Resource
     private ResourceService resourceService;
-    @Resource
-    private ObjectMapper objectMapper;
 
     @ApiOperation(value = "普通登录", notes = "普通登录")
     @ApiImplicitParams({
@@ -163,15 +156,7 @@ public class AccountController extends BaseController {
     public Result<?> edit(String data) throws Exception {
         Resources resource = resourceService.get("user");
         Class<?> itemBean = Class.forName(resource.getClasspath());
-        if (CheckUtil.isNull(data)) {
-            throw new CommonException(CommonException.DATA_NULL);
-        }
-        Object entity = null;
-        try {
-            entity = objectMapper.readValue(data, itemBean);
-        } catch (Exception e) {
-            throw new CommonException(CommonException.JSON_FORMAT_ERROR);
-        }
+        Object entity = userService.edit(data,itemBean);
         //更新rm_user_t表
         resourceService.update(entity);
 

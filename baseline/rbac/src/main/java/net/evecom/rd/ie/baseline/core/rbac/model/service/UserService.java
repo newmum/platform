@@ -680,4 +680,23 @@ public class UserService extends BaseService {
         }
         return key;
     }
+
+    /**
+     * 更新个人信息
+     * @param data
+     * @param itemBean
+     * @return
+     */
+    public Object edit(String data,Class<?> itemBean){
+        if (CheckUtil.isNull(data)) {
+            throw new CommonException(CommonException.DATA_NULL);
+        }
+        Object entity = null;
+        try {
+            entity = objectMapper.readValue(data, itemBean);
+        } catch (Exception e) {
+            throw new CommonException(CommonException.JSON_FORMAT_ERROR);
+        }
+        return entity;
+    }
 }
