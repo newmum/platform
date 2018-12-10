@@ -52,7 +52,7 @@ public class UserService extends BaseService {
     public User add(User user) throws Exception {
         resourceService.add(user);
         UserExtra userExtra = new UserExtra();
-        userExtra.setCrmUserId(user.getTid());
+        userExtra.setUserId(user.getTid());
         userExtra.preInsert();
         resourceService.add(userExtra);
         return user;
@@ -218,15 +218,16 @@ public class UserService extends BaseService {
 
     public void setUserExtra(User user) {
         QueryParam<UserExtra> param = new QueryParam<>(UserExtra.class);
-        param.append(UserExtra::getCrmUserId, user.getTid());
+        param.append(UserExtra::getUserId, user.getTid());
         UserExtra userExtra;
         try {
             userExtra = (UserExtra) resourceService.get(UserExtra.class, param);
             Department dept = (Department) resourceService.get(Department.class, user.getDeptId());
             user.setDepartment(dept);
         } catch (Exception e) {
+            e.printStackTrace();
             userExtra = new UserExtra();
-            userExtra.setCrmUserId(user.getTid());
+            userExtra.setUserId(user.getTid());
         }
         user.setCrmUserExtra(userExtra);
     }

@@ -31,17 +31,17 @@ public class User extends DataEntity<User> {
 	@Column(name = "DEPT_ID")
 	@ApiModelProperty(value = "机构编号", hidden = true)
 	private Long deptId;
-	@ApiModelProperty(value = "用户机构对象", hidden = true)
-	private Department department;
 	@Column(name = "USER_TYPE")
 	@ApiModelProperty(value = "用户类型", hidden = true)
 	private Integer userType;
 	@Column(name = "MOBILE")
 	@ApiModelProperty(value = "手机号", hidden = true)
 	private String mobile;
-	@Column(name = "CREATE_USER_ID")
+	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人编号", hidden = true)
-	private Long createUserId;
+	private Long createUser;
+	@ApiModelProperty(value = "用户机构对象", hidden = true)
+	private Department department;
 	@ApiModelProperty(value = "基本信息", hidden = true)
 	private UserExtra crmUserExtra;
 	@ApiModelProperty(value = "角色集合", hidden = true)
@@ -83,7 +83,7 @@ public class User extends DataEntity<User> {
 		this.mobile = mobile;
 	}
 
-	//@JsonIgnore
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -92,12 +92,12 @@ public class User extends DataEntity<User> {
 		this.password = password;
 	}
 
-	public Long getCreateUserId() {
-		return createUserId;
+	public Long getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateUser(Long createUser) {
+		this.createUser = createUser;
 	}
 
     @JsonIgnore
@@ -108,9 +108,6 @@ public class User extends DataEntity<User> {
     public void setDeptId(Long deptId) {
         this.deptId = deptId;
     }
-
-
-
 
     public Department getDepartment() {
         return department;

@@ -18,14 +18,15 @@ public class WebApiConfig {
 	public Docket processApi() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("解析处理API").useDefaultResponseMessages(false)
 				.apiInfo(new ApiInfoBuilder().version("1.1.0").title("解析处理API").description("解析处理API").build()).select()
-				.apis(RequestHandlerSelectors.basePackage("net.evecom.etl.processor.controller")).build();
+				.apis(RequestHandlerSelectors.basePackage("net.evecom.rd.ie.baseline.etl.processor.controller")).build();
+		//apis(RequestHandlerSelectors.basePackage("net.evecom.etl.processor.controller")).build();
 	}
 
 	@Bean
 	public Docket mvcApi() {
 		return new Docket(DocumentationType.SWAGGER_2).groupName("基线功能API").useDefaultResponseMessages(false)
 				.apiInfo(new ApiInfoBuilder().version("1.0.0").title("基线功能API").description("基线功能API").build()).select()
-				.apis(RequestHandlerSelectors.basePackage("net.evecom.core.mvc.controller")).build();
+				.apis(RequestHandlerSelectors.basePackage("net.evecom.rd.ie.baseline.core.mvc.controller")).build();
 	}
 
 	// 构建 api文档的详细信息函数,注意这里的注解引用的是哪个

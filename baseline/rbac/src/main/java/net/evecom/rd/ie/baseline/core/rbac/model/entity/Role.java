@@ -21,6 +21,10 @@ public class Role extends DataEntity<Role> implements Serializable {
 	@ApiModelProperty(value = "角色名称")
 	@ExcelField(align = 2, sort = 1, title = "角色名称")
 	private String roleName;
+	@Column(name = "TITLE")
+	@ApiModelProperty(value = "标题")
+	@ExcelField(align = 2, sort = 1, title = "标题")
+	private String title;
 	@Column(name = "DEPT_ID")
 	@ApiModelProperty(value = "机构编号")
 	@ExcelField(align = 2, sort = 2, title = "机构编号")
@@ -31,9 +35,9 @@ public class Role extends DataEntity<Role> implements Serializable {
 	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人编号", hidden = true)
 	private Long createUserId;
-	@Column(name = "REMARKS")
+	@Column(name = "ROLE_DESC")
 	@ApiModelProperty(value = "备注")
-	private String remarks;
+	private String roleDesc;
 
     public String getRoleName() {
         return roleName;
@@ -43,7 +47,15 @@ public class Role extends DataEntity<Role> implements Serializable {
         this.roleName = roleName;
     }
 
-    public Long getDeptId() {
+	public String getTitle() {
+		return title;
+	}
+
+	public void setTitle(String title) {
+		this.title = title;
+	}
+
+	public Long getDeptId() {
         return deptId;
     }
 
@@ -67,12 +79,23 @@ public class Role extends DataEntity<Role> implements Serializable {
 		this.createUserId = createUserId;
 	}
 
-	public String getRemarks() {
-		return remarks;
+	public String getRoleDesc() {
+		return roleDesc;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setRoleDesc(String roleDesc) {
+		this.roleDesc = roleDesc;
 	}
 
+	@Override
+	public String toString() {
+		return "Role(" +
+				"roleName='" + roleName + '\'' +
+				", title='" + title + '\'' +
+				", deptId=" + deptId +
+				", roleType=" + roleType +
+				", createUserId=" + createUserId +
+				", roleDesc='" + roleDesc + '\'' +
+				')';
+	}
 }

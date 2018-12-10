@@ -9,8 +9,8 @@ import java.util.Set;
 public class ValidtorUtil {
 	/**
 	 * 验证属性是否正常
-	 *
-	 * @param 对象
+	 * @param t
+	 * @param <T>
 	 * @return
 	 */
 	public static <T> String validbean(T t) {

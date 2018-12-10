@@ -17,10 +17,10 @@ public class UserExtra extends DataEntity<UserExtra> {
 
 	@Column(name = "USER_ID")
 	@ApiModelProperty(value = "用户id", hidden = true)
-	private Long crmUserId;
+	private Long userId;
 	@Column(name = "USER_NAME")
 	@ApiModelProperty(value = "姓名")
-	private String name;
+	private String userName;
 	@Column(name = "USER_IMG")
 	@ApiModelProperty(value = "头像")
 	private String userImg;
@@ -40,20 +40,20 @@ public class UserExtra extends DataEntity<UserExtra> {
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 
-	public Long getCrmUserId() {
-		return crmUserId;
+	public Long getUserId() {
+		return userId;
 	}
 
-	public void setCrmUserId(Long crmUserId) {
-		this.crmUserId = crmUserId;
+	public void setUserId(Long userId) {
+		this.userId = userId;
 	}
 
-	public String getName() {
-		return name;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setName(String name) {
-		this.name = name;
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 
 	public String getUserImg() {
@@ -106,7 +106,7 @@ public class UserExtra extends DataEntity<UserExtra> {
 
 	@Override
 	public String toString() {
-		return "UserExtra [" + "crmUserId=" + crmUserId + "," + "name=" + name + "," + "userImg=" + userImg + ","
+		return "UserExtra [" + "crmUserId=" + userId + "," + "name=" + userName + "," + "userImg=" + userImg + ","
 				+ "qq=" + qq + "," + "address=" + address + "," + "sex=" + sex + "," + "birthday=" + birthday + ","
 				+ "remarks=" + remarks + "]" + "Address [" + getClass().getName() + "@"
 				+ Integer.toHexString(hashCode()) + "]";

@@ -71,7 +71,7 @@ public abstract class DataEntity<T> implements Serializable {
 		// }
 		this.updateTime = DTUtil.nowDate();
 	}
-    @AssignID("simple")
+    @AssignID()
     public Long getTid() {
         return tid;
     }

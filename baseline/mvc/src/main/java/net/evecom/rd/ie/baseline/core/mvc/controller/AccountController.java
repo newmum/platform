@@ -1,20 +1,28 @@
 package net.evecom.rd.ie.baseline.core.mvc.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import net.evecom.rd.ie.baseline.core.db.annotatoin.Token;
+import net.evecom.rd.ie.baseline.core.db.model.entity.Resources;
+import net.evecom.rd.ie.baseline.core.db.model.service.ResourceService;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseController;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.MessageEmail;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.MessageSms;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.UserExtra;
 import net.evecom.rd.ie.baseline.core.rbac.model.service.UserService;
+import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.utils.request.VerifyCodeUtils;
 import net.evecom.rd.ie.baseline.tools.constant.consts.SuccessConst;
 import net.evecom.rd.ie.baseline.tools.service.Result;
+import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Iterator;
 
 @RestController
 @RequestMapping("/account")
@@ -22,6 +30,10 @@ import javax.annotation.Resource;
 public class AccountController extends BaseController {
     @Resource
     private UserService userService;
+    @Resource
+    private ResourceService resourceService;
+    @Resource
+    private ObjectMapper objectMapper;
 
     @ApiOperation(value = "普通登录", notes = "普通登录")
     @ApiImplicitParams({
@@ -140,5 +152,38 @@ public class AccountController extends BaseController {
     public Result<?> get() throws Exception {
         User user = userService.loginUser(request);
         return Result.success(SuccessConst.OPERATE_SUCCESS, user);
+    }
+
+    @ApiOperation(value = "更新个人信息", notes = "更新个人信息")
+    @Token(remove = true)
+    @RequestMapping(value = "/update", method = RequestMethod.PUT)
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "data", value = "数据(json格式对象)", dataType = "string", paramType = "query", required = true),
+            @ApiImplicitParam(name = "token", value = "token(测试环境可以填写1来跳过)", dataType = "string", paramType = "header", required = true) })
+    public Result<?> edit(String data) throws Exception {
+        Resources resource = resourceService.get("user");
+        Class<?> itemBean = Class.forName(resource.getClasspath());
+        if (CheckUtil.isNull(data)) {
+            throw new CommonException(CommonException.DATA_NULL);
+        }
+        Object entity = null;
+        try {
+            entity = objectMapper.readValue(data, itemBean);
+        } catch (Exception e) {
+            throw new CommonException(CommonException.JSON_FORMAT_ERROR);
+        }
+        //更新rm_user_t表
+        resourceService.update(entity);
+
+        User user = (User)entity;
+
+        //更新rm_user_extra_t表
+        resourceService.update(user.getCrmUserExtra());
+
+        //更新rm_role_t表
+        for(int i = 0; i < user.getRoleList().size(); i++){
+            resourceService.update(user.getRoleList().get(i));
+        }
+        return Result.success(SuccessConst.OPERATE_SUCCESS);
     }
 }

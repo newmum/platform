@@ -88,16 +88,9 @@ public class ResourceService{
      * @return
      */
     public Object get(Class<?> clazz, Long id) throws Exception {
-        if (clazz.isAnnotationPresent(Table.class)) {
-            Table table = clazz.getAnnotation(Table.class);
-            String resourceName = table.name();
-            QueryParam<Resources> param = new QueryParam<Resources>();
-            param.append(Resources::getTid, id);
-            Resources resources = get(resourceName);
-            return get(resources, param);
-        } else {
-            throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + clazz.getSimpleName() + ";");
-        }
+        QueryParam<Resources> param = new QueryParam<Resources>();
+        param.append(Resources::getTid, id);
+        return get(clazz, param);
     }
 
     /**
@@ -492,11 +485,12 @@ public class ResourceService{
         try {
             Class<?> itemBean = Class.forName(resource.getClasspath());
             QueryParam<Resources> param = new QueryParam<Resources>();
-            String tidName = param.getFunctionName(Resources::getTid, Resources.class);
+            //String tidName = param.getFunctionName(Resources::getTid, Resources.class);
             Map map = new HashMap<>();
             // map.put("status", DataEntity.DEL_FLAG_DELETE);
             if (ids.length == 1) {
-                map.put(tidName, ids[0]);
+                map.put("tid", ids[0]);
+                System.out.println("id号:" + ids[0].toString());
                 obj = IterableForamt.mapToObject(map, itemBean);
                 int i = sqlManager.deleteObject(obj);
                 if (i <= 0) {
@@ -504,7 +498,7 @@ public class ResourceService{
                 }
             } else {
                 for (Long id : ids) {
-                    map.put(tidName, id);
+                    map.put("tid", id);
                     obj = IterableForamt.mapToObject(map, itemBean);
                     int i = sqlManager.deleteObject(obj);
                     if (i <= 0) {

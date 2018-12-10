@@ -43,9 +43,6 @@ public class Department extends DataEntity<Department> implements Serializable {
 	@Column(name = "ZIP")
 	@ApiModelProperty(value = "邮政编码")
 	private String zipCode;
-	/*@Column(name = "master")
-	@ApiModelProperty(value = "负责人")
-	private Long master;*/
 	@Column(name = "PHONE")
 	@ApiModelProperty(value = "电话")
 	private String phone;
@@ -125,14 +122,6 @@ public class Department extends DataEntity<Department> implements Serializable {
 	public void setZipCode(String zipCode) {
 		this.zipCode = zipCode;
 	}
-
-	/*public Long getMaster() {
-		return master;
-	}
-
-	public void setMaster(Long master) {
-		this.master = master;
-	}*/
 
 	public String getPhone() {
 		return phone;
