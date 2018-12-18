@@ -426,7 +426,7 @@ public class BeanProcessor {
             }
             String expectedProperty = this.nc.getPropertyName(c,columnName);
             for (int i = 0; i < props.length; i++) {
-                //获取注解
+                // TODO UPDATE根据get方法Column注释绑定数据库字段名
                 Column annotation = props[i].getReadMethod().getAnnotation(Column.class);
                 String name = "";
                 if(annotation!=null){
