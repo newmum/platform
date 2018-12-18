@@ -41,7 +41,7 @@ public class User extends DataEntity<User> {
 	@ApiModelProperty(value = "创建人编号", hidden = true)
 	private Long createUser;
 	@ApiModelProperty(value = "是否锁定", hidden = true)
-	private String isLock;
+	private Integer isLock;
 	@ApiModelProperty(value = "用户机构对象", hidden = true)
 	private Department department;
 	@ApiModelProperty(value = "基本信息", hidden = true)
@@ -112,16 +112,11 @@ public class User extends DataEntity<User> {
     }
 
 	@Column(name = "IS_LOCK")
-	public String getIsLock() {
-		if("0".equals(this.isLock)){
-			return "否";
-		}
-		else {
-			return "是";
-		}
+	public Integer getIsLock() {
+		return isLock;
 	}
 
-	public void setIsLock(String isLock) {
+	public void setIsLock(Integer isLock) {
 		this.isLock = isLock;
 	}
 
