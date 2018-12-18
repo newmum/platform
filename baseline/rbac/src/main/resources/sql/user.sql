@@ -28,7 +28,7 @@ update #use("tableName")# set IS_DEL=#IS_DEL# where TID in(
 
 getRoleList
 ===
-select * from #use("tableName")# u
+select r.TID,r.ROLE_NAME from #use("tableName")# u
 left join RM_ROLE_PRIV_RELA_T ur ON u.TID=ur.ROLE_ID
 left join RM_ROLE_T r ON r.TID=ur.ROLE_ID
 where u.TID=#userId# AND r.TID IS NOT NULL

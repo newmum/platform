@@ -199,9 +199,9 @@ public class ExportExcel {
             for (Map<String,Object> map : list) {
                 Object val =null;
                 if(e instanceof Map){
-                    val =((Map)e).get(map.get("name").toString());
+                    val =((Map)e).get(map.get("tableField").toString());
                 }else{
-                    val =ClassUtil.getFieldValue(e, map.get("name").toString());
+                    val =ClassUtil.getFieldValue(e, map.get("tableField").toString());
                 }
                 this.addCell(row, colunm++, val, Integer.valueOf(map.get("align").toString()), null);
                 sb.append(val + ", ");

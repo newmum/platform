@@ -17,28 +17,23 @@ import java.io.Serializable;
 @Table(name = "RM_ROLE_T")
 public class Role extends DataEntity<Role> implements Serializable {
 
-	@Column(name = "ROLE_NAME")
 	@ApiModelProperty(value = "角色名称")
 	@ExcelField(align = 2, sort = 1, title = "角色名称")
 	private String roleName;
-	@Column(name = "TITLE")
 	@ApiModelProperty(value = "标题")
 	@ExcelField(align = 2, sort = 1, title = "标题")
 	private String title;
-	@Column(name = "DEPT_ID")
 	@ApiModelProperty(value = "机构编号")
 	@ExcelField(align = 2, sort = 2, title = "机构编号")
 	private Long deptId;
-	@Column(name = "ROLE_TYPE")
 	@ApiModelProperty(value = "角色类型")
 	private int roleType;
-	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人编号", hidden = true)
 	private Long createUserId;
-	@Column(name = "ROLE_DESC")
 	@ApiModelProperty(value = "备注")
 	private String roleDesc;
 
+	@Column(name = "ROLE_NAME")
     public String getRoleName() {
         return roleName;
     }
@@ -47,6 +42,7 @@ public class Role extends DataEntity<Role> implements Serializable {
         this.roleName = roleName;
     }
 
+	@Column(name = "TITLE")
 	public String getTitle() {
 		return title;
 	}
@@ -55,6 +51,7 @@ public class Role extends DataEntity<Role> implements Serializable {
 		this.title = title;
 	}
 
+	@Column(name = "DEPT_ID")
 	public Long getDeptId() {
         return deptId;
     }
@@ -63,6 +60,7 @@ public class Role extends DataEntity<Role> implements Serializable {
         this.deptId = deptId;
     }
 
+	@Column(name = "ROLE_TYPE")
     public int getRoleType() {
 		return roleType;
 	}
@@ -71,6 +69,7 @@ public class Role extends DataEntity<Role> implements Serializable {
 		this.roleType = roleType;
 	}
 
+	@Column(name = "CREATE_USER")
 	public Long getCreateUserId() {
 		return createUserId;
 	}
@@ -79,6 +78,7 @@ public class Role extends DataEntity<Role> implements Serializable {
 		this.createUserId = createUserId;
 	}
 
+	@Column(name = "ROLE_DESC")
 	public String getRoleDesc() {
 		return roleDesc;
 	}

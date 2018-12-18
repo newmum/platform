@@ -40,6 +40,8 @@ public class User extends DataEntity<User> {
 	@Column(name = "CREATE_USER")
 	@ApiModelProperty(value = "创建人编号", hidden = true)
 	private Long createUser;
+	@ApiModelProperty(value = "是否锁定", hidden = true)
+	private String isLock;
 	@ApiModelProperty(value = "用户机构对象", hidden = true)
 	private Department department;
 	@ApiModelProperty(value = "基本信息", hidden = true)
@@ -83,7 +85,7 @@ public class User extends DataEntity<User> {
 		this.mobile = mobile;
 	}
 
-	@JsonIgnore
+	//@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -100,7 +102,7 @@ public class User extends DataEntity<User> {
 		this.createUser = createUser;
 	}
 
-    @JsonIgnore
+    //@JsonIgnore
     public Long getDeptId() {
         return deptId;
     }
@@ -109,7 +111,21 @@ public class User extends DataEntity<User> {
         this.deptId = deptId;
     }
 
-    public Department getDepartment() {
+	@Column(name = "IS_LOCK")
+	public String getIsLock() {
+		if("0".equals(this.isLock)){
+			return "否";
+		}
+		else {
+			return "是";
+		}
+	}
+
+	public void setIsLock(String isLock) {
+		this.isLock = isLock;
+	}
+
+	public Department getDepartment() {
         return department;
     }
 
@@ -149,5 +165,4 @@ public class User extends DataEntity<User> {
 	public void setPowerList(List<Power> powerList) {
 		this.powerList = powerList;
 	}
-
 }

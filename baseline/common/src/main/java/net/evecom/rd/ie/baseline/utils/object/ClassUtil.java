@@ -114,7 +114,6 @@ public class ClassUtil {
     public static Object getFieldValue(Object obj, String fieldName) {
         Object temp = null;
         if (obj == null || CheckUtil.isNull(fieldName)) {
-            System.out.println("null");
             return null;
         }
         Field field = null;

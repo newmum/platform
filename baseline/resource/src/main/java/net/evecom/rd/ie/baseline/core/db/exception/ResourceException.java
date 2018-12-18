@@ -9,6 +9,8 @@ import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 public class ResourceException extends CommonException {
 	public static final String ID_NULL = "id_null";// 更新时id为null
 	public static final String RESOURCE_NO_EXIST = "resource_no_exist";// 资源不存在
+	public static final String RESOURCE_PROP_NO_EXIST = "resource_prop_no_exist";// 资源属性不存在
+	public static final String RESOURCE_PROP_EXL_NO_EXIST = "resource_prop_exl_no_exist";// 资源报表属性不存在
 	public static final String JDBC_FIELD_HAS_EXIST = "jdbc_field_has_exist";// 资源不存在
 	public static final String ID_NO_EXIST = "id_no_exist";// id不存在
 

@@ -734,10 +734,9 @@ public class ResourceService{
     public List<Map<String, Object>> getHeadList(Resources resource, int type) throws Exception {
         QueryParam<ResProp> queryResProp = new QueryParam();
         queryResProp.append(ResProp::getResourcesId, resource.getTid());
-        //queryResProp.append(ResProp::getSort, "", SqlConst.ORDERBY, SqlConst.DESC);
         List<ResProp> resPropList = (List<ResProp>) list(ResProp.class, queryResProp).getList();
         if (resPropList.size() == 0) {
-            resPropList = resPropService.setBaseResProp(resource);
+            throw new ResourceException(ResourceException.RESOURCE_PROP_NO_EXIST);
         }
         Map<Long, ResProp> mapResProp = new HashMap<>();
         QueryParam<ResPropExl> queryResPropExl = new QueryParam<>();
@@ -748,18 +747,16 @@ public class ResourceService{
         }
         queryResPropExl.append(ResPropExl::getPropId, sb.toString().substring(0, sb.length() - 1), SqlConst.IN, SqlConst.AND);
         queryResPropExl.append(ResPropExl::getSort, "", SqlConst.ORDERBY, SqlConst.ASC);
-        if (type == 1) {
-            queryResPropExl.append(ResPropExl::getType, "0,1", SqlConst.IN, SqlConst.AND);
-        } else {
-            queryResPropExl.append(ResPropExl::getType, "0,2", SqlConst.IN, SqlConst.AND);
-        }
         List<ResPropExl> resPropExlList = (List<ResPropExl>) list(ResPropExl.class, queryResPropExl).getList();
+        if (resPropExlList.size() == 0) {
+            throw new ResourceException(ResourceException.RESOURCE_PROP_EXL_NO_EXIST);
+        }
         List<Map<String, Object>> headList = new ArrayList<>();
         for (ResPropExl resPropExl : resPropExlList) {
             Map<String, Object> map = IterableForamt.objectToMap(resPropExl);
-            map.put("name", mapResProp.get(resPropExl.getPropId()).getPropName());
-            map.put("javaType", mapResProp.get(resPropExl.getPropId()).getPropType());
-            map.put("jdbcField", mapResProp.get(resPropExl.getPropId()).getTableField());
+            map.put("propName", mapResProp.get(resPropExl.getPropId()).getPropName());
+            map.put("propType", mapResProp.get(resPropExl.getPropId()).getPropType());
+            map.put("tableField", mapResProp.get(resPropExl.getPropId()).getTableField());
             headList.add(map);
         }
         return headList;
