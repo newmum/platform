@@ -20,14 +20,14 @@ import java.util.List;
 public class User extends DataEntity<User> {
 
 	@Column(name = "ACCOUNT")
-    @ApiModelProperty(value = "账号")
-    private String account;
-    @Column(name = "PASSWORD")
-    @ApiModelProperty(value = "密码", hidden = true)
-    private String password;
-    @Column(name = "EMAIL")
-    @ApiModelProperty(value = "邮箱", hidden = true)
-    private String email;
+	@ApiModelProperty(value = "账号")
+	private String account;
+	@Column(name = "PASSWORD")
+	@ApiModelProperty(value = "密码", hidden = true)
+	private String password;
+	@Column(name = "EMAIL")
+	@ApiModelProperty(value = "邮箱", hidden = true)
+	private String email;
 	@Column(name = "DEPT_ID")
 	@ApiModelProperty(value = "机构编号", hidden = true)
 	private Long deptId;
@@ -49,7 +49,7 @@ public class User extends DataEntity<User> {
 	@ApiModelProperty(value = "角色集合", hidden = true)
 	private List<Role> roleList;
 	@ApiModelProperty(value = "菜单集合", hidden = true)
-	private List<UiRouter> menuList;
+	private List<Menu> menuList;
 	@ApiModelProperty(value = "菜单权限集合", hidden = true)
 	private List<Power> powerList;
 
@@ -69,15 +69,15 @@ public class User extends DataEntity<User> {
 		this.email = email;
 	}
 
-    public Integer getUserType() {
-        return userType;
-    }
+	public Integer getUserType() {
+		return userType;
+	}
 
-    public void setUserType(Integer userType) {
-        this.userType = userType;
-    }
+	public void setUserType(Integer userType) {
+		this.userType = userType;
+	}
 
-    public String getMobile() {
+	public String getMobile() {
 		return mobile;
 	}
 
@@ -102,14 +102,14 @@ public class User extends DataEntity<User> {
 		this.createUser = createUser;
 	}
 
-    //@JsonIgnore
-    public Long getDeptId() {
-        return deptId;
-    }
+	//@JsonIgnore
+	public Long getDeptId() {
+		return deptId;
+	}
 
-    public void setDeptId(Long deptId) {
-        this.deptId = deptId;
-    }
+	public void setDeptId(Long deptId) {
+		this.deptId = deptId;
+	}
 
 	@Column(name = "IS_LOCK")
 	public Integer getIsLock() {
@@ -121,14 +121,14 @@ public class User extends DataEntity<User> {
 	}
 
 	public Department getDepartment() {
-        return department;
-    }
+		return department;
+	}
 
-    public void setDepartment(Department department) {
-        this.department = department;
-    }
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 
-    public UserExtra getCrmUserExtra() {
+	public UserExtra getCrmUserExtra() {
 		return crmUserExtra;
 	}
 
@@ -144,11 +144,11 @@ public class User extends DataEntity<User> {
 		this.roleList = roleList;
 	}
 
-	public List<UiRouter> getMenuList() {
+	public List<Menu> getMenuList() {
 		return menuList;
 	}
 
-	public void setMenuList(List<UiRouter> menuList) {
+	public void setMenuList(List<Menu> menuList) {
 		this.menuList = menuList;
 	}
 
@@ -160,4 +160,5 @@ public class User extends DataEntity<User> {
 	public void setPowerList(List<Power> powerList) {
 		this.powerList = powerList;
 	}
+
 }

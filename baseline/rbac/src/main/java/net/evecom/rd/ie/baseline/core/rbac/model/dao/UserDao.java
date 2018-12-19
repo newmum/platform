@@ -1,7 +1,7 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.dao;
 
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.Power;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.UiRouter;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Menu;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.Role;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import org.beetl.sql.core.annotatoin.Param;
@@ -15,9 +15,11 @@ public interface UserDao extends BaseMapper<User> {
 
 	List<Role> getRoleList(@Param("userId") Long userId);
 
-	List<Power> getPowerList(@Param("userId") Long userId);
+	List<Power> privList(@Param("userId") Long userId);
 
-	List<UiRouter> getMenuList(@Param("userId") Long userId);
+	List<Menu> menuListMysql(@Param("userId") Long userId);
+
+    List<Menu> menuListOracle(@Param("userId") Long userId);
 
 	User queryUsers(@Param("userId") Long userId);
 }

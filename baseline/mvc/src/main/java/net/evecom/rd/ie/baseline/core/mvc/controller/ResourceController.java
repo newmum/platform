@@ -10,9 +10,8 @@ import net.evecom.rd.ie.baseline.core.db.annotatoin.Token;
 import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
 import net.evecom.rd.ie.baseline.core.db.model.entity.Resources;
 import net.evecom.rd.ie.baseline.core.db.model.service.ResourceService;
-import net.evecom.rd.ie.baseline.core.mvc.model.service.SysFileService;
+import net.evecom.rd.ie.baseline.core.mvc.model.service.FileService;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseController;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.SysConfig;
 import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.utils.file.PropertiesUtils;
 import net.evecom.rd.ie.baseline.utils.report.exl.ImportExcel;
@@ -34,16 +33,14 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import static net.evecom.rd.ie.baseline.utils.secrity.MD5Util.getMD5;
-
 @RestController
 @RequestMapping("/resources")
 @Api(tags = "资源管理模块")
 public class ResourceController extends BaseController {
-    @Resource
+	@Resource
 	private ResourceService resourceService;
 
-    @Resource
+	@Resource
 	private ObjectMapper objectMapper;
 
 	@ApiOperation(value = "新增指定资源的数据", notes = "对指定资源新增数据")
@@ -146,17 +143,6 @@ public class ResourceController extends BaseController {
 		return Result.success(SuccessConst.OPERATE_SUCCESS, resourceService.get(resources, id));
 	}
 
-	@ApiOperation(value = "获取对默认密码进行加密的单条数据", notes = "获取对默认密码进行加密的单条数据")
-	@RequestMapping(value = "/{resourceName}/{id}/getConfigValue", method = RequestMethod.GET)
-	public Result<?> getPassword(@PathVariable(value = "resourceName") String name, @PathVariable(value = "id") Long id)
-			throws Exception {
-		Resources resources = resourceService.get(name);
-		SysConfig sysConfigValue = (SysConfig) resourceService.get(resources, id);
-		String configPassword = getMD5(sysConfigValue.getConfigValue());
-		sysConfigValue.setConfigValue(configPassword);
-		return Result.success(SuccessConst.OPERATE_SUCCESS, sysConfigValue);
-	}
-
 	@ApiOperation(value = "指定资源的导入模板下载", notes = "指定资源的导入模板下载")
 	@RequestMapping(value = "/{resourceName}/importTemplate", method = RequestMethod.POST)
 	public Result<?> importTemplate(@PathVariable(value = "resourceName") String name) throws Exception {
@@ -191,8 +177,8 @@ public class ResourceController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/{resourceName}/import", method = RequestMethod.POST)
 	public Result<?> images(@PathVariable(value = "resourceName") String name, MultipartFile file) throws Exception {
-        PropertiesUtils global = new PropertiesUtils(SysFileService.class.getClassLoader().getResourceAsStream("app.properties"));
-	    String ext = StringUtil.getExt(file.getOriginalFilename());
+		PropertiesUtils global = new PropertiesUtils(FileService.class.getClassLoader().getResourceAsStream("app.properties"));
+		String ext = StringUtil.getExt(file.getOriginalFilename());
 		String fileName = RandomUtil.getUUID().concat(".").concat(ext);
 		String basePath = global.getKey("file.upload.dir") + "/temp";
 		StringBuilder sb = new StringBuilder();

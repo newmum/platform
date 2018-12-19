@@ -34,17 +34,17 @@ left join RM_ROLE_T r ON r.TID=ur.ROLE_ID
 where u.TID=#userId# AND r.TID IS NOT NULL
 group by r.TID,r.ROLE_NAME
 
-getPRIVList
+privList
 ===
 select * from RM_PRIV_T where TID in
-	(select PRIV_ID From RM_ROLE_PRIV_RELA_T where
+	(select PRIV_ID from RM_ROLE_PRIV_RELA_T where
 		ROLE_ID
 		in(
-		select ROLE_ID From RM_USER_ROLE_RELA_T where USER_ID=#userId#
+		select ROLE_ID from RM_USER_ROLE_RELA_T where USER_ID=#userId#
 		)
 	)
 
-getMenuList
+menuListMysql
 ===
 select r.*,p.METHOD method,p.URL url from RM_MENU_T r
 left join RM_PRIV_T p on  r.PRIV_ID =p.TID
@@ -62,10 +62,15 @@ left join RM_PRIV_T p on  r.PRIV_ID =p.TID
 )
 )) order by r.SORT desc
 
+menuListOracle
+===
+  SELECT distinct * FROM RM_MENU_T START WITH PRIV_ID in(
+  SELECT PRIV_ID FROM RM_ROLE_PRIV_RELA_T where ROLE_ID
+  in(SELECT ROLE_ID FROM RM_USER_ROLE_RELA_T where USER_ID=#userId#)
+  ) CONNECT BY PRIOR PARENT_ID = TID
 
 queryUsers
 ===
-
 select * from #use("tableName")# WHERE TID=#userId#
 	@ orm.many({"TID":"userId"},"user.getRoleList","Role");
 	@ orm.many({"TID":"userId"},"user.getMenuList","Menu");

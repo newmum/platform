@@ -178,58 +178,20 @@ public class UserService extends BaseService {
     }
 
     public User login(User user, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        setUserExtra(user);
         try {
             logout(request, response);
         } catch (Exception e) {
-
         }
-        if(user.getTid()==1){
-            //admin 用户 获取所有权限,菜单
-            QueryParam queryParam=new QueryParam();
-            queryParam.setNeedPage(false);
-            queryParam.setNeedTotal(false);
-            user.setMenuList((List<UiRouter>) resourceService.list(UiRouter.class,queryParam).getList());
-            user.setPowerList((List<Power>) resourceService.list(Power.class,queryParam).getList());
-        }else{
-            List<UiRouter> menuList = userDao.getMenuList(user.getTid());
-            List<Power> powerList = userDao.getPowerList(user.getTid());
-            user.setMenuList(menuList);
-            user.setPowerList(powerList);
-        }
-        List<Role> roleList = userDao.getRoleList(user.getTid());
-        user.setRoleList(roleList);
+        List<Power> powerList = userDao.privList(user.getTid());
+        user.setPowerList(powerList);
+        String sid = saveLoginUser(user, response);
         // 保存登录日志
         String login_ip = IPUtils.getIpAddr(request);
         UserLoginLog userLog = new UserLoginLog();
         userLog.setIp(login_ip);
         userLog.setCrmUserId(user.getTid());
-        String sid = saveLoginUser(user, response);
         resourceService.add(userLog);
-        // User temp = iUserDao.queryUsers(user.getId());
-        // List<Role> roles = (List<Role>) temp.get("role");
-        // List<Menu> menu = (List<Menu>) temp.get("menu");
-        // List<Power> power = (List<Power>) temp.get("power");
-        // temp.setRoleList(roles);
-        // temp.setMenuList(menu);
-        // temp.setPowerList(power);
         return user;
-    }
-
-    public void setUserExtra(User user) {
-        QueryParam<UserExtra> param = new QueryParam<>(UserExtra.class);
-        param.append(UserExtra::getUserId, user.getTid());
-        UserExtra userExtra;
-        try {
-            userExtra = (UserExtra) resourceService.get(UserExtra.class, param);
-            Department dept = (Department) resourceService.get(Department.class, user.getDeptId());
-            user.setDepartment(dept);
-        } catch (Exception e) {
-            e.printStackTrace();
-            userExtra = new UserExtra();
-            userExtra.setUserId(user.getTid());
-        }
-        user.setCrmUserExtra(userExtra);
     }
 
     public User passwordRecoveryCheck(String mobile, String email, String validate, String password)
@@ -638,27 +600,6 @@ public class UserService extends BaseService {
             }
         }
         return resultList;
-    }
-
-    public User updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        User user = loginUser(request);
-        if(user.getTid()==1){
-            //admin 用户 获取所有权限,菜单
-            QueryParam queryParam=new QueryParam();
-            queryParam.setNeedPage(false);
-            queryParam.setNeedTotal(false);
-            user.setMenuList((List<UiRouter>) resourceService.list(UiRouter.class,queryParam).getList());
-            user.setPowerList((List<Power>) resourceService.list(Power.class,queryParam).getList());
-        }else{
-            List<UiRouter> menuList = userDao.getMenuList(user.getTid());
-            List<Power> powerList = userDao.getPowerList(user.getTid());
-            user.setMenuList(menuList);
-            user.setPowerList(powerList);
-        }
-        List<Role> roleList = userDao.getRoleList(user.getTid());
-        user.setRoleList(roleList);
-        updateLoginUser(user, request);
-        return user;
     }
 
     private String getRedisKey(int type,String key){

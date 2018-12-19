@@ -6,10 +6,12 @@ import net.evecom.rd.ie.baseline.core.db.annotatoin.Token;
 import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
 import net.evecom.rd.ie.baseline.core.db.model.service.ResourceService;
 import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiComponent;
+import net.evecom.rd.ie.baseline.core.mvc.model.service.ViewService;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseController;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Menu;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.Power;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Router;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.UiRouter;
 import net.evecom.rd.ie.baseline.core.rbac.model.service.UserService;
 import net.evecom.rd.ie.baseline.tools.constant.consts.SuccessConst;
 import net.evecom.rd.ie.baseline.tools.service.Result;
@@ -32,22 +34,19 @@ public class ViewController extends BaseController {
 	@Autowired
 	private ResourceService resourceService;
 	@Autowired
-	private UserService userService;
+	private ViewService viewService;
 
 	@ApiOperation(value = "访问首页", notes = "访问首页")
 	@RequestMapping(value = "/showMain", method = RequestMethod.GET)
 	public Result<?> showMain() throws Exception {
-		User user = userService.loginUser(request);
-		Map<String, Object> map = new HashMap<String, Object>();
-		map.put("user", user);
-		return Result.success(SuccessConst.OPERATE_SUCCESS, map);
+        return Result.success(SuccessConst.OPERATE_SUCCESS, viewService.showMain(request));
 	}
 
 	@Token(save = true)
 	@ApiOperation(value = "访问路由", notes = "访问路由")
 	@RequestMapping(value = "/{resourceName}", method = RequestMethod.GET)
 	public Result<?> view(@PathVariable(value = "resourceName") String name) throws Exception {
-		User user = userService.loginUser(request);
+		User user = viewService.loginUser(request);
 		String stp_url = request.getRequestURI();
 		String stp_method = request.getMethod();
 		// String main_url = global.getKey("server.servlet.context-path");
@@ -58,9 +57,9 @@ public class ViewController extends BaseController {
 		Power power = hasPower(user.getPowerList(), stp_url, stp_method);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(power!=null){
-			QueryParam<UiRouter>queryParam=new QueryParam<>();
-			queryParam.append(UiRouter::getCrmPowerId,power.getTid());
-            UiRouter uiRouter= (UiRouter) resourceService.get(UiRouter.class,queryParam);
+			QueryParam<Menu>queryParam=new QueryParam<>();
+			queryParam.append(Menu::getCrmPowerId,power.getTid());
+            Menu uiRouter= (Menu) resourceService.get(Menu.class,queryParam);
 //			List<Power> list = userService.getPowerByMenuId(request, power.getRouterId());
 			//compentlist = uiComponentService.getComponents(user.getPowerList(), uiRouter.getId());
 		}
