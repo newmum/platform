@@ -5,12 +5,12 @@
     <parent>
         <artifactId>baseline</artifactId>
         <groupId>net.evecom</groupId>
-        <version>1.0.1</version>
+        <version>1.0.2</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>baseline-resource</artifactId>
-    <version>1.0.1</version>
+    <version>${baseline.resource.version}</version>
     <properties>
         <persistence.version>1.0.2</persistence.version>
         <hibernate-validation.version>5.2.0.Final</hibernate-validation.version>
@@ -20,12 +20,12 @@
         <dependency>
             <groupId>net.evecom</groupId>
             <artifactId>baseline-common</artifactId>
-            <version>${project.version}</version>
+            <version>${baseline.common.version}</version>
         </dependency>
         <dependency>
             <groupId>net.evecom</groupId>
             <artifactId>orm</artifactId>
-            <version>${project.version}</version>
+            <version>${baseline.orm.version}</version>
         </dependency>
         <dependency>
             <groupId>javax.persistence</groupId>
@@ -43,8 +43,8 @@
             <version>${druid.version}</version>
         </dependency>
         <dependency>
-            <groupId>ojdbc6</groupId>
-            <artifactId>ojdbc6</artifactId>
+            <groupId>ojdbc8</groupId>
+            <artifactId>ojdbc8</artifactId>
             <version>1.0</version>
         </dependency>
         <dependency>
