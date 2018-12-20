@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 @Aspect
 public class WebServiceAop {
 
-	private final String POINT_CUT = "execution(* net.evecom.*.*.model.service..*.*(..))";
+	private final String POINT_CUT = "execution(* net.evecom..*.model.service..*.*(..))";
 
 	@Pointcut(POINT_CUT)
 	public void executeService() {
