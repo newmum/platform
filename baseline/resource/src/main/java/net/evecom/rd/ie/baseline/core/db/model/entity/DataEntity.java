@@ -46,29 +46,18 @@ public abstract class DataEntity<T> implements Serializable {
 	 * 插入之前执行方法，需要手动调用
 	 */
 	public void preInsert() {
-		// // 不限制ID为UUID，调用setIsNewRecord()使用自定义ID
+		// 不限制ID为UUID，调用setIsNewRecord()使用自定义ID
 		// if (!this.isNewRecord) {
 		// setId(IdGen.uuid());
 		// }
-		// User user = UserUtils.getUser();
-		// if (StringUtils.isNotBlank(user.getId())) {
-		// this.updateUser = user;
-		// this.createUser = user;
-		// }
-		if (this.updateTime == null) {
-			this.updateTime = DTUtil.nowDate();
-		}
-		this.updateTime = new Date();
+		this.createTime = DTUtil.nowDate();
+        this.updateTime = DTUtil.nowDate();
 	}
 
 	/**
 	 * 更新之前执行方法，需要手动调用
 	 */
 	public void preUpdate() {
-		// User user = UserUtils.getUser();
-		// if (StringUtils.isNotBlank(user.getId())) {
-		// this.updateUser = user;
-		// }
 		this.updateTime = DTUtil.nowDate();
 	}
     @AssignID()
@@ -79,6 +68,7 @@ public abstract class DataEntity<T> implements Serializable {
     public void setTid(Long tid) {
         this.tid = tid;
     }
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
@@ -87,6 +77,7 @@ public abstract class DataEntity<T> implements Serializable {
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateTime() {
         return updateTime;
