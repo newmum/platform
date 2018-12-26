@@ -4,6 +4,7 @@ import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import net.evecom.rd.ie.baseline.utils.report.exl.ExcelField;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
+import org.beetl.sql.core.annotatoin.Tail;
 
 import javax.persistence.Column;
 import java.io.Serializable;
@@ -29,7 +30,7 @@ public class Role extends DataEntity<Role> implements Serializable {
 	@ApiModelProperty(value = "角色类型")
 	private int roleType;
 	@ApiModelProperty(value = "创建人编号", hidden = true)
-	private Long createUserId;
+	private Long createUser;
 	@ApiModelProperty(value = "备注")
 	private String roleDesc;
 
@@ -70,12 +71,12 @@ public class Role extends DataEntity<Role> implements Serializable {
 	}
 
 	@Column(name = "CREATE_USER")
-	public Long getCreateUserId() {
-		return createUserId;
+	public Long getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateUser(Long createUserId) {
+		this.createUser = createUser;
 	}
 
 	@Column(name = "ROLE_DESC")
@@ -94,7 +95,7 @@ public class Role extends DataEntity<Role> implements Serializable {
 				", title='" + title + '\'' +
 				", deptId=" + deptId +
 				", roleType=" + roleType +
-				", createUserId=" + createUserId +
+				", createUserId=" + createUser +
 				", roleDesc='" + roleDesc + '\'' +
 				')';
 	}

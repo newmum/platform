@@ -1,9 +1,6 @@
 package net.evecom.rd.ie.baseline.core.db.model.service;
 
-import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
-import net.evecom.rd.ie.baseline.core.db.model.entity.ResProp;
-import net.evecom.rd.ie.baseline.core.db.model.entity.ResPropExl;
-import net.evecom.rd.ie.baseline.core.db.model.entity.Resources;
+import net.evecom.rd.ie.baseline.core.db.model.entity.*;
 import net.evecom.rd.ie.baseline.core.db.exception.ResourceException;
 import net.evecom.rd.ie.baseline.core.db.untis.JdbcUtil;
 import net.evecom.rd.ie.baseline.core.db.untis.ValidtorUtil;
@@ -18,6 +15,7 @@ import net.evecom.rd.ie.baseline.utils.datetime.DTUtil;
 import net.evecom.rd.ie.baseline.utils.iterable.IterableForamt;
 import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.apache.commons.collections.map.HashedMap;
+import org.apache.poi.ss.formula.functions.T;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SQLReady;
 import org.beetl.sql.core.annotatoin.Table;
@@ -27,7 +25,6 @@ import org.beetl.sql.core.query.OrderBy;
 import org.beetl.sql.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.lang.reflect.Field;
@@ -49,6 +46,8 @@ public class ResourceService{
     private SQLManager sqlManager;
     @Resource
     private ResPropService resPropService;
+    @Resource
+    private ResourceService resourceService;
 
     /**
      * 根据资源id获取资源对象
@@ -64,6 +63,22 @@ public class ResourceService{
         }
         return resourceList.get(0);
     }
+
+    /**
+     * 根据资源id获取资源对象
+     *
+     * @param id
+     * @return
+     */
+    public ResService getRes(Long id) throws Exception {
+        Query<ResService> resourceQuery = sqlManager.lambdaQuery(ResService.class).andEq(ResService::getResourceId, id).andEq(ResService::getServiceType,4);
+        List<ResService> resourceList = resourceQuery.select();
+        if (resourceList.size() <= 0) {
+            throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + id + ";");
+        }
+        return resourceList.get(0);
+    }
+
 
     /**
      * 根据resourceName获取资源对象
@@ -163,21 +178,21 @@ public class ResourceService{
 //        method.invoke(query);
 //        sql = query.getSql().toString();
         //addAdditionalPartSql
-        Field field = null;
-        Class<?> clazz = query.getClass().getSuperclass();
-        field = clazz.getDeclaredField(SqlConst.ORDERBY);
-        field.setAccessible(true);
-        OrderBy orderBy = (OrderBy) field.get(query);
-        field = clazz.getDeclaredField(SqlConst.GROUPBY);
-        field.setAccessible(true);
-        GroupBy groupBy = (GroupBy) field.get(query);
+//        Field field = null;
+//        Class<?> clazz = query.getClass().getSuperclass();
+//        field = clazz.getDeclaredField(SqlConst.ORDERBY);
+//        field.setAccessible(true);
+//        OrderBy orderBy = (OrderBy) field.get(query);
+//        field = clazz.getDeclaredField(SqlConst.GROUPBY);
+//        field.setAccessible(true);
+//        GroupBy groupBy = (GroupBy) field.get(query);
         StringBuilder sb=query.getSql();
-        if (groupBy != null) {
-            sb.append(groupBy.getGroupBy()).append(" ");
-        }
-        if (orderBy != null) {
-            sb.append(orderBy.getOrderBy()).append(" ");
-        }
+//        if (groupBy != null) {
+//            sb.append(groupBy.getGroupBy()).append(" ");
+//        }
+//        if (orderBy != null) {
+//            sb.append(orderBy.getOrderBy()).append(" ");
+//        }
         sql=sb.toString();
         List<Object> params = query.getParams();
         Object[] array = new Object[params.size()];
@@ -218,9 +233,6 @@ public class ResourceService{
      */
     @RedisCacheAnno()
     public Page<?> list(Resources resource, String fields, QueryParam<?> param) throws Exception {
-        if (resource.getResourceType() == 1) {
-            return listBySql(resource.getResourceSql(), param);
-        }
         Class<?> itemBean = Class.forName(resource.getClasspath());
         return list(itemBean, fields, param);
     }
@@ -276,21 +288,27 @@ public class ResourceService{
      * @param param
      * @return
      */
-    private Page<?> listBySql(String sql, QueryParam<?> param) throws Exception {
-        return listBySql(sql, "", param);
-    }
+//    private Page<?> listBySql(String sql, QueryParam<?> param) throws Exception {
+//        return listBySql(sql,  param);
+//    }
 
     /**
      * 根据sql，fields和param得到数据集合
      * @param sql
-     * @param fields
      * @param param
      * @return
      */
-    private Page<?> listBySql(String sql, String fields, QueryParam<?> param) throws Exception {
+    public Page<?> listBySql(Class<?> clazz, String sql, QueryParam<?> param) throws Exception {
         Page page = new Page<>();
-        Query<?> query = sqlManager.query(ResourceService.class);
+
+        Query<?> query = sqlManager.query(clazz);
         query = QueryBuilder.getQuery(param.getList(), query);
+        //将拼接语句中的'WHERE'替换为'AND'
+        String str = query.getSql().toString();
+        str = str.replaceAll("WHERE"," AND");
+        str = str.replaceAll("`TID`","user.tid");
+        str = str.replaceAll("`CREATE_TIME`","user.create_time");
+        sql += str;
         query.setSql(new StringBuilder(sql+" "));
 //        通过beetl默认方法来设置sql语句
 //        Method method = null;
@@ -300,21 +318,21 @@ public class ResourceService{
 //        method.invoke(query);
 //        sql = query.getSql().toString();
         //addAdditionalPartSql
-        Field field = null;
-        Class<?> clazz = query.getClass().getSuperclass();
-        field = clazz.getDeclaredField(SqlConst.ORDERBY);
-        field.setAccessible(true);
-        OrderBy orderBy = (OrderBy) field.get(query);
-        field = clazz.getDeclaredField(SqlConst.GROUPBY);
-        field.setAccessible(true);
-        GroupBy groupBy = (GroupBy) field.get(query);
+//        Field field = null;
+//        Class<?> clazzs = query.getClass().getSuperclass();
+//        field = clazzs.getDeclaredField(SqlConst.ORDERBY);
+//        field.setAccessible(true);
+//        OrderBy orderBy = (OrderBy) field.get(query);
+//        field = clazzs.getDeclaredField(SqlConst.GROUPBY);
+//        field.setAccessible(true);
+//        GroupBy groupBy = (GroupBy) field.get(query);
         StringBuilder sb=query.getSql();
-        if (groupBy != null) {
-            sb.append(groupBy.getGroupBy()).append(" ");
-        }
-        if (orderBy != null) {
-            sb.append(orderBy.getOrderBy()).append(" ");
-        }
+//        if (groupBy != null) {
+//            sb.append(groupBy.getGroupBy()).append(" ");
+//        }
+//        if (orderBy != null) {
+//            sb.append(orderBy.getOrderBy()).append(" ");
+//        }
         sql=sb.toString();
         List<HashMap> list = new ArrayList<>();
         int size = 20;//这里要读配置
