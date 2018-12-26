@@ -1,6 +1,6 @@
 package net.evecom.rd.ie.baseline.core.mvc.model.service;
 
-import net.evecom.rd.ie.baseline.core.mvc.model.dao.IUiComponentDao;
+import net.evecom.rd.ie.baseline.core.mvc.model.dao.ComponentDao;
 import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiElement;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseService;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.Power;
@@ -22,15 +22,17 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @author xiejun
+ * @ClassName: ComponentService
+ * @Description:
+ * @author： zhengc
+ * @date： 2018/10/11
  */
-
-@Service("uiComponentService")
-public class UiComponentService extends BaseService {
+@Service("componentService")
+public class ComponentService extends BaseService {
     @Resource
     private ResourceService resourceService;
     @Resource
-    private IUiComponentDao iUiComponentDao;
+    private ComponentDao componentDao;
 
     public List<UiComponent> getComponents(List<Power> list, Long routerId) throws Exception {
         StringBuffer sb = new StringBuffer();
@@ -48,7 +50,7 @@ public class UiComponentService extends BaseService {
         }
         for (UiComponent uiComponent : componentList) {
             if (uiComponent.getName().equals("table")||uiComponent.getName().equals("form")) {
-                List<UiComponent> childList = iUiComponentDao.getChildListById(uiComponent.getTid());
+                List<UiComponent> childList = componentDao.getChildListById(uiComponent.getTid());
                 uiComponent.setChildList(childList);
             }
         }
@@ -142,7 +144,7 @@ public class UiComponentService extends BaseService {
     }
 
     public List<UiComponent> getChildFile(Long componentId) {
-        List<UiComponent> fileChildList = iUiComponentDao.getChildListById(componentId);
+        List<UiComponent> fileChildList = componentDao.getChildListById(componentId);
         return fileChildList;
     }
 }

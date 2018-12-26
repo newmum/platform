@@ -6,6 +6,6 @@ import org.beetl.sql.core.mapper.BaseMapper;
 
 import java.util.List;
 
-public interface IUiComponentDao extends BaseMapper<UiComponent> {
+public interface ComponentDao extends BaseMapper<UiComponent> {
 	List<UiComponent> getChildListById(@Param("componentId") Long componentId);
 }

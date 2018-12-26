@@ -10,16 +10,15 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
- * @ClassName: UiRouter
- * @Description: 前端路由对象
+ * @ClassName: Menu
+ * @Description: 前端菜单组件对象
  * @author： zhengc
- * @date： 2018年10月31日
+ * @date： 2018年12月18日
  */
 @Table(name = "RM_MENU_T")
 @ToString
-public class UiRouter extends DataEntity<UiRouter> implements Serializable {
+public class Menu extends DataEntity<Menu> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "PARENT_ID")
 	@ApiModelProperty(value = "父类id")
 	@NotNull(message = "父类不能为空")
@@ -40,9 +39,9 @@ public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 	@Column(name = "HREF")
 	@ApiModelProperty(value = "链接")
 	private String href;
-	@Column(name = "NAME")
+	@Column(name = "ROUTER_NAME")
 	@ApiModelProperty(value = "路由名")
-	private String name;
+	private String routerName;
 	@Column(name = "ICON")
 	@ApiModelProperty(value = "图标")
 	private String icon;
@@ -52,12 +51,9 @@ public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 	@Column(name = "POWER_ID")
 	@ApiModelProperty(value = "权限id")
 	private Long crmPowerId;
-	@Column(name = "CREATE_ID")
-	@ApiModelProperty(value = "创建人id", hidden = true)
-	private Long createUserId;
-	/*@Column(name = "remarks")
-	@ApiModelProperty(value = "备注")
-	private String remarks;*/
+	@Column(name = "CREATE_USER")
+	@ApiModelProperty(value = "创建者", hidden = true)
+	private Long createUser;
 	@ApiModelProperty(value = "请求方式")
 	private String method;
 	@ApiModelProperty(value = "请求路径")
@@ -127,14 +123,6 @@ public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 		this.href = href;
 	}
 
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
 	public String getIcon() {
 		return icon;
 	}
@@ -159,29 +147,19 @@ public class UiRouter extends DataEntity<UiRouter> implements Serializable {
 		this.crmPowerId = crmPowerId;
 	}
 
-	public Long getCreateUserId() {
-		return createUserId;
+	public String getRouterName() {
+		return routerName;
 	}
 
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
+	public void setRouterName(String routerName) {
+		this.routerName = routerName;
 	}
 
-	/*public String getRemarks() {
-		return remarks;
+	public Long getCreateUser() {
+		return createUser;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
-	}*/
-
-	@Override
-	public String toString() {
-		return "UiRouter [" + "parentId=" + parentId + "," + "title=" + title + "," + "sort=" + sort + "," + "path="
-				+ path + "," + "pathType=" + pathType + "," + "href=" + href + "," + "name=" + name + "," + "icon="
-				+ icon + "," + "isMenu=" + isShow + "," + "crmPowerId=" + crmPowerId + "," + "createUserId="
-				+ createUserId + "]" + "Address [" + getClass().getName() + "@"
-				+ Integer.toHexString(hashCode()) + "]";
+	public void setCreateUser(Long createUser) {
+		this.createUser = createUser;
 	}
-
 }

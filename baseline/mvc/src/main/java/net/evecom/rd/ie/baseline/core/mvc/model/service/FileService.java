@@ -1,6 +1,6 @@
 package net.evecom.rd.ie.baseline.core.mvc.model.service;
 
-import net.evecom.rd.ie.baseline.core.mvc.model.dao.SysFileDao;
+import net.evecom.rd.ie.baseline.core.mvc.model.dao.FileDao;
 import net.evecom.rd.ie.baseline.core.mvc.model.entity.SysFile;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseService;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
@@ -33,13 +33,13 @@ import java.util.Map;
 
 @Transactional
 @Service("sysFileService")
-public class SysFileService extends BaseService {
+public class FileService extends BaseService {
 	@Resource
 	private ResourceService resourceService;
 	@Resource
-	private SysFileDao sysFileDao;
+	private FileDao fileDao;
 
-	PropertiesUtils global = new PropertiesUtils(SysFileService.class.getClassLoader().getResourceAsStream("app.properties"));
+	PropertiesUtils global = new PropertiesUtils(FileService.class.getClassLoader().getResourceAsStream("app.properties"));
 
 	public void baseCheck(SysFile sysFile) throws Exception {
 		String str = ValidtorUtil.validbean(sysFile);
@@ -173,12 +173,12 @@ public class SysFileService extends BaseService {
 	}
 
 	public List<SysFile> getParentFile(Long sysFileId) {
-		List<SysFile> fileParentList = sysFileDao.getFileParentList(sysFileId);
+		List<SysFile> fileParentList = fileDao.getFileParentList(sysFileId);
 		return fileParentList;
 	}
 
 	public List<SysFile> getChildFile(Long sysFileId) {
-		List<SysFile> fileChildList = sysFileDao.getFileChildList(sysFileId);
+		List<SysFile> fileChildList = fileDao.getFileChildList(sysFileId);
 		return fileChildList;
 	}
 

@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletRequest;
 @Aspect
 public class WebControllerAop {
 
-	private final String POINT_CUT = "execution(* net.evecom.*.*.controller..*.*(..)))";
+	private final String POINT_CUT = "execution(* net.evecom..*.controller..*.*(..)))";
 
 	@Pointcut(POINT_CUT)
 	public void executeService() {

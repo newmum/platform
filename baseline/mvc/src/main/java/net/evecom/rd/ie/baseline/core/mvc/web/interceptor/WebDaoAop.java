@@ -17,7 +17,7 @@ import java.util.Map;
 @Aspect
 public class WebDaoAop {
 
-	private final String POINT_CUT = "execution(* net.evecom.*.*.model.dao..*.*(..))";
+	private final String POINT_CUT = "execution(* net.evecom..*.model.dao..*.*(..))";
 
 	@Pointcut(POINT_CUT)
 	public void executeService() {

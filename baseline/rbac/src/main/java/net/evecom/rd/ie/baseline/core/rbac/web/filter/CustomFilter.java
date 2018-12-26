@@ -73,7 +73,6 @@ public class CustomFilter implements Filter {
                 filterChain.doFilter(request, response);
                 return;
             }
-
             String sid = authCertService.getSID(request);
             if (CheckUtil.isNull(sid)) {
                 noPower(request, response, CommonException.NO_LOGIN);
@@ -86,20 +85,16 @@ public class CustomFilter implements Filter {
                 noPower(request, response, e.getMessage());
             }
             if (CheckUtil.isNull(obj)) {
-                // 返回登录
                 noPower(request, response, CommonException.NO_LOGIN);
                 return;
             }
             User user = (User) obj;
             objectMapper.writeValueAsString(user);
-            if (user.getTid() != 1) {// TODO 测试使用
-                List<Power> powerList = user.getPowerList();
-                boolean bo = hasPower(powerList, stp_url, stp_method);
-                if (!bo) {
-                    // 返回登录
-                    noPower(request, response, CommonException.NO_POWER);
-                    return;
-                }
+            List<Power> powerList = user.getPowerList();
+            boolean bo = hasPower(powerList, stp_url, stp_method);
+            if (!bo) {
+                noPower(request, response, CommonException.NO_POWER);
+                return;
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);
