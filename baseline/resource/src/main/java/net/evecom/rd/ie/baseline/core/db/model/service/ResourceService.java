@@ -300,6 +300,7 @@ public class ResourceService{
      */
     public Page<?> listBySql(Class<?> clazz, String sql, QueryParam<?> param) throws Exception {
         Page page = new Page<>();
+
         Query<?> query = sqlManager.query(clazz);
         query = QueryBuilder.getQuery(param.getList(), query);
         //将拼接语句中的'WHERE'替换为'AND'
