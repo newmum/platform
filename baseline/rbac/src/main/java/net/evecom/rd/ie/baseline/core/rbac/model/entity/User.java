@@ -5,6 +5,7 @@ import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
+import org.beetl.sql.core.annotatoin.Tail;
 
 import javax.persistence.Column;
 import java.util.List;
@@ -45,9 +46,9 @@ public class User extends DataEntity<User> {
 	@ApiModelProperty(value = "用户机构对象", hidden = true)
 	private Department department;
 	@ApiModelProperty(value = "基本信息", hidden = true)
-	private UserExtra crmUserExtra;
+	private UserExtra userExtra;
 	@ApiModelProperty(value = "角色集合", hidden = true)
-	private List<Role> roleList;
+	private List<Role> role;
 	@ApiModelProperty(value = "菜单集合", hidden = true)
 	private List<UiRouter> menuList;
 	@ApiModelProperty(value = "菜单权限集合", hidden = true)
@@ -128,20 +129,20 @@ public class User extends DataEntity<User> {
         this.department = department;
     }
 
-    public UserExtra getCrmUserExtra() {
-		return crmUserExtra;
+	public UserExtra getUserExtra() {
+		return userExtra;
 	}
 
-	public void setCrmUserExtra(UserExtra crmUserExtra) {
-		this.crmUserExtra = crmUserExtra;
+	public void setUserExtra(UserExtra userExtra) {
+		this.userExtra = userExtra;
 	}
 
-	public List<Role> getRoleList() {
-		return roleList;
+	public List<Role> getRole() {
+		return role;
 	}
 
-	public void setRoleList(List<Role> roleList) {
-		this.roleList = roleList;
+	public void setRole(List<Role> role) {
+		this.role = role;
 	}
 
 	public List<UiRouter> getMenuList() {

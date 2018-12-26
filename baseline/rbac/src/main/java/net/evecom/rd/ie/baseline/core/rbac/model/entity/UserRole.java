@@ -3,6 +3,7 @@ package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
+import org.beetl.sql.core.annotatoin.Tail;
 
 import javax.persistence.Column;
 import javax.validation.constraints.NotNull;
@@ -17,7 +18,7 @@ import java.io.Serializable;
 @Table(name = "RM_ROLE_POWER_RELA_T")
 public class UserRole extends DataEntity<UserRole> implements Serializable {
 
-	@Column(name = "TID")
+	@Column(name = "USER_ID")
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户不能为空")
 	private Long crmUserId;
@@ -26,6 +27,7 @@ public class UserRole extends DataEntity<UserRole> implements Serializable {
 	@NotNull(message = "角色不能为空")
 	private Long crmRoleId;
 
+	@Column(name = "USER_ID")
 	public Long getCrmUserId() {
 		return crmUserId;
 	}
@@ -34,6 +36,7 @@ public class UserRole extends DataEntity<UserRole> implements Serializable {
 		this.crmUserId = crmUserId;
 	}
 
+	@Column(name = "ROLE_ID")
 	public Long getCrmRoleId() {
 		return crmRoleId;
 	}

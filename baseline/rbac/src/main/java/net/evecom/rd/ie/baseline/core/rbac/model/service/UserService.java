@@ -1,6 +1,8 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import net.evecom.rd.ie.baseline.core.db.database.query.QueryBuilder;
+import net.evecom.rd.ie.baseline.core.db.database.query.QueryCondition;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseService;
 import net.evecom.rd.ie.baseline.core.rbac.model.dao.UserDao;
 import net.evecom.rd.ie.baseline.core.db.exception.ResourceException;
@@ -12,11 +14,16 @@ import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
 import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.tools.message.email.SendEmail;
 import net.evecom.rd.ie.baseline.tools.message.sms.SendSMS;
+import net.evecom.rd.ie.baseline.tools.service.Page;
 import net.evecom.rd.ie.baseline.utils.database.redis.RedisClient;
 import net.evecom.rd.ie.baseline.utils.request.IPUtils;
 import net.evecom.rd.ie.baseline.utils.string.RandomUtil;
 import net.evecom.rd.ie.baseline.utils.string.StringUtil;
 import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
+import org.apache.catalina.Manager;
+import org.beetl.sql.core.SQLManager;
+import org.beetl.sql.core.engine.PageQuery;
+import org.beetl.sql.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,6 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 
 @Transactional
 @Service("userService")
@@ -42,6 +50,8 @@ public class UserService extends BaseService {
     private ResourceService resourceService;
     @Resource
     private ObjectMapper objectMapper;
+    @Resource
+    private SQLManager sqlManager;
 
     /**
      *
@@ -198,7 +208,7 @@ public class UserService extends BaseService {
             user.setPowerList(powerList);
         }
         List<Role> roleList = userDao.getRoleList(user.getTid());
-        user.setRoleList(roleList);
+        user.setRole(roleList);
         // 保存登录日志
         String login_ip = IPUtils.getIpAddr(request);
         UserLoginLog userLog = new UserLoginLog();
@@ -229,7 +239,7 @@ public class UserService extends BaseService {
             userExtra = new UserExtra();
             userExtra.setUserId(user.getTid());
         }
-        user.setCrmUserExtra(userExtra);
+        user.setUserExtra(userExtra);
     }
 
     public User passwordRecoveryCheck(String mobile, String email, String validate, String password)
@@ -383,7 +393,7 @@ public class UserService extends BaseService {
             throw new UserException(UserException.TYPE_NO_EXIST);
         }
         User temp = userDao.templateOne(user);
-        if (temp != null && temp.getTid() != id) {
+        if (temp != null && !temp.getTid().equals(id)) {
             if (type == 1) {
                 throw new UserException(UserException.MOBILE_HAS_EXIST);
             } else if (type == 2) {
@@ -571,7 +581,7 @@ public class UserService extends BaseService {
         } catch (Exception e) {
             throw new UserException(UserException.USER_NO_LOGIN);
         }
-        if (loginUser.getTid() != user.getTid()) {
+        if (!loginUser.getTid().equals(user.getTid())) {
             throw new UserException(UserException.ILLEGAL_USER);
         }
         editCheck(user);
@@ -656,7 +666,7 @@ public class UserService extends BaseService {
             user.setPowerList(powerList);
         }
         List<Role> roleList = userDao.getRoleList(user.getTid());
-        user.setRoleList(roleList);
+        user.setRole(roleList);
         updateLoginUser(user, request);
         return user;
     }
@@ -698,5 +708,52 @@ public class UserService extends BaseService {
             throw new CommonException(CommonException.JSON_FORMAT_ERROR);
         }
         return entity;
+    }
+
+    /**
+     * 通过Id获取用户信息
+     * @param userId
+     * @return
+     */
+    public User queryUserById (String userId){
+        return userDao.queryUserById(userId);
+    }
+
+    /**
+     * 获取用户全部信息
+     * @param
+     * @return
+     */
+    public Page<User> queryUsers(QueryParam param){
+        User user = new User();
+        PageQuery pageQuery= new PageQuery();
+        pageQuery.setPageSize(param.getPageSize());
+        pageQuery.setPageNumber(param.getPage());
+        for (int i=0; i < param.getList().size();i++){
+            QueryCondition condition = (QueryCondition)param.getList().get(i);
+            if("ACCOUNT".equals(condition.getAttrName())){
+                user.setAccount((String)condition.getValue());
+            }
+            if("MOBILE".equals(condition.getAttrName())){
+                user.setMobile((String)condition.getValue());
+            }
+            if("IS_LOCK".equals(condition.getAttrName())){
+                user.setIsLock((Integer)condition.getValue());
+            }
+            //pageQuery.setPara(condition.getAttrName(),condition.getValue());
+            //System.out.print("user.set"+condition.getAttrName()+"("+condition.getValue()+")");
+            //user.setAccout('a')
+            //user.setAccount(condition.getAttrName());
+            //user.setMobile(condition.getAttrName());
+            //user.setIsLock(condition.getAttrName());
+        }
+        pageQuery.setParas(user);
+        sqlManager.pageQuery("user.queryUserAll",User.class,pageQuery);
+        Page<User> page = new Page();
+        page.setList(pageQuery.getList());
+        page.setTotal(pageQuery.getTotalRow());
+        page.setPage((int)pageQuery.getTotalPage());
+        page.setPageSize((int)pageQuery.getPageSize());
+        return page;
     }
 }

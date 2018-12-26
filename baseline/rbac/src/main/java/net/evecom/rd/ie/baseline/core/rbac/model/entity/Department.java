@@ -24,7 +24,7 @@ public class Department extends DataEntity<Department> implements Serializable {
 	@Column(name = "TITLE")
 	@ApiModelProperty(value = "组织机构名称")
 	@NotNull(message = "名称不能为空")
-	private String deptName;
+	private String title;
 	@Column(name = "SORT")
 	@ApiModelProperty(value = "排序")
 	private Long sort;
@@ -67,12 +67,13 @@ public class Department extends DataEntity<Department> implements Serializable {
 		this.parentId = parentId;
 	}
 
-	public String getDeptName() {
-		return deptName;
+	@Column(name = "TITLE")
+	public String getTitle() {
+		return title;
 	}
 
-	public void setDeptName(String deptName) {
-		this.deptName = deptName;
+	public void setTitle(String title) {
+		this.title = title;
 	}
 
 	public Long getSort() {
