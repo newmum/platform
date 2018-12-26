@@ -26,7 +26,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.eve.center.CenterApp</mainClass>
+                    <mainClass>net.evecom.rd.ie.baseline.cloud.center.CenterApp</mainClass>
                     <executable>true</executable>
                 </configuration>
                 <executions>

@@ -1,6 +1,6 @@
-package com.eve.gate.config;
+package com.evecom.rd.ie.baseline.cloud.gate.config;
 
-import com.eve.gate.filter.OauthFilter;
+import com.evecom.rd.ie.baseline.cloud.gate.filter.OauthFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

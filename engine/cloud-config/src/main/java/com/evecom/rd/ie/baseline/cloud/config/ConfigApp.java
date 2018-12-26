@@ -1,4 +1,4 @@
-package com.eve.config;
+package com.evecom.rd.ie.baseline.cloud.config;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

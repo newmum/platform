@@ -1,4 +1,4 @@
-package com.eve.gate.fallback;
+package com.evecom.rd.ie.baseline.cloud.gate.fallback;
 
 import com.netflix.zuul.context.RequestContext;
 import org.slf4j.Logger;
@@ -24,7 +24,7 @@ public class UmaFallback implements FallbackProvider {
 
     @Override
     public String getRoute() {
-        return "etl-processor";
+        return "management";
     }
 
     @Override

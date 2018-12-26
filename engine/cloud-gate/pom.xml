@@ -34,7 +34,7 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <configuration>
-                    <mainClass>com.eve.gate.GatewayApp</mainClass>
+                    <mainClass>com.evecom.rd.ie.baseline.cloud.gate.GatewayApp</mainClass>
                 </configuration>
                 <executions>
                     <execution>

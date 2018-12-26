@@ -1,4 +1,4 @@
-package com.eve.center;
+package net.evecom.rd.ie.baseline.cloud.center;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
