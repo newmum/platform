@@ -20,7 +20,7 @@
         <dependency>
             <groupId>net.evecom</groupId>
             <artifactId>baseline-web</artifactId>
-            <version>${baseline.version}</version>
+            <version>1.0.2</version>
         </dependency>
 
     </dependencies>

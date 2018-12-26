@@ -1,6 +1,5 @@
 package net.evecom.rd.ie.baseline.etl.processor.model.entity;
 
-import io.swagger.annotations.ApiModelProperty;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import org.beetl.sql.core.annotatoin.Table;
 
@@ -13,16 +12,14 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年10月30日
  */
-@Table(name = "processor_chain")
+@Table(name = "PROCESSOR_CHAIN")
 public class ProcessorChain extends DataEntity<ProcessorChain> implements Serializable {
 
-	@Column(name = "CHAIN_NAME")
-	@ApiModelProperty(value = "链路名称")
-	private String chainName;
+    @Column(name = "CHAIN_NAME")
+    private String chainName;
 
-	@Column(name = "TYPE")
-	@ApiModelProperty(value = "链路类型")
-	private int type;
+    @Column(name = "CHAIN_DESC")
+    private String chainDesc;
 
     public String getChainName() {
         return chainName;
@@ -32,11 +29,12 @@ public class ProcessorChain extends DataEntity<ProcessorChain> implements Serial
         this.chainName = chainName;
     }
 
-    public int getType() {
-        return type;
+    public String getChainDesc() {
+        return chainDesc;
     }
 
-    public void setType(int type) {
-        this.type = type;
+    public void setChainDesc(String chainDesc) {
+        this.chainDesc = chainDesc;
     }
 }
+
