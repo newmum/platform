@@ -248,6 +248,7 @@ public class QueryBuilder {
      * @param sc
      * @return
      */
+
     public static Query<?> getCondition(Query<?> query, QueryCondition sc) {
         Query<?> condition = query;
         String relation = sc.getRelation() == null ? "" : sc.getRelation();
