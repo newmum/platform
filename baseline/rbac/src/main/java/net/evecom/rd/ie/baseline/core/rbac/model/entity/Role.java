@@ -3,6 +3,8 @@ package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import net.evecom.rd.ie.baseline.utils.report.exl.ExcelField;
 import io.swagger.annotations.ApiModelProperty;
+import org.beetl.sql.core.annotatoin.AssignID;
+import org.beetl.sql.core.annotatoin.SeqID;
 import org.beetl.sql.core.annotatoin.Table;
 import org.beetl.sql.core.annotatoin.Tail;
 
@@ -18,6 +20,8 @@ import java.io.Serializable;
 @Table(name = "RM_ROLE_T")
 public class Role extends DataEntity<Role> implements Serializable {
 
+	@ApiModelProperty(value = "编号")
+	protected Long tid;
 	@ApiModelProperty(value = "角色名称")
 	@ExcelField(align = 2, sort = 1, title = "角色名称")
 	private String roleName;
@@ -33,6 +37,16 @@ public class Role extends DataEntity<Role> implements Serializable {
 	private Long createUser;
 	@ApiModelProperty(value = "备注")
 	private String roleDesc;
+
+	@SeqID(name="RM_ROLE_S")
+	@Column(name = "TID")
+	public Long getTid() {
+		return tid;
+	}
+
+	public void setTid(Long tid) {
+		this.tid = tid;
+	}
 
 	@Column(name = "ROLE_NAME")
     public String getRoleName() {
