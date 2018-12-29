@@ -5,7 +5,6 @@ import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
-import org.beetl.sql.core.annotatoin.Tail;
 
 import javax.persistence.Column;
 import java.util.List;
@@ -50,7 +49,7 @@ public class User extends DataEntity<User> {
 	@ApiModelProperty(value = "角色集合", hidden = true)
 	private List<Role> role;
 	@ApiModelProperty(value = "菜单集合", hidden = true)
-	private List<UiRouter> menuList;
+	private List<Menu> menuList;
 	@ApiModelProperty(value = "菜单权限集合", hidden = true)
 	private List<Power> powerList;
 
@@ -145,11 +144,11 @@ public class User extends DataEntity<User> {
 		this.role = role;
 	}
 
-	public List<UiRouter> getMenuList() {
+	public List<Menu> getMenuList() {
 		return menuList;
 	}
 
-	public void setMenuList(List<UiRouter> menuList) {
+	public void setMenuList(List<Menu> menuList) {
 		this.menuList = menuList;
 	}
 
