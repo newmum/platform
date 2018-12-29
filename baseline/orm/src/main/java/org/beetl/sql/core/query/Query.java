@@ -266,6 +266,17 @@ public class Query<T> extends QueryCondition<T> implements QueryExecuteI<T>, Que
         return (Long) results.get(0);
     }
 
+    /**
+     * TODO BASELINE 增加外部语句分页
+     */
+    public long count(String sql, Object... obj) {
+        StringBuilder sb = new StringBuilder("SELECT COUNT(1) FROM ("+sql+")");
+        //先清除，避免执行出错后无法清除
+        clear();
+        List results = this.sqlManager.execute(new SQLReady(sb.toString(), obj), Long.class);
+        return (Long) results.get(0);
+    }
+
     @Override
     public Query<T> having(QueryCondition condition) {
         // 去除叠加条件中的WHERE
@@ -347,7 +358,6 @@ public class Query<T> extends QueryCondition<T> implements QueryExecuteI<T>, Que
         return this.sqlManager.execute(sqlReady, retType, pageQuery);
     }
 
-
     @Override
     public PageQuery<T> page(long pageNumber, long pageSize, String... columns) {
         return pageByType(pageNumber, pageSize, clazz, columns);
@@ -362,7 +372,6 @@ public class Query<T> extends QueryCondition<T> implements QueryExecuteI<T>, Que
     public PageQuery<Map> mapPage(long pageNumber, long pageSize, String... columns) {
         return pageByType(pageNumber, pageSize, Map.class, columns);
     }
-
 
     /***
      * 获取错误提示

@@ -1,8 +1,6 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import net.evecom.rd.ie.baseline.core.db.database.query.QueryBuilder;
-import net.evecom.rd.ie.baseline.core.db.database.query.QueryCondition;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseService;
 import net.evecom.rd.ie.baseline.core.rbac.model.dao.UserDao;
 import net.evecom.rd.ie.baseline.core.db.exception.ResourceException;
@@ -14,16 +12,11 @@ import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
 import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.tools.message.email.SendEmail;
 import net.evecom.rd.ie.baseline.tools.message.sms.SendSMS;
-import net.evecom.rd.ie.baseline.tools.service.Page;
 import net.evecom.rd.ie.baseline.utils.database.redis.RedisClient;
 import net.evecom.rd.ie.baseline.utils.request.IPUtils;
 import net.evecom.rd.ie.baseline.utils.string.RandomUtil;
 import net.evecom.rd.ie.baseline.utils.string.StringUtil;
 import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
-import org.apache.catalina.Manager;
-import org.beetl.sql.core.SQLManager;
-import org.beetl.sql.core.engine.PageQuery;
-import org.beetl.sql.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -35,7 +28,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 
 @Transactional
 @Service("userService")
@@ -50,8 +42,6 @@ public class UserService extends BaseService {
     private ResourceService resourceService;
     @Resource
     private ObjectMapper objectMapper;
-    @Resource
-    private SQLManager sqlManager;
 
     /**
      *
@@ -188,58 +178,20 @@ public class UserService extends BaseService {
     }
 
     public User login(User user, HttpServletResponse response, HttpServletRequest request) throws Exception {
-        setUserExtra(user);
         try {
             logout(request, response);
         } catch (Exception e) {
-
         }
-        if(user.getTid()==1){
-            //admin 用户 获取所有权限,菜单
-            QueryParam queryParam=new QueryParam();
-            queryParam.setNeedPage(false);
-            queryParam.setNeedTotal(false);
-            user.setMenuList((List<UiRouter>) resourceService.list(UiRouter.class,queryParam).getList());
-            user.setPowerList((List<Power>) resourceService.list(Power.class,queryParam).getList());
-        }else{
-            List<UiRouter> menuList = userDao.getMenuList(user.getTid());
-            List<Power> powerList = userDao.getPowerList(user.getTid());
-            user.setMenuList(menuList);
-            user.setPowerList(powerList);
-        }
-        List<Role> roleList = userDao.getRoleList(user.getTid());
-        user.setRole(roleList);
+        List<Power> powerList = userDao.privList(user.getTid());
+        user.setPowerList(powerList);
+        String sid = saveLoginUser(user, response);
         // 保存登录日志
         String login_ip = IPUtils.getIpAddr(request);
         UserLoginLog userLog = new UserLoginLog();
         userLog.setIp(login_ip);
         userLog.setCrmUserId(user.getTid());
-        String sid = saveLoginUser(user, response);
         resourceService.add(userLog);
-        // User temp = iUserDao.queryUsers(user.getId());
-        // List<Role> roles = (List<Role>) temp.get("role");
-        // List<Menu> menu = (List<Menu>) temp.get("menu");
-        // List<Power> power = (List<Power>) temp.get("power");
-        // temp.setRoleList(roles);
-        // temp.setMenuList(menu);
-        // temp.setPowerList(power);
         return user;
-    }
-
-    public void setUserExtra(User user) {
-        QueryParam<UserExtra> param = new QueryParam<>(UserExtra.class);
-        param.append(UserExtra::getUserId, user.getTid());
-        UserExtra userExtra;
-        try {
-            userExtra = (UserExtra) resourceService.get(UserExtra.class, param);
-            Department dept = (Department) resourceService.get(Department.class, user.getDeptId());
-            user.setDepartment(dept);
-        } catch (Exception e) {
-            e.printStackTrace();
-            userExtra = new UserExtra();
-            userExtra.setUserId(user.getTid());
-        }
-        user.setUserExtra(userExtra);
     }
 
     public User passwordRecoveryCheck(String mobile, String email, String validate, String password)
@@ -393,7 +345,7 @@ public class UserService extends BaseService {
             throw new UserException(UserException.TYPE_NO_EXIST);
         }
         User temp = userDao.templateOne(user);
-        if (temp != null && !temp.getTid().equals(id)) {
+        if (temp != null && temp.getTid() != id) {
             if (type == 1) {
                 throw new UserException(UserException.MOBILE_HAS_EXIST);
             } else if (type == 2) {
@@ -408,9 +360,9 @@ public class UserService extends BaseService {
     }
 
     public MessageSms sendSMSCheck(HttpServletRequest request, String mobile, Integer id, String validateImageCode) throws Exception {
-       if(CheckUtil.isNull(validateImageCode)){
-           throw new UserException(UserException.VALIDATE_IMAGE_INPUT_NULL);
-       }
+        if(CheckUtil.isNull(validateImageCode)){
+            throw new UserException(UserException.VALIDATE_IMAGE_INPUT_NULL);
+        }
         Object check_code = request.getSession().getAttribute(CacheGroupConst.CHECK_CODE_NAME);
         if (check_code != null && !check_code.toString().equals(validateImageCode)) {
             throw new UserException(UserException.VALIDATE_ERROR);
@@ -581,7 +533,7 @@ public class UserService extends BaseService {
         } catch (Exception e) {
             throw new UserException(UserException.USER_NO_LOGIN);
         }
-        if (!loginUser.getTid().equals(user.getTid())) {
+        if (loginUser.getTid() != user.getTid()) {
             throw new UserException(UserException.ILLEGAL_USER);
         }
         editCheck(user);
@@ -650,27 +602,6 @@ public class UserService extends BaseService {
         return resultList;
     }
 
-    public User updateUserInfo(HttpServletRequest request, HttpServletResponse response) throws Exception {
-        User user = loginUser(request);
-        if(user.getTid()==1){
-            //admin 用户 获取所有权限,菜单
-            QueryParam queryParam=new QueryParam();
-            queryParam.setNeedPage(false);
-            queryParam.setNeedTotal(false);
-            user.setMenuList((List<UiRouter>) resourceService.list(UiRouter.class,queryParam).getList());
-            user.setPowerList((List<Power>) resourceService.list(Power.class,queryParam).getList());
-        }else{
-            List<UiRouter> menuList = userDao.getMenuList(user.getTid());
-            List<Power> powerList = userDao.getPowerList(user.getTid());
-            user.setMenuList(menuList);
-            user.setPowerList(powerList);
-        }
-        List<Role> roleList = userDao.getRoleList(user.getTid());
-        user.setRole(roleList);
-        updateLoginUser(user, request);
-        return user;
-    }
-
     private String getRedisKey(int type,String key){
         switch (type) {
             case 1:
@@ -708,52 +639,5 @@ public class UserService extends BaseService {
             throw new CommonException(CommonException.JSON_FORMAT_ERROR);
         }
         return entity;
-    }
-
-    /**
-     * 通过Id获取用户信息
-     * @param userId
-     * @return
-     */
-    public User queryUserById (String userId){
-        return userDao.queryUserById(userId);
-    }
-
-    /**
-     * 获取用户全部信息
-     * @param
-     * @return
-     */
-    public Page<User> queryUsers(QueryParam param){
-        User user = new User();
-        PageQuery pageQuery= new PageQuery();
-        pageQuery.setPageSize(param.getPageSize());
-        pageQuery.setPageNumber(param.getPage());
-        for (int i=0; i < param.getList().size();i++){
-            QueryCondition condition = (QueryCondition)param.getList().get(i);
-            if("ACCOUNT".equals(condition.getAttrName())){
-                user.setAccount((String)condition.getValue());
-            }
-            if("MOBILE".equals(condition.getAttrName())){
-                user.setMobile((String)condition.getValue());
-            }
-            if("IS_LOCK".equals(condition.getAttrName())){
-                user.setIsLock((Integer)condition.getValue());
-            }
-            //pageQuery.setPara(condition.getAttrName(),condition.getValue());
-            //System.out.print("user.set"+condition.getAttrName()+"("+condition.getValue()+")");
-            //user.setAccout('a')
-            //user.setAccount(condition.getAttrName());
-            //user.setMobile(condition.getAttrName());
-            //user.setIsLock(condition.getAttrName());
-        }
-        pageQuery.setParas(user);
-        sqlManager.pageQuery("user.queryUserAll",User.class,pageQuery);
-        Page<User> page = new Page();
-        page.setList(pageQuery.getList());
-        page.setTotal(pageQuery.getTotalRow());
-        page.setPage((int)pageQuery.getTotalPage());
-        page.setPageSize((int)pageQuery.getPageSize());
-        return page;
     }
 }

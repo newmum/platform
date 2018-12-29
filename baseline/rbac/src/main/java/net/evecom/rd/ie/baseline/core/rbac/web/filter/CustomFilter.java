@@ -90,11 +90,13 @@ public class CustomFilter implements Filter {
             }
             User user = (User) obj;
             objectMapper.writeValueAsString(user);
-            List<Power> powerList = user.getPowerList();
-            boolean bo = hasPower(powerList, stp_url, stp_method);
-            if (!bo) {
-                noPower(request, response, CommonException.NO_POWER);
-                return;
+            if (user.getTid() != 1) {// TODO 测试使用
+                List<Power> powerList = user.getPowerList();
+                boolean bo = hasPower(powerList, stp_url, stp_method);
+                if (!bo) {
+                    noPower(request, response, CommonException.NO_POWER);
+                    return;
+                }
             }
         }
         filterChain.doFilter(servletRequest, servletResponse);

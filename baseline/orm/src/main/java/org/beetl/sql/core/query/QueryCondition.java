@@ -7,6 +7,7 @@ import java.util.List;
 import org.beetl.sql.core.BeetlSQLException;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.db.AbstractDBStyle;
+import org.beetl.sql.core.db.DBStyle;
 import org.beetl.sql.core.db.TableDesc;
 import org.beetl.sql.core.query.interfacer.QueryConditionI;
 
@@ -42,7 +43,6 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         return " " + sqlManager.getDbStyle().getKeyWordHandler().getCol(colName) + " ";
     }
 
-
     /****
      * 根据实体class获取表名
      * @param c
@@ -65,7 +65,6 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         }
     }
 
-
     /**
      * 拼接SQL
      *
@@ -79,7 +78,6 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         return (Query) this;
     }
 
-
     /**
      * 增加参数
      *
@@ -90,7 +88,6 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         params.addAll(objects);
         return (Query) this;
     }
-
 
     /**
      * 在头部增加参数
@@ -131,7 +128,7 @@ public class QueryCondition<T> implements QueryConditionI<T> {
                 .appendSql(getCol(column))
                 .appendSql(opt);
         if (value != null) {
-            this.appendSql(" ? ");
+            appendSqlByDb(column);
             this.addParam(value);
         }
     }
@@ -145,7 +142,8 @@ public class QueryCondition<T> implements QueryConditionI<T> {
                 .appendSql(opt)
                 .appendSql(" ( ");
         for (Object o : value) {
-            this.appendSql(" ? ,");
+            appendSqlByDb(column);
+            this.appendSql(",");
             this.addParam(o);
         }
         this.getSql().deleteCharAt(this.getSql().length() - 1);
@@ -156,11 +154,13 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         if (getSql().indexOf(WHERE) < 0) {
             link = WHERE;
         }
-
         this.appendSql(link)
                 .appendSql(getCol(column))
-                .appendSql(opt)
-                .appendSql(" ? AND ? ");
+                .appendSql(opt+" ");
+        appendSqlByDb(column);
+        this.appendSql(" AND ");
+        appendSqlByDb(column);
+        this.appendSql(" ");
         this.addParam(value[0]);
         this.addParam(value[1]);
     }
@@ -373,6 +373,46 @@ public class QueryCondition<T> implements QueryConditionI<T> {
             return new StringBuilder("");
         }
         return this.sql;
+    }
+
+    /**
+     * TODO BASELINE 增加获取完整SQL条件语句
+     * @return
+     */
+    public StringBuilder getConditionSql() {
+        StringBuilder sb = new StringBuilder();
+        if (this.sql != null) {
+            sb.append(this.sql);
+            int i = sb.indexOf(WHERE);
+            if (i > -1) {
+                sb.delete(i, i + 5);
+            }
+            sb = new StringBuilder(" "+AND).append(sb);
+        }
+        if (this.orderBy != null) {
+            sb.append(" "+this.orderBy.getOrderBy());
+        }
+        if (this.groupBy != null) {
+            sb.append(" "+this.groupBy.getGroupBy());
+        }
+        return sb;
+    }
+    /**
+     * TODO BASELINE 增加对异构数据库条件支持
+     * @return
+     */
+    protected void appendSqlByDb(String column) {
+        if(sqlManager.getDbStyle().getName().equals("oracle")){
+            if(column.endsWith("_time")){
+                this.appendSql("to_date(?,'YYYY-MM-DD HH24:mi:ss')");
+            } else if(column.endsWith("_date")){
+                this.appendSql("to_date(?,'YYYY-MM-DD')");
+            } else{
+                this.appendSql(" ? ");
+            }
+        }else{
+            this.appendSql(" ? ");
+        }
     }
 
     @Override

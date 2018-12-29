@@ -1,6 +1,7 @@
 package net.evecom.rd.ie.baseline.core.db.model.entity;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
 import org.beetl.sql.core.annotatoin.Table;
 import org.hibernate.validator.constraints.Range;
 
@@ -13,10 +14,9 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2017年10月25日
  */
-@Table(name = "db_resource_prop_exl_t")
+@Table(name = "DB_RESOURCE_PROP_EXL_T")
+@ToString
 public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "资源属性id")
     private Long propId;
@@ -48,12 +48,6 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
         resPropExl.setShowType(1);
         return resPropExl;
     }
-
-
-    public ResPropExl() {
-
-    }
-
     @Column(name = "PROP_ID")
     public Long getPropId() {
         return propId;
@@ -62,7 +56,6 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
     public void setPropId(Long propId) {
         this.propId = propId;
     }
-
     @Column(name = "TITLE")
     public String getTitle() {
         return title;
@@ -71,7 +64,6 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
     public void setTitle(String title) {
         this.title = title;
     }
-
     @Column(name = "IS_SHOW")
     public Integer getIsShow() {
         return isShow;
@@ -80,8 +72,7 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
     public void setIsShow(Integer isShow) {
         this.isShow = isShow;
     }
-
-    @Column(name = "show_type")
+    @Column(name = "SHOW_TYPE")
     public Integer getShowType() {
         return showType;
     }
@@ -89,7 +80,6 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
     public void setShowType(Integer showType) {
         this.showType = showType;
     }
-
     @Column(name = "ALIGN")
     public Integer getAlign() {
         return align;
@@ -98,7 +88,6 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
     public void setAlign(Integer align) {
         this.align = align;
     }
-
     @Column(name = "PROP_TYPE")
     public Integer getType() {
         return type;
@@ -107,7 +96,6 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
     public void setType(Integer type) {
         this.type = type;
     }
-
     @Column(name = "SORT")
     public Integer getSort() {
         return sort;
@@ -115,22 +103,6 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
 
     public void setSort(Integer sort) {
         this.sort = sort;
-    }
-
-    @Override
-    public String toString() {
-        return "ResPropExl [" +
-                "resPropId=" + propId + "," +
-                "title=" + title + "," +
-                "isShow=" + isShow + "," +
-                "showType=" + showType + "," +
-                "align=" + align + "," +
-                "sort=" + sort + "," +
-                "type=" + type +
-                "]" + "Address [" +
-                getClass().getName() + "@" +
-                Integer.toHexString(hashCode()) +
-                "]";
     }
 
 }

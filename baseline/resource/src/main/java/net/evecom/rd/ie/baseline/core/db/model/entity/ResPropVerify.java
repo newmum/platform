@@ -1,6 +1,7 @@
 package net.evecom.rd.ie.baseline.core.db.model.entity;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
 import org.beetl.sql.core.annotatoin.Table;
 
 import javax.persistence.Column;
@@ -11,9 +12,9 @@ import java.io.Serializable;
  * @Description: 资源属性校验对象 @author： zhengc @date： 2017年10月25日
  */
 @Table(name = "DB_RESOURCE_PROP_VERIFY_T")
+@ToString
 public class ResPropVerify extends DataEntity<ResPropVerify> implements Serializable {
 
-    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "字段id")
     private Long propId;
@@ -49,18 +50,6 @@ public class ResPropVerify extends DataEntity<ResPropVerify> implements Serializ
 
     public void setErrorTips(String errorTips) {
         this.errorTips = errorTips;
-    }
-
-    @Override
-    public String toString() {
-        return "ResPropVerify [" +
-                "resPropId=" + propId + "," +
-                "verifyRule=" + verifyRule + "," +
-                "errorTips=" + errorTips +
-                "]" + "Address [" +
-                getClass().getName() + "@" +
-                Integer.toHexString(hashCode()) +
-                "]";
     }
 
 }

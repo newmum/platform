@@ -5,7 +5,6 @@ import net.evecom.rd.ie.baseline.core.db.exception.ResourceException;
 import net.evecom.rd.ie.baseline.core.db.untis.JdbcUtil;
 import net.evecom.rd.ie.baseline.core.db.untis.ValidtorUtil;
 import net.evecom.rd.ie.baseline.tools.constant.consts.SqlConst;
-import net.evecom.rd.ie.baseline.core.db.database.query.QueryBuilder;
 import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
 import net.evecom.rd.ie.baseline.utils.report.exl.ExportExcel;
 import net.evecom.rd.ie.baseline.tools.exception.CommonException;
@@ -15,19 +14,14 @@ import net.evecom.rd.ie.baseline.utils.datetime.DTUtil;
 import net.evecom.rd.ie.baseline.utils.iterable.IterableForamt;
 import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.poi.ss.formula.functions.T;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SQLReady;
-import org.beetl.sql.core.annotatoin.Table;
-import org.beetl.sql.core.kit.PageKit;
-import org.beetl.sql.core.query.GroupBy;
-import org.beetl.sql.core.query.OrderBy;
+import org.beetl.sql.core.db.KeyHolder;
 import org.beetl.sql.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -42,65 +36,37 @@ import java.util.Map;
  */
 @Service("resourceService")
 public class ResourceService{
+
     @Resource
     private SQLManager sqlManager;
     @Resource
     private ResPropService resPropService;
-    @Resource
-    private ResourceService resourceService;
 
     /**
      * 根据资源id获取资源对象
-     *
-     * @param id
-     * @return
+     * @param id 资源id
+     * @return 资源对象
      */
     public Resources get(Long id) throws Exception {
-        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getTid, id);
-        List<Resources> resourceList = resourceQuery.select();
-        if (resourceList.size() <= 0) {
-            throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + id + ";");
-        }
-        return resourceList.get(0);
+        return (Resources)get(Resources.class, id);
     }
-
-    /**
-     * 根据资源id获取资源对象
-     *
-     * @param id
-     * @return
-     */
-    public ResService getRes(Long id) throws Exception {
-        Query<ResService> resourceQuery = sqlManager.lambdaQuery(ResService.class).andEq(ResService::getResourceId, id).andEq(ResService::getServiceType,4);
-        List<ResService> resourceList = resourceQuery.select();
-        if (resourceList.size() <= 0) {
-            throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + id + ";");
-        }
-        return resourceList.get(0);
-    }
-
 
     /**
      * 根据resourceName获取资源对象
-     *
-     * @param resourceName
-     * @return
+     * @param resourceName 资源名称
+     * @return 资源对象
      */
     public Resources get(String resourceName) throws Exception {
-        Query<Resources> resourceQuery = sqlManager.lambdaQuery(Resources.class).andEq(Resources::getResourceName, resourceName);
-        List<Resources> resourceList = resourceQuery.select();
-        if (resourceList.size() <= 0) {
-            throw new ResourceException(ResourceException.RESOURCE_NO_EXIST + ":" + resourceName + ";");
-        }
-        return resourceList.get(0);
+        QueryParam<Resources> param = new QueryParam<Resources>();
+        param.append(Resources::getResourceName, resourceName);
+        return (Resources)get(Resources.class, param);
     }
 
     /**
      * 根据clazz和id得到数据对象
-     *
-     * @param clazz
-     * @param id
-     * @return
+     * @param clazz 类型
+     * @param id 主键
+     * @return 查询对象
      */
     public Object get(Class<?> clazz, Long id) throws Exception {
         QueryParam<Resources> param = new QueryParam<Resources>();
@@ -110,10 +76,9 @@ public class ResourceService{
 
     /**
      * 根据resources和id获取数据对象
-     *
-     * @param resources
-     * @param id
-     * @return
+     * @param resources 资源
+     * @param id 主键
+     * @return 查询对象
      */
     public Object get(Resources resources, Long id) throws Exception {
         QueryParam<Resources> param = new QueryParam<Resources>();
@@ -123,100 +88,55 @@ public class ResourceService{
 
     /**
      * 根据resource和param得到数据对象
-     *
-     * @param resource
-     * @param param
-     * @return
+     * @param resource 资源
+     * @param param 条件
+     * @return 查询对象
      */
     public Object get(Resources resource, QueryParam<?> param) throws Exception {
         if (resource == null) {
             throw new ResourceException(ResourceException.RESOURCE_NO_FOUND);
         }
-        if (resource.getResourceType() == 1) {
-            return getBySql(resource.getResourceSql(), param);
-        }
         Class clazz = Class.forName(resource.getClasspath());
         return get(clazz, param);
     }
 
-
     /**
-     * 根据clazz和param得到数据对象
-     *
-     * @param clazz
-     * @param param
-     * @return
+     * 根据clazz和param得到数据对象，操作get的统一方法
+     * @param clazz 类型
+     * @param param 条件
+     * @return 查询对象
      */
     public Object get(Class clazz, QueryParam<?> param) throws Exception {
         if (clazz == null) {
             throw new ResourceException(ResourceException.RESOURCE_NO_FOUND);
         }
-        Query<?> resourceQuery = QueryBuilder.getQuery(param.getList(), sqlManager.query(clazz));
-        List<?> resourceList = resourceQuery.select();
-        if (resourceList.size() <= 0) {
-            throw new ResourceException(ResourceException.ID_NO_EXIST);
-        }
-        return resourceList.get(0);
-    }
-
-    /**
-     * 根据sql和param得到数据对象
-     *
-     * @param sql
-     * @param param
-     * @return
-     */
-    private Object getBySql(String sql, QueryParam<?> param) throws Exception {
-        Query<?> query = sqlManager.query(ResourceService.class);
-        query = QueryBuilder.getQuery(param.getList(), query);
-        query.setSql(new StringBuilder(sql+" "));
-//        通过beetl默认方法来设置sql语句
-//        Method method = null;
-//        Class<?> clazz = query.getClass();
-//        method = clazz.getDeclaredMethod("addAdditionalPartSql");
-//        method.setAccessible(true);
-//        method.invoke(query);
-//        sql = query.getSql().toString();
-        //addAdditionalPartSql
-//        Field field = null;
-//        Class<?> clazz = query.getClass().getSuperclass();
-//        field = clazz.getDeclaredField(SqlConst.ORDERBY);
-//        field.setAccessible(true);
-//        OrderBy orderBy = (OrderBy) field.get(query);
-//        field = clazz.getDeclaredField(SqlConst.GROUPBY);
-//        field.setAccessible(true);
-//        GroupBy groupBy = (GroupBy) field.get(query);
-        StringBuilder sb=query.getSql();
-//        if (groupBy != null) {
-//            sb.append(groupBy.getGroupBy()).append(" ");
-//        }
-//        if (orderBy != null) {
-//            sb.append(orderBy.getOrderBy()).append(" ");
-//        }
-        sql=sb.toString();
-        List<Object> params = query.getParams();
-        Object[] array = new Object[params.size()];
-        for (int i = 0; i < params.size(); i++) {
-            array[i] = params.get(i);
-        }
-        SQLReady sqlReady = new SQLReady(sql, array);
-        long pageNumber = 1;
-        long pageSize = 1;
-        long offset = (pageNumber - 1) * pageSize + (sqlManager.isOffsetStartZero() ? 0 : 1);
-        String pageSql = sqlManager.getDbStyle().getPageSQLStatement(sql, offset, pageSize);
-        List<HashMap> list = sqlManager.execute(new SQLReady(pageSql, sqlReady.getArgs()), HashMap.class);
+        Query<?> query = param.getQuery(sqlManager.query(clazz));
+        List<?> list = query.select();
         if (list.size() <= 0) {
-            throw new ResourceException(ResourceException.RESOURCE_NO_EXIST);
+            throw new ResourceException(ResourceException.ID_NO_EXIST);
         }
         return list.get(0);
     }
 
     /**
+     * 根据serviceName和param得到数据对象
+     * @param serviceName 服务名称
+     * @param param 条件
+     * @return 查询对象
+     */
+    private Object getBySql(String serviceName, QueryParam<?> param) throws Exception {
+        Page page = listBySql(serviceName, param);
+        if(page.getList().size()>0)
+            return page.getList().get(0);
+        else
+            return null;
+    }
+
+    /**
      * 根据resource和param得到数据集合
-     *
-     * @param resource
-     * @param param
-     * @return
+     * @param resource 资源
+     * @param param 条件
+     * @return 结果集对象
      */
     @RedisCacheAnno()
     public Page<?> list(Resources resource, QueryParam<?> param) throws Exception {
@@ -225,24 +145,22 @@ public class ResourceService{
 
     /**
      * 根据resource，fields和param得到数据集合
-     *
-     * @param resource
-     * @param fields
-     * @param param
-     * @return
+     * @param resource 资源
+     * @param fields 字段
+     * @param param 条件
+     * @return 结果集对象
      */
     @RedisCacheAnno()
     public Page<?> list(Resources resource, String fields, QueryParam<?> param) throws Exception {
-        Class<?> itemBean = Class.forName(resource.getClasspath());
-        return list(itemBean, fields, param);
+        Class<?> clazz = Class.forName(resource.getClasspath());
+        return list(clazz, fields, param);
     }
 
     /**
      * 根据clazz和param得到数据集合
-     *
-     * @param clazz
-     * @param param
-     * @return
+     * @param clazz 类型
+     * @param param 条件
+     * @return 结果集对象
      */
     @RedisCacheAnno()
     public Page<?> list(Class<?> clazz, QueryParam<?> param) throws Exception {
@@ -250,116 +168,73 @@ public class ResourceService{
     }
 
     /**
-     * 根据clazz，fields和param得到数据集合
-     *
-     * @param clazz
-     * @param param
-     * @return
+     * 根据clazz，fields和param得到数据集合，操作list的统一方法
+     * @param clazz 类型
+     * @param fields 字段
+     * @param param 条件
+     * @return 结果集对象
      */
     @RedisCacheAnno()
     public Page<?> list(Class<?> clazz, String fields, QueryParam<?> param) throws Exception {
         Page page = new Page<>();
-        List resourceList;
-        Query<?> resourceQuery = sqlManager.query(clazz);
-        resourceQuery = QueryBuilder.getQuery(param.getList(), resourceQuery);
+        List list;
+        Query<?> query = sqlManager.query(clazz);
+        query = param.getQuery(query);
         if (param.isNeedPage()) {
-            resourceQuery = resourceQuery.limit(param.getStartSize(), param.getPageSize());
+            query = query.limit(param.getStartSize(), param.getPageSize());
         }
         if (CheckUtil.isNotNull(fields)) {
-            resourceList = resourceQuery.select(fields);
+            list = query.select(fields);
         }else{
-            resourceList = resourceQuery.select();
+            list = query.select();
         }
-        page.setList(resourceList);
+        page.setList(list);
         page.setPageSize(param.getPageSize());
         page.setPage(param.getPage());
         if (param.isNeedTotal()) {
-            resourceQuery = QueryBuilder.getQuery(param.getList(), resourceQuery);
-            page.setTotal(resourceQuery.count());
+            query = param.getQuery(query);
+            page.setTotal(query.count());
         }
         return page;
     }
 
-
     /**
-     * 根据sql和param得到数据集合
-     *
-     * @param sql
-     * @param param
+     * 根据serviceName和param得到数据集合
+     * @param serviceName 服务名称
+     * @param param 条件
      * @return
      */
-//    private Page<?> listBySql(String sql, QueryParam<?> param) throws Exception {
-//        return listBySql(sql,  param);
-//    }
+    public Page<?> listBySql(String serviceName, QueryParam<?> param) throws Exception {
+        QueryParam<ResService> serviceParam = new QueryParam<>();
+        serviceParam.append(ResService::getServiceName, serviceName);
+        ResService resService = (ResService)get(ResService.class, serviceParam);
+        Resources resources = get(resService.getResourceId());
+        Class<?> itemBean = Class.forName(resources.getClasspath());
+        return listBySql(itemBean, resService.getSql(), param);
+    }
 
     /**
-     * 根据sql，fields和param得到数据集合
-     * @param sql
-     * @param param
-     * @return
+     * 根据clazz，sql和param得到数据集合，操作listBySql统一方法
+     * @param clazz 类型
+     * @param sql 语句
+     * @param param 条件
+     * @return 结果集对象
      */
     public Page<?> listBySql(Class<?> clazz, String sql, QueryParam<?> param) throws Exception {
-        Page page = new Page<>();
-
         Query<?> query = sqlManager.query(clazz);
-        query = QueryBuilder.getQuery(param.getList(), query);
-        //将拼接语句中的'WHERE'替换为'AND'
-        String str = query.getSql().toString();
-        str = str.replaceAll("WHERE"," AND");
-        str = str.replaceAll("`TID`","user.tid");
-        str = str.replaceAll("`CREATE_TIME`","user.create_time");
-        sql += str;
-        query.setSql(new StringBuilder(sql+" "));
-//        通过beetl默认方法来设置sql语句
-//        Method method = null;
-//        Class<?> clazz = query.getClass();
-//        method = clazz.getDeclaredMethod("addAdditionalPartSql");
-//        method.setAccessible(true);
-//        method.invoke(query);
-//        sql = query.getSql().toString();
-        //addAdditionalPartSql
-//        Field field = null;
-//        Class<?> clazzs = query.getClass().getSuperclass();
-//        field = clazzs.getDeclaredField(SqlConst.ORDERBY);
-//        field.setAccessible(true);
-//        OrderBy orderBy = (OrderBy) field.get(query);
-//        field = clazzs.getDeclaredField(SqlConst.GROUPBY);
-//        field.setAccessible(true);
-//        GroupBy groupBy = (GroupBy) field.get(query);
-        StringBuilder sb=query.getSql();
-//        if (groupBy != null) {
-//            sb.append(groupBy.getGroupBy()).append(" ");
-//        }
-//        if (orderBy != null) {
-//            sb.append(orderBy.getOrderBy()).append(" ");
-//        }
-        sql=sb.toString();
-        List<HashMap> list = new ArrayList<>();
-        int size = 20;//这里要读配置
-        if (param.isNeedPage() && param.getPageSize() < size) {
-            size = param.getPageSize();
-        }
-        List<Object> params = query.getParams();
-        Object[] array = new Object[params.size()];
-        for (int i = 0; i < params.size(); i++) {
-            array[i] = params.get(i);
-        }
-        SQLReady sqlReady = new SQLReady(sql, array);
+        query = param.getQuery(query);
         long pageNumber = 1L;
         if (param.isNeedPage()) {
             pageNumber = param.getPage();
         }
-        long pageSize = size;
-        long offset = (pageNumber - 1) * pageSize + (sqlManager.isOffsetStartZero() ? 0 : 1);
-        String pageSql = sqlManager.getDbStyle().getPageSQLStatement(sql, offset, pageSize);
-        list = sqlManager.execute(new SQLReady(pageSql, sqlReady.getArgs()), HashMap.class);
+        long offset = (pageNumber - 1) * param.getPageSize() + (sqlManager.isOffsetStartZero() ? 0 : 1);
+        String pageSql = sqlManager.getDbStyle().getPageSQLStatement(sql+query.getConditionSql(), offset, param.getPageSize());
+        SQLReady sqlReady = new SQLReady(pageSql, query.getParams().toArray());
+        List<?> list = sqlManager.execute(sqlReady, clazz);
+        Page page = new Page<>();
         page.setList(list);
         if (param.isNeedTotal()) {
-            sql = sqlReady.getSql();
-            String countSql = PageKit.getCountSql(sql);
-            List<Long> countList = sqlManager.execute(new SQLReady(countSql, sqlReady.getArgs()), Long.class);
-            Long count = countList.get(0);
-            page.setTotal(count);
+            page.setTotal(query.count(sql+query.getConditionSql(),query.getParams().toArray()));
         }
         page.setPageSize(param.getPageSize());
         page.setPage(param.getPage());
@@ -367,8 +242,56 @@ public class ResourceService{
     }
 
     /**
-     * 根据资源名和MAP对象新增数据
-     *
+     * 根据List集合批量增数据
+     * @param list 对象集合
+     * @return 新对象集合
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @RedisCacheAnno(type = "add")
+    public void add(List<? extends Object> list) throws Exception {
+        for (int i = 0; i < list.size(); i++) {
+            Object entity = list.get(i);
+            add(entity);
+        }
+    }
+
+    /**
+     * 根据实体类新增资源数据
+     * @param entity 对象
+     * @return 新对象
+     */
+    @Transactional(rollbackFor = Exception.class)
+    @RedisCacheAnno(type = "add")
+    public int add(Object entity) throws Exception {
+        Method method = null;
+        int id = 0;
+        Class<?> clazz = entity.getClass();
+        while (clazz != null) {// 当父类为null的时候说明到达了最上层的父类(Object类).
+            try {
+                method = clazz.getDeclaredMethod("preInsert");
+                break;
+            } catch (Exception e) {
+                clazz = clazz.getSuperclass(); // 得到父类,然后赋给自己
+            }
+        }
+        method.invoke(entity);
+        String str = ValidtorUtil.validbean(entity);
+        if (CheckUtil.isNotNull(str)) {
+            throw new ResourceException(str);
+        }
+        try {
+            KeyHolder holder = new KeyHolder();
+            holder.setKey("TID");
+            id = sqlManager.insert(entity.getClass(), entity, holder);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new CommonException(CommonException.OPERATE_FAILED);
+        }
+        return id;
+    }
+
+    /**
+     * 根据资源名和MAP对象新增数据（未完善）
      * @param resources
      * @param hashMap
      * @return
@@ -387,8 +310,7 @@ public class ResourceService{
     }
 
     /**
-     * 根据资源名和List集合新增数据
-     *
+     * 根据资源名和List集合新增数据（未完善）
      * @param resources
      * @param list
      * @return
@@ -415,58 +337,11 @@ public class ResourceService{
     }
 
     /**
-     * 根据List集合新增数据
+     * 根据resource和param删除数据
      *
-     * @param list
-     * @return
-     */
-    @Transactional(rollbackFor = Exception.class)
-    @RedisCacheAnno(type = "add")
-    public void add(List<? extends Object> list) throws Exception {
-        for (int i = 0; i < list.size(); i++) {
-            Object entity = list.get(i);
-            add(entity);
-        }
-    }
-
-    /**
-     * 根据实体类新增资源数据
-     *
-     * @param entity
-     * @return
-     */
-    @Transactional(rollbackFor = Exception.class)
-    @RedisCacheAnno(type = "add")
-    public Object add(Object entity) throws Exception {
-        Method method = null;
-        Class<?> clazz = entity.getClass();
-        while (clazz != null) {// 当父类为null的时候说明到达了最上层的父类(Object类).
-            try {
-                method = clazz.getDeclaredMethod("preInsert");
-                break;
-            } catch (Exception e) {
-                clazz = clazz.getSuperclass(); // 得到父类,然后赋给自己
-            }
-        }
-        method.invoke(entity);
-        String str = ValidtorUtil.validbean(entity);
-        if (CheckUtil.isNotNull(str)) {
-            throw new ResourceException(str);
-        }
-        try {
-            sqlManager.insert(entity, true);
-        } catch (Exception e) {
-            e.printStackTrace();
-            throw new CommonException(CommonException.OPERATE_FAILED);
-        }
-        return entity;
-    }
-
-    /**
-     * 根据条件删除数据
-     *
-     * @param resource
-     * @param param
+     * @param resource 资源
+     * @param param 条件
+     * @return 改变记录数
      */
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "del")
@@ -476,24 +351,25 @@ public class ResourceService{
     }
 
     /**
-     * 根据类删除数据
+     * 根据clazz和param删除数据
      *
-     * @param clazz
-     * @param param
+     * @param clazz 对象
+     * @param param 条件
+     * @return 改变记录数
      */
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "del")
     public int delete(Class<?> clazz, QueryParam<?> param) throws Exception {
         Query<?> query = sqlManager.query(clazz);
-        query = QueryBuilder.getQuery(param.getList(), query);
+        query = param.getQuery(query);
         return query.delete();
     }
 
     /**
-     * 根据资源批量删除数据
+     * 根据resource和ids批量删除数据
      *
-     * @param resource
-     * @param ids
+     * @param resource 资源
+     * @param ids 主键集合
      */
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "del")
@@ -508,7 +384,7 @@ public class ResourceService{
             // map.put("status", DataEntity.DEL_FLAG_DELETE);
             if (ids.length == 1) {
                 map.put("tid", ids[0]);
-                System.out.println("id号:" + ids[0].toString());
+                System.out.println("id:" + ids[0].toString());
                 obj = IterableForamt.mapToObject(map, itemBean);
                 int i = sqlManager.deleteObject(obj);
                 if (i <= 0) {
@@ -595,7 +471,7 @@ public class ResourceService{
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "edit")
     public Object update(Object entity, QueryParam<?> param) throws Exception {
-        Query<?> resourceUpdate = QueryBuilder.getQuery(param.getList(), sqlManager.query(entity.getClass()));
+        Query<?> resourceUpdate = param.getQuery(sqlManager.query(entity.getClass()));
         try {
             int i = resourceUpdate.updateSelective(entity);
             if (i <= 0) {

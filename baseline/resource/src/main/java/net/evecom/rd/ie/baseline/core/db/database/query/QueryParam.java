@@ -23,11 +23,7 @@ import java.util.function.Function;
  * @param <T>
  */
 @ToString
-public class QueryParam<T> {
-    /**
-     * 条件集合
-     */
-    private List<QueryCondition> list;
+public class QueryParam<T> extends QueryBuilder {
 
     /**
      * 当前页数
@@ -59,18 +55,6 @@ public class QueryParam<T> {
         this.clazz = clazz;
         getList();
     }
-
-    public List<QueryCondition> getList() {
-        if (list == null) {
-            list = new ArrayList();
-        }
-        return list;
-    }
-
-    public void setList(List<QueryCondition> list) {
-        this.list = list;
-    }
-
 
     public int getPage() {
         if (page <= 0) {
@@ -171,15 +155,9 @@ public class QueryParam<T> {
     }
 
     public String getGroupKey(Query<?> query) {
-        query = QueryBuilder.getQuery(list, query);
-        String sql = query.getSql().toString();
-        if (CheckUtil.isNull(sql)) {
-            sql = "all";
-        } else {
-            sql = getWhereSql(sql, query.getParams());
-        }
-        sql = sql + ",page:" + page + ",pageSize:" + pageSize + ",needPage:" + needPage + ",needTotal:" + needTotal;
-        return sql;
+        query = getQuery(query);
+        String sql = getWhereSql(query.getSql().toString(), query.getParams());
+        return sql + "|page:" + page + "|pageSize:" + pageSize + "|needPage:" + needPage + "|needTotal:" + needTotal;
     }
 
     public String getFunctionName(Property<T, ?> property, Class clazz) {
@@ -188,27 +166,22 @@ public class QueryParam<T> {
             declaredMethod.setAccessible(Boolean.TRUE);
             SerializedLambda serializedLambda = (SerializedLambda) declaredMethod.invoke(property);
             String methodName = serializedLambda.getImplMethodName();
-            if (methodName.startsWith("get")) {
-                methodName = methodName.substring(3);
-            } else {
-                methodName = methodName.substring(2);
-            }
-            methodName = StringUtil.toLowerCaseFirstOne(methodName);
             if(clazz == null){
                 String implClass = serializedLambda.getImplClass();
                 implClass = implClass.replaceAll("/", ".");
                 clazz = Class.forName(implClass);
             }
-            for(; clazz != Object.class ; clazz = clazz.getSuperclass()) {
-                try {
-                    Field field = clazz.getDeclaredField(methodName);
-                    if (field.isAnnotationPresent(Column.class)) {
-                        Column column = field.getAnnotation(Column.class);
-                        methodName = column.name();
-                        break;
-                    }
-                } catch (Exception e) {
+            Method method = clazz.getMethod(methodName);
+            if (method.isAnnotationPresent(Column.class)) {
+                Column column = method.getAnnotation(Column.class);
+                methodName = column.name();
+            }else{
+                if (methodName.startsWith("get")) {
+                    methodName = methodName.substring(3);
+                } else {
+                    methodName = methodName.substring(2);
                 }
+                methodName = StringUtil.toLowerCaseFirstOne(methodName);
             }
             return methodName;
         } catch (ReflectiveOperationException e) {

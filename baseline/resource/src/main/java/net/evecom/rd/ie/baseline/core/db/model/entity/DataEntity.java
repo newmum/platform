@@ -5,6 +5,7 @@ import net.evecom.rd.ie.baseline.utils.report.exl.ExcelField;
 import net.evecom.rd.ie.baseline.utils.datetime.DTUtil;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.AssignID;
+import org.beetl.sql.core.annotatoin.DateTemplate;
 
 import javax.persistence.Column;
 import java.io.Serializable;
@@ -31,11 +32,9 @@ public abstract class DataEntity<T> implements Serializable {
     @ApiModelProperty(value = "创建时间", hidden = true)
     protected Date createTime;
 
-
 	@ExcelField(align = 2, sort = 3, title = "更新时间")
 	@ApiModelProperty(value = "更新时间", hidden = true)
 	protected Date updateTime;
-
 
     @ApiModelProperty(value = "是否删除：0否；1是；", hidden = true)
     protected Integer isDel = NO;
@@ -58,8 +57,9 @@ public abstract class DataEntity<T> implements Serializable {
 	public void preUpdate() {
 		this.updateTime = DTUtil.nowDate();
 	}
+
+    @AssignID()
     @Column(name = "TID")
-	@AssignID()
     public Long getTid() {
         return tid;
     }
@@ -68,8 +68,8 @@ public abstract class DataEntity<T> implements Serializable {
         this.tid = tid;
     }
 
-    @Column(name = "CREATE_TIME")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "CREATE_TIME")
     public Date getCreateTime() {
         return createTime;
     }
@@ -78,8 +78,8 @@ public abstract class DataEntity<T> implements Serializable {
         this.createTime = createTime;
     }
 
-    @Column(name = "UPDATE_TIME")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "UPDATE_TIME")
     public Date getUpdateTime() {
         return updateTime;
     }

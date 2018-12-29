@@ -10,7 +10,7 @@ import net.evecom.rd.ie.baseline.core.db.annotatoin.Token;
 import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
 import net.evecom.rd.ie.baseline.core.db.model.entity.Resources;
 import net.evecom.rd.ie.baseline.core.db.model.service.ResourceService;
-import net.evecom.rd.ie.baseline.core.mvc.model.service.SysFileService;
+import net.evecom.rd.ie.baseline.core.mvc.model.service.FileService;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseController;
 import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.utils.file.PropertiesUtils;
@@ -178,7 +178,7 @@ public class ResourceController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/{resourceName}/import", method = RequestMethod.POST)
 	public Result<?> images(@PathVariable(value = "resourceName") String name, MultipartFile file) throws Exception {
-        PropertiesUtils global = new PropertiesUtils(SysFileService.class.getClassLoader().getResourceAsStream("app.properties"));
+        PropertiesUtils global = new PropertiesUtils(FileService.class.getClassLoader().getResourceAsStream("app.properties"));
 	    String ext = StringUtil.getExt(file.getOriginalFilename());
 		String fileName = RandomUtil.getUUID().concat(".").concat(ext);
 		String basePath = global.getKey("file.upload.dir") + "/temp";

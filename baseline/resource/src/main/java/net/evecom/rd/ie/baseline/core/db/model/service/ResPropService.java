@@ -147,7 +147,7 @@ public class ResPropService {
     public void delete(Long id) throws Exception {
         //获取表格名称,删除列
         ResProp resProp = (ResProp) resourceService.get(ResProp.class, id);
-        if (resProp.getIsSystem() == 1) {
+        if (resProp.getIsUse() == 1) {
             throw new CommonException(CommonException.SYSTEM_FIELD_NOT_DELETE);
         }
         Resources resources = (Resources) resourceService.get(Resources.class, resProp.getResourcesId());

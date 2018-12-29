@@ -14,10 +14,10 @@ import javax.persistence.Column;
 
 @Table(name = "DB_RESOURCE_SERVICE_T")
 @ToString
-public class ResService extends DataEntity<Resources>{
+public class ResService extends DataEntity<ResService>{
 
     @ApiModelProperty(value = "资源ID")
-    private Integer resourceId;
+    private Long resourceId;
 
     @ApiModelProperty(value = "名称")
     private String title;
@@ -42,11 +42,11 @@ public class ResService extends DataEntity<Resources>{
     private Integer privId;
 
     @Column(name = "RESOURCE_ID")
-    public Integer getResourceId() {
+    public Long getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(Integer resourceId) {
+    public void setResourceId(Long resourceId) {
         this.resourceId = resourceId;
     }
 
@@ -113,17 +113,4 @@ public class ResService extends DataEntity<Resources>{
         this.privId = privId;
     }
 
-    @Override
-    public String toString() {
-        return "ResService{" +
-                "resourceId=" + resourceId +
-                ", title='" + title + '\'' +
-                ", serviceName='" + serviceName + '\'' +
-                ", isUse=" + isUse +
-                ", sql='" + sql + '\'' +
-                ", serviceType='" + serviceType + '\'' +
-                ", serviceDesc='" + serviceDesc + '\'' +
-                ", privId=" + privId +
-                '}';
-    }
 }

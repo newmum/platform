@@ -675,9 +675,7 @@ public abstract class AbstractDBStyle implements DBStyle {
      * @return
      */
     protected String appendInsertValue(Class<?> c, TableDesc table, String fieldName,String col) {
-    	
         return HOLDER_START + fieldName + HOLDER_END + ",";
-
     }
     
     /****

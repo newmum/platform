@@ -16,15 +16,19 @@ import java.util.List;
  */
 public class QueryBuilder {
     /**
+     * 条件集合
+     */
+    protected List<QueryCondition> list;
+
+    /**
      * 获取全部查询条件
-     * @param list
      * @param query
      */
-    public static Query<?> getQuery(List<QueryCondition> list, Query<?> query) {
-        List<QueryCondition> temp_list = new ArrayList<QueryCondition>();
-        List<QueryCondition> select_list = new ArrayList<QueryCondition>();
-        List<QueryCondition> order_list = new ArrayList<QueryCondition>();
-        List<QueryCondition> group_list = new ArrayList<QueryCondition>();
+    public Query<?> getQuery(Query<?> query) {
+        List<QueryCondition> temp_list = new ArrayList<>();
+        List<QueryCondition> select_list = new ArrayList<>();
+        List<QueryCondition> order_list = new ArrayList<>();
+        List<QueryCondition> group_list = new ArrayList<>();
         if (list != null && list.size() != 0) {
             for (QueryCondition qc : list) {
                 if (qc.getCondition().equals(SqlConst.ORDERBY)) {
@@ -106,135 +110,17 @@ public class QueryBuilder {
             }
             query.orderBy(sb.toString());
         }
-         /*String sql = query.getSql().toString();
-         System.out.println("sql:" + sql);
-         List<Object> params = query.getParams();
-         for (Object object : params) {
-         System.out.print("," + object.toString());
-         }*/
         return query;
     }
 
     /**
      * 获取子类查询条件
-     *
      * @param query
      * @param list
      * @return
      */
-
-    public static org.beetl.sql.core.query.QueryCondition getChildCondition(Query<?> query, List<QueryCondition> list) {
-        Query<?> condition = null;
-        QueryCondition sc = list.get(0);
-
-        String relation = sc.getRelation() == null ? "" : sc.getRelation();
-        switch (sc.getCondition()) {
-            case SqlConst.IS_NULL:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orIsNull(sc.getAttrName());
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andIsNull(sc.getAttrName());
-                }
-                break;
-            case SqlConst.IS_NOT_NULL:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orIsNotNull(sc.getAttrName());
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andIsNotNull(sc.getAttrName());
-                }
-                break;
-            case SqlConst.LIKE:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orLike(sc.getAttrName(), "%" + sc.getValue() + "%");
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andLike(sc.getAttrName(), "%" + sc.getValue() + "%");
-                }
-                break;
-            case SqlConst.NOT_LIKE:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orNotLike(sc.getAttrName(), "%" + sc.getValue() + "%");
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andNotLike(sc.getAttrName(), "%" + sc.getValue() + "%");
-                }
-                break;
-            case SqlConst.EQ:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orEq(sc.getAttrName(), sc.getValue());
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andEq(sc.getAttrName(), sc.getValue());
-                }
-                break;
-            case SqlConst.NOT_EQ:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orNotEq(sc.getAttrName(), sc.getValue());
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andNotEq(sc.getAttrName(), sc.getValue());
-                }
-                break;
-            case SqlConst.BETWEEN:
-                String[] values = sc.getValue().toString().split(",");
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orBetween(sc.getAttrName(), values[0], values[1]);
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andBetween(sc.getAttrName(), values[0], values[1]);
-                }
-                break;
-            case SqlConst.NOT_BETWEEN:
-                String[] notvalues = sc.getValue().toString().split(",");
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orNotBetween(sc.getAttrName(), notvalues[0], notvalues[1]);
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andNotBetween(sc.getAttrName(), notvalues[0], notvalues[1]);
-                }
-                break;
-            case SqlConst.IN:
-                String[] valueIn = sc.getValue().toString().split(",");
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orIn(sc.getAttrName(), Arrays.asList(valueIn));
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andIn(sc.getAttrName(), Arrays.asList(valueIn));
-                }
-                break;
-            case SqlConst.NOT_IN:
-                String[] valueNotIn = sc.getValue().toString().split(",");
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orNotIn(sc.getAttrName(), Arrays.asList(valueNotIn));
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andNotIn(sc.getAttrName(), Arrays.asList(valueNotIn));
-                }
-                break;
-            case SqlConst.LESS:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orLess(sc.getAttrName(), sc.getValue());
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andLess(sc.getAttrName(), sc.getValue());
-                }
-                break;
-            case SqlConst.LESS_EQ:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orLessEq(sc.getAttrName(), sc.getValue());
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andLessEq(sc.getAttrName(), sc.getValue());
-                }
-                break;
-            case SqlConst.GREAT:
-                if (relation.equals(SqlConst.OR)) {
-                    condition = query.condition().orGreat(sc.getAttrName(), sc.getValue());
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andGreat(sc.getAttrName(), sc.getValue());
-                }
-                break;
-            case SqlConst.GREAT_EQ:
-                if (relation.equals(SqlConst.OR)) {
-                    condition.orGreatEq(sc.getAttrName(), sc.getValue());
-                } else if (relation.equals(SqlConst.AND)) {
-                    condition = query.condition().andGreatEq(sc.getAttrName(), sc.getValue());
-                }
-                break;
-            default:
-                break;
-        }
-
+    public org.beetl.sql.core.query.QueryCondition getChildCondition(Query<?> query, List<QueryCondition> list) {
+        Query<?> condition = getCondition(query.condition(), list.get(0));
         list.remove(0);
         for (QueryCondition sc_child : list) {
             condition = getCondition(condition, sc_child);
@@ -244,121 +130,130 @@ public class QueryBuilder {
 
     /**
      * 获取单个查询条件
-     *
      * @param query
-     * @param sc
+     * @param condition
      * @return
      */
 
-    public static Query<?> getCondition(Query<?> query, QueryCondition sc) {
-        Query<?> condition = query;
-        String relation = sc.getRelation() == null ? "" : sc.getRelation();
-        switch (sc.getCondition()) {
+    public Query<?> getCondition(Query<?> query, QueryCondition condition) {
+        String relation = condition.getRelation() == null ? "" : condition.getRelation();
+        switch (condition.getCondition()) {
             case SqlConst.IS_NULL:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orIsNull(sc.getAttrName());
+                    query.orIsNull(condition.getAttrName());
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andIsNull(sc.getAttrName());
+                    query.andIsNull(condition.getAttrName());
                 }
                 break;
             case SqlConst.IS_NOT_NULL:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orIsNotNull(sc.getAttrName());
+                    query.orIsNotNull(condition.getAttrName());
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andIsNotNull(sc.getAttrName());
+                    query.andIsNotNull(condition.getAttrName());
                 }
                 break;
             case SqlConst.LIKE:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orLike(sc.getAttrName(), "%" + sc.getValue() + "%");
+                    query.orLike(condition.getAttrName(), "%" + condition.getValue() + "%");
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andLike(sc.getAttrName(), "%" + sc.getValue() + "%");
+                    query.andLike(condition.getAttrName(), "%" + condition.getValue() + "%");
                 }
                 break;
             case SqlConst.NOT_LIKE:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orNotLike(sc.getAttrName(), "%" + sc.getValue() + "%");
+                    query.orNotLike(condition.getAttrName(), "%" + condition.getValue() + "%");
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andNotLike(sc.getAttrName(), "%" + sc.getValue() + "%");
+                    query.andNotLike(condition.getAttrName(), "%" + condition.getValue() + "%");
                 }
                 break;
             case SqlConst.EQ:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orEq(sc.getAttrName(), sc.getValue());
+                    query.orEq(condition.getAttrName(), condition.getValue());
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andEq(sc.getAttrName(), sc.getValue());
+                    query.andEq(condition.getAttrName(), condition.getValue());
                 }
                 break;
             case SqlConst.NOT_EQ:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orNotEq(sc.getAttrName(), sc.getValue());
+                    query.orNotEq(condition.getAttrName(), condition.getValue());
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andNotEq(sc.getAttrName(), sc.getValue());
+                    query.andNotEq(condition.getAttrName(), condition.getValue());
                 }
                 break;
             case SqlConst.BETWEEN:
-                String[] values = sc.getValue().toString().split(",");
+                String[] values = condition.getValue().toString().split(",");
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orBetween(sc.getAttrName(), values[0], values[1]);
+                    query.orBetween(condition.getAttrName(), values[0], values[1]);
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andBetween(sc.getAttrName(), values[0], values[1]);
+                    query.andBetween(condition.getAttrName(), values[0], values[1]);
                 }
                 break;
             case SqlConst.NOT_BETWEEN:
-                String[] notvalues = sc.getValue().toString().split(",");
+                String[] notvalues = condition.getValue().toString().split(",");
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orNotBetween(sc.getAttrName(), notvalues[0], notvalues[1]);
+                    query.orNotBetween(condition.getAttrName(), notvalues[0], notvalues[1]);
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andNotBetween(sc.getAttrName(), notvalues[0], notvalues[1]);
+                    query.andNotBetween(condition.getAttrName(), notvalues[0], notvalues[1]);
                 }
                 break;
             case SqlConst.IN:
-                String[] valueIn = sc.getValue().toString().split(",");
+                String[] valueIn = condition.getValue().toString().split(",");
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orIn(sc.getAttrName(), Arrays.asList(valueIn));
+                    query.orIn(condition.getAttrName(), Arrays.asList(valueIn));
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andIn(sc.getAttrName(), Arrays.asList(valueIn));
+                    query.andIn(condition.getAttrName(), Arrays.asList(valueIn));
                 }
                 break;
             case SqlConst.NOT_IN:
-                String[] valueNotIn = sc.getValue().toString().split(",");
+                String[] valueNotIn = condition.getValue().toString().split(",");
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orNotIn(sc.getAttrName(), Arrays.asList(valueNotIn));
+                    query.orNotIn(condition.getAttrName(), Arrays.asList(valueNotIn));
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andNotIn(sc.getAttrName(), Arrays.asList(valueNotIn));
+                    query.andNotIn(condition.getAttrName(), Arrays.asList(valueNotIn));
                 }
                 break;
             case SqlConst.LESS:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orLess(sc.getAttrName(), sc.getValue());
+                    query.orLess(condition.getAttrName(), condition.getValue());
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andLess(sc.getAttrName(), sc.getValue());
+                    query.andLess(condition.getAttrName(), condition.getValue());
                 }
                 break;
             case SqlConst.LESS_EQ:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orLessEq(sc.getAttrName(), sc.getValue());
+                    query.orLessEq(condition.getAttrName(), condition.getValue());
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andLessEq(sc.getAttrName(), sc.getValue());
+                    query.andLessEq(condition.getAttrName(), condition.getValue());
                 }
                 break;
             case SqlConst.GREAT:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orGreat(sc.getAttrName(), sc.getValue());
+                    query.orGreat(condition.getAttrName(), condition.getValue());
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andGreat(sc.getAttrName(), sc.getValue());
+                    query.andGreat(condition.getAttrName(), condition.getValue());
                 }
                 break;
             case SqlConst.GREAT_EQ:
                 if (relation.equals(SqlConst.OR)) {
-                    condition.orGreatEq(sc.getAttrName(), sc.getValue());
+                    query.orGreatEq(condition.getAttrName(), condition.getValue());
                 } else if (relation.equals(SqlConst.AND)) {
-                    condition.andGreatEq(sc.getAttrName(), sc.getValue());
+                    query.andGreatEq(condition.getAttrName(), condition.getValue());
                 }
                 break;
             default:
                 break;
         }
-        return condition;
+        return query;
+    }
+
+    public List<QueryCondition> getList() {
+        if (list == null) {
+            list = new ArrayList();
+        }
+        return list;
+    }
+
+    public void setList(List<QueryCondition> list) {
+        this.list = list;
     }
 }

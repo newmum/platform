@@ -163,7 +163,7 @@ public class AccountController extends BaseController {
         User user = (User)entity;
 
         //更新rm_user_extra_t表
-        resourceService.update(user.getCrmUserExtra());
+        resourceService.update(user.getUserExtra());
 
         //更新rm_role_t表
         for(int i = 0; i < user.getRoleList().size(); i++){

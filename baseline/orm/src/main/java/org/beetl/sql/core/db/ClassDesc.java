@@ -20,6 +20,8 @@ import org.beetl.sql.core.kit.BeanKit;
 import org.beetl.sql.core.kit.CaseInsensitiveHashMap;
 import org.beetl.sql.core.kit.CaseInsensitiveOrderSet;
 
+import javax.persistence.Column;
+
 /**
  * 找到bean定义和数据库定义共有的部分，作为实际操作的sql语句
  * @author xiandafu
@@ -41,7 +43,7 @@ public class ClassDesc {
 	String versionCol;
 	String logicDeleteAttrName =null;
 	int logicDeleteAttrValue = 0;
-	
+
 	public ClassDesc(Class c,TableDesc table,NameConversion nc){
 		this.targetClass = c ;
 		PropertyDescriptor[] ps;
@@ -53,21 +55,15 @@ public class ClassDesc {
 		Set<String> ids = table.getIdNames();
 //		idCols.addAll(ids);
 		CaseInsensitiveHashMap<String,PropertyDescriptor> tempMap = new CaseInsensitiveHashMap<String,PropertyDescriptor>();
-		
-		
 		for(PropertyDescriptor p:ps){
-			
 			if(p.getReadMethod()!=null&&BeanKit.getWriteMethod(p, c)!=null){
-				String property = p.getName();
+                String property = p.getName();
                	String col = nc.getColName(c, property);
                	if(col!=null){
                		tempMap.put(col, p);
                	}
 			}
 		}
-		
-		
-		
 		for(String col :table.getCols()){
 			if(tempMap.containsKey(col)){
 				cols.add(col);
