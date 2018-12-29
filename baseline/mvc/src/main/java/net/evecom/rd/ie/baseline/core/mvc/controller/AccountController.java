@@ -140,35 +140,4 @@ public class AccountController extends BaseController {
         return Result.success(SuccessConst.OPERATE_SUCCESS);
     }
 
-    @ApiOperation(value = "个人信息", notes = "个人信息")
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    public Result<?> get() throws Exception {
-        User user = userService.loginUser(request);
-        return Result.success(SuccessConst.OPERATE_SUCCESS, user);
-    }
-
-    @ApiOperation(value = "更新个人信息", notes = "更新个人信息")
-    @Token(remove = true)
-    @RequestMapping(value = "/update", method = RequestMethod.PUT)
-    @ApiImplicitParams({
-            @ApiImplicitParam(name = "data", value = "数据(json格式对象)", dataType = "string", paramType = "query", required = true),
-            @ApiImplicitParam(name = "token", value = "token(测试环境可以填写1来跳过)", dataType = "string", paramType = "header", required = true) })
-    public Result<?> edit(String data) throws Exception {
-        Resources resource = resourceService.get("user");
-        Class<?> itemBean = Class.forName(resource.getClasspath());
-        Object entity = userService.edit(data,itemBean);
-        //更新rm_user_t表
-        resourceService.update(entity);
-
-        User user = (User)entity;
-
-        //更新rm_user_extra_t表
-        resourceService.update(user.getUserExtra());
-
-        //更新rm_role_t表
-        for(int i = 0; i < user.getRoleList().size(); i++){
-            resourceService.update(user.getRoleList().get(i));
-        }
-        return Result.success(SuccessConst.OPERATE_SUCCESS);
-    }
 }
