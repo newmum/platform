@@ -20,36 +20,36 @@ import java.util.List;
 public class ResProp extends DataEntity<ResProp> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Column(name = "RESOURCE_ID")
+
     @ApiModelProperty(value = "资源id")
     @NotNull(message = "资源id不能为空")
     private Long resourcesId;
-    @Column(name = "PROP_NAME")
+
     @ApiModelProperty(value = "属性名")
     private String propName;
-    @Column(name = "PROP_TYPE")
+
     @ApiModelProperty(value = "属性类型")
     @NotNull(message = "属性类型不能为空")
     private String propType;
-    @Column(name = "FIELD_LENGTH")
+
     @ApiModelProperty(value = "数据库字段长度")
     private String fieldLength;
-    @Column(name = "IS_PK")
+
     @ApiModelProperty(value = "是否主键（1：主键）", hidden = true)
     private int isPk = 0;        // 是否主键（1：主键）
-    @Column(name = "IS_AUTO")
+
     @ApiModelProperty(value = "是否自增（1：是）", hidden = true)
     private int isAuto = 0;        // 是否主键（1：主键）AUTO_INCREMENT
-    @Column(name = "TITLE")
+
     @ApiModelProperty(value = "标题")
     private String title;        //标题
-    @Column(name = "TABLE_FIELD")
+
     @ApiModelProperty(value = "字段名")
     private String tableField;
-    @Column(name = "IS_USE")
+
     @ApiModelProperty(value = "是否启用")
     private int isSystem = 0;
-    @Column(name = "FIELD_COMMENT")
+
     @ApiModelProperty(value = "字段备注", hidden = true)
     private String fieldComment;
     @ApiModelProperty(value = "字段验证", hidden = true)
@@ -67,6 +67,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.isCreate = isCreate;
     }
 
+    @Column(name = "IS_USE")
     public int getIsSystem() {
         return isSystem;
     }
@@ -83,6 +84,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.resPropExl = resPropExl;
     }
 
+    @Column(name = "TABLE_FIELD")
     public String getTableField() {
         return tableField;
     }
@@ -91,6 +93,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.tableField = tableField;
     }
 
+    @Column(name = "TITLE")
     public String getTitle() {
         return title;
     }
@@ -99,8 +102,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.title = title;
     }
 
-
-
+    @Column(name = "IS_AUTO")
     public int getIsAuto() {
         return isAuto;
     }
@@ -109,6 +111,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.isAuto = isAuto;
     }
 
+    @Column(name = "PROP_TYPE")
     public String getPropType() {
         return propType;
     }
@@ -117,6 +120,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.propType = propType;
     }
 
+    @Column(name = "FIELD_LENGTH")
     public String getFieldLength() {
         return fieldLength;
     }
@@ -133,6 +137,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.verifyList = verifyList;
     }
 
+    @Column(name = "FIELD_COMMENT")
     public String getFieldComment() {
         return fieldComment;
     }
@@ -141,6 +146,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.fieldComment = fieldComment;
     }
 
+    @Column(name = "IS_PK")
     public int getIsPk() {
         return isPk;
     }
@@ -149,6 +155,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.isPk = isPk;
     }
 
+    @Column(name = "RESOURCE_ID")
     public Long getResourcesId() {
         return resourcesId;
     }
@@ -157,6 +164,7 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
         this.resourcesId = resourcesId;
     }
 
+    @Column(name = "PROP_NAME")
     public String getPropName() {
         if (CheckUtil.isNull(propName)) {
             propName = GenCodeUtile.setColName(this.propType);

@@ -24,21 +24,19 @@ public abstract class DataEntity<T> implements Serializable {
     public static final int NO  = 0;
     public static final int YES = 1;
 
-	@Column(name = "TID")
 	@ApiModelProperty(value = "编号")
 	protected Long tid;
 
-    @Column(name = "CREATE_TIME")
     @ExcelField(align = 2, sort = 4, title = "创建时间")
     @ApiModelProperty(value = "创建时间", hidden = true)
     protected Date createTime;
 
-	@Column(name = "UPDATE_TIME")
+
 	@ExcelField(align = 2, sort = 3, title = "更新时间")
 	@ApiModelProperty(value = "更新时间", hidden = true)
 	protected Date updateTime;
 
-    @Column(name = "IS_DEL")
+
     @ApiModelProperty(value = "是否删除：0否；1是；", hidden = true)
     protected Integer isDel = NO;
 
@@ -60,7 +58,8 @@ public abstract class DataEntity<T> implements Serializable {
 	public void preUpdate() {
 		this.updateTime = DTUtil.nowDate();
 	}
-    @AssignID()
+    @Column(name = "TID")
+	@AssignID()
     public Long getTid() {
         return tid;
     }
@@ -69,6 +68,7 @@ public abstract class DataEntity<T> implements Serializable {
         this.tid = tid;
     }
 
+    @Column(name = "CREATE_TIME")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getCreateTime() {
         return createTime;
@@ -78,6 +78,7 @@ public abstract class DataEntity<T> implements Serializable {
         this.createTime = createTime;
     }
 
+    @Column(name = "UPDATE_TIME")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     public Date getUpdateTime() {
         return updateTime;
@@ -87,6 +88,7 @@ public abstract class DataEntity<T> implements Serializable {
         this.updateTime = updateTime;
     }
 
+    @Column(name = "IS_DEL")
     public Integer getIsDel() {
         return isDel;
     }
