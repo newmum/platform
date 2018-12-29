@@ -17,13 +17,14 @@ import java.io.Serializable;
 public class UserGroup extends DataEntity<UserGroup> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "USER_ID")
+
 	@ApiModelProperty(value = "用户id")
 	private Long crmUserId;
-	@Column(name = "GROUP_ID")
+
 	@ApiModelProperty(value = "分组id")
 	private Long groupId;
 
+	@Column(name = "USER_ID")
 	public Long getCrmUserId() {
 		return crmUserId;
 	}
@@ -32,6 +33,7 @@ public class UserGroup extends DataEntity<UserGroup> implements Serializable {
 		this.crmUserId = crmUserId;
 	}
 
+	@Column(name = "GROUP_ID")
 	public Long getGroupId() {
 		return groupId;
 	}

@@ -18,23 +18,23 @@ import java.util.List;
 @ToString
 public class Resources extends DataEntity<Resources> {
 
-	@Column(name = "RESOURCE_NAME")
+
 	@ApiModelProperty(value = "名称")
 	private String resourceName;
-	@Column(name = "CLASSPATH")
+
 	@ApiModelProperty(value = "路径")
 	private String classpath;
-	@Column(name = "TABLENAME")
+
 	@ApiModelProperty(value = "表名")
 	private String tableName;
-	@Column(name = "IS_CACHE")
+
 	@Range(min = 0, max = 1, message = "缓存状态错误(0不缓存1缓存)")
 	@ApiModelProperty(value = "是否缓存(0不缓存1缓存)")
 	private Integer isCache;
-	@Column(name = "RESOURCE_SQL")
+
 	@ApiModelProperty(value = "sql模板")
 	private String resourceSql;
-	@Column(name = "RESOURCE_TYPE")
+
 	@Range(min = 0, max = 1, message = "类型错误(0基本类型1sql类型)")
 	@ApiModelProperty(value = "类型(0基本类型1sql类型)")
 	private Integer resourceType;
@@ -60,6 +60,7 @@ public class Resources extends DataEntity<Resources> {
 		this.isCreate = isCreate;
 	}
 
+	@Column(name = "RESOURCE_NAME")
 	public String getResourceName() {
 		return resourceName;
 	}
@@ -68,6 +69,7 @@ public class Resources extends DataEntity<Resources> {
 		this.resourceName = resourceName;
 	}
 
+	@Column(name = "CLASSPATH")
 	public String getClasspath() {
 		return classpath;
 	}
@@ -76,6 +78,7 @@ public class Resources extends DataEntity<Resources> {
 		this.classpath = classpath;
 	}
 
+	@Column(name = "TABLENAME")
 	public String getTableName() {
 		return tableName;
 	}
@@ -84,6 +87,7 @@ public class Resources extends DataEntity<Resources> {
 		this.tableName = tableName;
 	}
 
+	@Column(name = "IS_CACHE")
 	public Integer getIsCache() {
 		return isCache;
 	}
@@ -92,6 +96,7 @@ public class Resources extends DataEntity<Resources> {
 		this.isCache = isCache;
 	}
 
+	@Column(name = "RESOURCE_SQL")
 	public String getResourceSql() {
 		return resourceSql;
 	}
@@ -100,6 +105,7 @@ public class Resources extends DataEntity<Resources> {
 		this.resourceSql = resourceSql;
 	}
 
+	@Column(name = "RESOURCE_TYPE")
 	public Integer getResourceType() {
 		return resourceType;
 	}

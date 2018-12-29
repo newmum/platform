@@ -17,18 +17,19 @@ import java.io.Serializable;
 @Table(name = "LOG_USER_LOGIN_T")
 public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializable {
 
-	@Column(name = "IP")
+
 	@ApiModelProperty(value = "登录ip")
 	@NotNull(message = "登录ip不能为空")
 	private String ip;
-	@Column(name = "USER_ID")
+
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户id不能为空")
 	private Long crmUserId;
-	@Column(name = "REMARK")
+
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 
+	@Column(name = "IP")
 	public String getIp() {
 		return ip;
 	}
@@ -37,6 +38,7 @@ public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializab
 		this.ip = ip;
 	}
 
+	@Column(name = "USER_ID")
 	public Long getCrmUserId() {
 		return crmUserId;
 	}
@@ -45,6 +47,7 @@ public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializab
 		this.crmUserId = crmUserId;
 	}
 
+	@Column(name = "REMARK")
 	public String getRemarks() {
 		return remarks;
 	}

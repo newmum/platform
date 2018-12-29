@@ -122,6 +122,7 @@ public class QueryBuilder {
      * @param list
      * @return
      */
+
     public static org.beetl.sql.core.query.QueryCondition getChildCondition(Query<?> query, List<QueryCondition> list) {
         Query<?> condition = null;
         QueryCondition sc = list.get(0);

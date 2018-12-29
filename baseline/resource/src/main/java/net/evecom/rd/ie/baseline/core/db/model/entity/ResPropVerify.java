@@ -14,16 +14,17 @@ import java.io.Serializable;
 public class ResPropVerify extends DataEntity<ResPropVerify> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Column(name = "PROP_ID")
+
     @ApiModelProperty(value = "字段id")
     private Long propId;
-    @Column(name = "VERIFY_RULE")
+
     @ApiModelProperty(value = "验证规则")
     private String verifyRule;
-    @Column(name = "error_tips")
+
     @ApiModelProperty(value = "错误提示")
     private String errorTips;
 
+    @Column(name = "PROP_ID")
     public Long getPropId() {
         return propId;
     }
@@ -32,6 +33,7 @@ public class ResPropVerify extends DataEntity<ResPropVerify> implements Serializ
         this.propId = propId;
     }
 
+    @Column(name = "VERIFY_RULE")
     public String getVerifyRule() {
         return verifyRule;
     }
@@ -40,6 +42,7 @@ public class ResPropVerify extends DataEntity<ResPropVerify> implements Serializ
         this.verifyRule = verifyRule;
     }
 
+    @Column(name = "error_tips")
     public String getErrorTips() {
         return errorTips;
     }

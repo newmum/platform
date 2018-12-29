@@ -11,6 +11,7 @@ import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
  */
 public class QueryCondition {
 
+
 	/**
 	 * 属性名
 	 */

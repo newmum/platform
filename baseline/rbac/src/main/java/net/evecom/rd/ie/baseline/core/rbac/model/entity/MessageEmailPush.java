@@ -17,28 +17,29 @@ import java.io.Serializable;
 public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "email")
+
 	@ApiModelProperty(value = "邮箱")
 	private String email;
-	@Column(name = "name")
+
 	@ApiModelProperty(value = "名称")
 	private String name;
-	@Column(name = "content")
+
 	@ApiModelProperty(value = "内容")
 	private String content;
-	@Column(name = "theme")
+
 	@ApiModelProperty(value = "主题")
 	private String theme;
-	@Column(name = "type")
+
 	@ApiModelProperty(value = "类型")
 	private int type;
-	@Column(name = "create_user_id")
+
 	@ApiModelProperty(value = "创建人id")
 	private Long createUserId;
-	@Column(name = "remarks")
+
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 
+	@Column(name = "email")
 	public String getEmail() {
 		return email;
 	}
@@ -46,6 +47,8 @@ public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements S
 	public void setEmail(String email) {
 		this.email = email;
 	}
+
+	@Column(name = "name")
 	public String getName() {
 		return name;
 	}
@@ -53,6 +56,8 @@ public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements S
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Column(name = "content")
 	public String getContent() {
 		return content;
 	}
@@ -60,6 +65,8 @@ public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements S
 	public void setContent(String content) {
 		this.content = content;
 	}
+
+	@Column(name = "theme")
 	public String getTheme() {
 		return theme;
 	}
@@ -67,6 +74,8 @@ public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements S
 	public void setTheme(String theme) {
 		this.theme = theme;
 	}
+
+	@Column(name = "type")
 	public int getType() {
 		return type;
 	}
@@ -74,6 +83,8 @@ public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements S
 	public void setType(int type) {
 		this.type = type;
 	}
+
+	@Column(name = "create_user")
 	public Long getCreateUserId() {
 		return createUserId;
 	}
@@ -81,6 +92,8 @@ public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements S
 	public void setCreateUserId(Long createUserId) {
 		this.createUserId = createUserId;
 	}
+
+	@Column(name = "remarks")
 	public String getRemarks() {
 		return remarks;
 	}

@@ -17,19 +17,20 @@ import java.io.Serializable;
 public class MessageEmail  extends DataEntity<MessageEmail> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "TITLE")
+
 	@ApiModelProperty(value = "标题")
 	private String name;
-	@Column(name = "CONTENT")
+
 	@ApiModelProperty(value = "内容")
 	private String content;
-	@Column(name = "EMAIL_TYPE")
+
 	@ApiModelProperty(value = "类型")
 	private int type;
-	@Column(name = "CREATE_USER")
+
 	@ApiModelProperty(value = "创建人id")
 	private Long createUserId;
 
+	@Column(name = "TITLE")
 	public String getName() {
 		return name;
 	}
@@ -37,6 +38,8 @@ public class MessageEmail  extends DataEntity<MessageEmail> implements Serializa
 	public void setName(String name) {
 		this.name = name;
 	}
+
+	@Column(name = "CONTENT")
 	public String getContent() {
 		return content;
 	}
@@ -45,6 +48,7 @@ public class MessageEmail  extends DataEntity<MessageEmail> implements Serializa
 		this.content = content;
 	}
 
+	@Column(name = "EMAIL_TYPE")
 	public int getType() {
 		return type;
 	}
@@ -52,6 +56,8 @@ public class MessageEmail  extends DataEntity<MessageEmail> implements Serializa
 	public void setType(int type) {
 		this.type = type;
 	}
+
+	@Column(name = "CREATE_USER")
 	public Long getCreateUserId() {
 		return createUserId;
 	}

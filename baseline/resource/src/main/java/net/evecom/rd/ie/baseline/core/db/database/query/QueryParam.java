@@ -71,6 +71,7 @@ public class QueryParam<T> {
         this.list = list;
     }
 
+
     public int getPage() {
         if (page <= 0) {
             return 1;

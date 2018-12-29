@@ -15,31 +15,31 @@ import javax.persistence.Column;
 @Table(name = "RM_USER_EXTRA_T")
 public class UserExtra extends DataEntity<UserExtra> {
 
-	@Column(name = "USER_ID")
 	@ApiModelProperty(value = "用户id", hidden = true)
 	private Long userId;
-	@Column(name = "USER_NAME")
+
 	@ApiModelProperty(value = "姓名")
 	private String userName;
-	@Column(name = "USER_IMG")
+
 	@ApiModelProperty(value = "头像")
 	private String userImg;
-	@Column(name = "QQ")
+
 	@ApiModelProperty(value = "qq")
 	private String qq;
-	@Column(name = "ADDRESS")
+
 	@ApiModelProperty(value = "地址")
 	private String address;
-	@Column(name = "SEX")
+
 	@ApiModelProperty(value = "性别")
 	private int sex;
-	@Column(name = "BIRTHDAY")
+
 	@ApiModelProperty(value = "生日")
 	private String birthday;
-	@Column(name = "REMARK")
+
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 
+	@Column(name = "USER_ID")
 	public Long getUserId() {
 		return userId;
 	}
@@ -48,6 +48,7 @@ public class UserExtra extends DataEntity<UserExtra> {
 		this.userId = userId;
 	}
 
+	@Column(name = "USER_NAME")
 	public String getUserName() {
 		return userName;
 	}
@@ -56,6 +57,7 @@ public class UserExtra extends DataEntity<UserExtra> {
 		this.userName = userName;
 	}
 
+	@Column(name = "USER_IMG")
 	public String getUserImg() {
 		return userImg;
 	}
@@ -64,6 +66,7 @@ public class UserExtra extends DataEntity<UserExtra> {
 		this.userImg = userImg;
 	}
 
+	@Column(name = "QQ")
 	public String getQq() {
 		return qq;
 	}
@@ -72,6 +75,7 @@ public class UserExtra extends DataEntity<UserExtra> {
 		this.qq = qq;
 	}
 
+	@Column(name = "ADDRESS")
 	public String getAddress() {
 		return address;
 	}
@@ -80,6 +84,7 @@ public class UserExtra extends DataEntity<UserExtra> {
 		this.address = address;
 	}
 
+	@Column(name = "SEX")
 	public int getSex() {
 		return sex;
 	}
@@ -88,6 +93,7 @@ public class UserExtra extends DataEntity<UserExtra> {
 		this.sex = sex;
 	}
 
+	@Column(name = "BIRTHDAY")
 	public String getBirthday() {
 		return birthday;
 	}
@@ -96,6 +102,7 @@ public class UserExtra extends DataEntity<UserExtra> {
 		this.birthday = birthday;
 	}
 
+	@Column(name = "REMARK")
 	public String getRemarks() {
 		return remarks;
 	}

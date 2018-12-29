@@ -17,25 +17,26 @@ import java.io.Serializable;
 public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serializable {
 
     private static final long serialVersionUID = 1L;
-    @Column(name = "name")
+
     @ApiModelProperty(value = "名称")
     private String name;
-    @Column(name = "mobile")
+
     @ApiModelProperty(value = "手机")
     private String mobile;
-    @Column(name = "content")
+
     @ApiModelProperty(value = "内容")
     private String content;
-    @Column(name = "type")
+
     @ApiModelProperty(value = "类型")
     private int type;
-    @Column(name = "create_user_id")
+
     @ApiModelProperty(value = "创建人id")
     private Long createUserId;
-    @Column(name = "remarks")
+
     @ApiModelProperty(value = "备注")
     private String remarks;
 
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -44,6 +45,7 @@ public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serial
         this.name = name;
     }
 
+    @Column(name = "mobile")
     public String getMobile() {
         return mobile;
     }
@@ -52,6 +54,7 @@ public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serial
         this.mobile = mobile;
     }
 
+    @Column(name = "content")
     public String getContent() {
         return content;
     }
@@ -60,6 +63,7 @@ public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serial
         this.content = content;
     }
 
+    @Column(name = "type")
     public int getType() {
         return type;
     }
@@ -68,6 +72,7 @@ public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serial
         this.type = type;
     }
 
+    @Column(name = "create_user_id")
     public Long getCreateUserId() {
         return createUserId;
     }
@@ -76,6 +81,7 @@ public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serial
         this.createUserId = createUserId;
     }
 
+    @Column(name = "remarks")
     public String getRemarks() {
         return remarks;
     }

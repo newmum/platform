@@ -19,15 +19,16 @@ import java.io.Serializable;
 public class UserBlacklist extends DataEntity<UserBlacklist> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "TID")
+
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户不能为空")
 	private Long crmUserId;
-	@Column(name = "USER_IP")
+
 	@ApiModelProperty(value = "ip地址")
 	@Pattern(regexp = RegexUtil.IP, message = "ip地址输入有误")
 	private String ip;
 
+	@Column(name = "TID")
 	public Long getCrmUserId() {
 		return crmUserId;
 	}
@@ -36,6 +37,7 @@ public class UserBlacklist extends DataEntity<UserBlacklist> implements Serializ
 		this.crmUserId = crmUserId;
 	}
 
+	@Column(name = "USER_IP")
 	public String getIp() {
 		return ip;
 	}

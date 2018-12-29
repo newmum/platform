@@ -5,7 +5,6 @@ import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
-import org.beetl.sql.core.annotatoin.Tail;
 
 import javax.persistence.Column;
 import java.util.List;
@@ -20,40 +19,46 @@ import java.util.List;
 @ToString
 public class User extends DataEntity<User> {
 
-	@Column(name = "ACCOUNT")
     @ApiModelProperty(value = "账号")
     private String account;
-    @Column(name = "PASSWORD")
+
     @ApiModelProperty(value = "密码", hidden = true)
     private String password;
-    @Column(name = "EMAIL")
+
     @ApiModelProperty(value = "邮箱", hidden = true)
     private String email;
-	@Column(name = "DEPT_ID")
+
 	@ApiModelProperty(value = "机构编号", hidden = true)
 	private Long deptId;
-	@Column(name = "USER_TYPE")
+
 	@ApiModelProperty(value = "用户类型", hidden = true)
 	private Integer userType;
-	@Column(name = "MOBILE")
+
 	@ApiModelProperty(value = "手机号", hidden = true)
 	private String mobile;
-	@Column(name = "CREATE_USER")
+
 	@ApiModelProperty(value = "创建人编号", hidden = true)
 	private Long createUser;
+
 	@ApiModelProperty(value = "是否锁定", hidden = true)
 	private Integer isLock;
+
 	@ApiModelProperty(value = "用户机构对象", hidden = true)
 	private Department department;
+
 	@ApiModelProperty(value = "基本信息", hidden = true)
 	private UserExtra userExtra;
+
 	@ApiModelProperty(value = "角色集合", hidden = true)
 	private List<Role> role;
+
 	@ApiModelProperty(value = "菜单集合", hidden = true)
-	private List<UiRouter> menuList;
+	private List<Menu> menuList;
+
 	@ApiModelProperty(value = "菜单权限集合", hidden = true)
 	private List<Power> powerList;
 
+	@Column(name = "ACCOUNT")
 	public String getAccount() {
 		return account;
 	}
@@ -62,6 +67,7 @@ public class User extends DataEntity<User> {
 		this.account = account;
 	}
 
+	@Column(name = "EMAIL")
 	public String getEmail() {
 		return email;
 	}
@@ -70,6 +76,7 @@ public class User extends DataEntity<User> {
 		this.email = email;
 	}
 
+	@Column(name = "USER_TYPE")
     public Integer getUserType() {
         return userType;
     }
@@ -78,6 +85,7 @@ public class User extends DataEntity<User> {
         this.userType = userType;
     }
 
+	@Column(name = "MOBILE")
     public String getMobile() {
 		return mobile;
 	}
@@ -86,7 +94,8 @@ public class User extends DataEntity<User> {
 		this.mobile = mobile;
 	}
 
-	//@JsonIgnore
+	@Column(name = "PASSWORD")
+	@JsonIgnore
 	public String getPassword() {
 		return password;
 	}
@@ -95,6 +104,7 @@ public class User extends DataEntity<User> {
 		this.password = password;
 	}
 
+	@Column(name = "CREATE_USER")
 	public Long getCreateUser() {
 		return createUser;
 	}
@@ -103,6 +113,7 @@ public class User extends DataEntity<User> {
 		this.createUser = createUser;
 	}
 
+	@Column(name = "DEPT_ID")
     //@JsonIgnore
     public Long getDeptId() {
         return deptId;
@@ -145,11 +156,11 @@ public class User extends DataEntity<User> {
 		this.role = role;
 	}
 
-	public List<UiRouter> getMenuList() {
+	public List<Menu> getMenuList() {
 		return menuList;
 	}
 
-	public void setMenuList(List<UiRouter> menuList) {
+	public void setMenuList(List<Menu> menuList) {
 		this.menuList = menuList;
 	}
 

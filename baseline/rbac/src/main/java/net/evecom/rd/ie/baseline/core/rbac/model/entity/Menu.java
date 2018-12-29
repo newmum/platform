@@ -19,39 +19,38 @@ import java.io.Serializable;
 @ToString
 public class Menu extends DataEntity<Menu> implements Serializable {
 
-	@Column(name = "PARENT_ID")
 	@ApiModelProperty(value = "父类id")
 	@NotNull(message = "父类不能为空")
 	private Long parentId;
-	@Column(name = "TITLE")
+
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
 	private String title;
-	@Column(name = "SORT")
+
 	@ApiModelProperty(value = "排序")
 	private Long sort;
-	@Column(name = "PATH")
+
 	@ApiModelProperty(value = "界面路径")
 	private String path;
-	@Column(name = "PATH_TYPE")
+
 	@ApiModelProperty(value = "链接类型(1是超链接 2不是超链接)", hidden = true)
 	private int pathType;
-	@Column(name = "HREF")
+
 	@ApiModelProperty(value = "链接")
 	private String href;
-	@Column(name = "ROUTER_NAME")
+
 	@ApiModelProperty(value = "路由名")
 	private String routerName;
-	@Column(name = "ICON")
+
 	@ApiModelProperty(value = "图标")
 	private String icon;
-	@Column(name = "IS_SHOW")
+
 	@ApiModelProperty(value = "是否展示")
 	private int isShow;
-	@Column(name = "POWER_ID")
+
 	@ApiModelProperty(value = "权限id")
 	private Long crmPowerId;
-	@Column(name = "CREATE_USER")
+
 	@ApiModelProperty(value = "创建者", hidden = true)
 	private Long createUser;
 	@ApiModelProperty(value = "请求方式")
@@ -59,6 +58,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 	@ApiModelProperty(value = "请求路径")
 	private String url;
 
+	@Column(name = "METHOD")
 	public String getMethod() {
 		return method;
 	}
@@ -67,6 +67,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.method = method;
 	}
 
+	@Column(name = "URL")
 	public String getUrl() {
 		return url;
 	}
@@ -75,6 +76,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.url = url;
 	}
 
+	@Column(name = "PARENT_ID")
 	public Long getParentId() {
 		return parentId;
 	}
@@ -83,6 +85,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.parentId = parentId;
 	}
 
+	@Column(name = "TITLE")
 	public String getTitle() {
 		return title;
 	}
@@ -91,6 +94,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.title = title;
 	}
 
+	@Column(name = "SORT")
 	public Long getSort() {
 		return sort;
 	}
@@ -99,6 +103,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.sort = sort;
 	}
 
+	@Column(name = "PATH")
 	public String getPath() {
 		return path;
 	}
@@ -107,6 +112,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.path = path;
 	}
 
+	@Column(name = "PATH_TYPE")
 	public int getPathType() {
 		return pathType;
 	}
@@ -115,6 +121,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.pathType = pathType;
 	}
 
+	@Column(name = "HREF")
 	public String getHref() {
 		return href;
 	}
@@ -123,6 +130,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.href = href;
 	}
 
+	@Column(name = "ICON")
 	public String getIcon() {
 		return icon;
 	}
@@ -131,6 +139,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.icon = icon;
 	}
 
+	@Column(name = "IS_SHOW")
 	public int getIsShow() {
 		return isShow;
 	}
@@ -139,6 +148,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.isShow = isShow;
 	}
 
+	@Column(name = "POWER_ID")
 	public Long getCrmPowerId() {
 		return crmPowerId;
 	}
@@ -147,6 +157,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.crmPowerId = crmPowerId;
 	}
 
+	@Column(name = "ROUTER_NAME")
 	public String getRouterName() {
 		return routerName;
 	}
@@ -155,6 +166,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.routerName = routerName;
 	}
 
+	@Column(name = "CREATE_USER")
 	public Long getCreateUser() {
 		return createUser;
 	}

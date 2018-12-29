@@ -17,15 +17,16 @@ import java.io.Serializable;
 public class RolePower extends DataEntity<RolePower> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "PRIV_ID")
+
 	@ApiModelProperty(value = "权限id")
 	@NotNull(message = "权限不能为空")
 	private Long crmPowerId;
-	@Column(name = "ROLE_ID")
+
 	@ApiModelProperty(value = "角色id")
 	@NotNull(message = "角色不能为空")
 	private Long crmRoleId;
 
+	@Column(name = "PRIV_ID")
 	public Long getCrmPowerId() {
 		return crmPowerId;
 	}
@@ -34,6 +35,7 @@ public class RolePower extends DataEntity<RolePower> implements Serializable {
 		this.crmPowerId = crmPowerId;
 	}
 
+	@Column(name = "ROLE_ID")
 	public Long getCrmRoleId() {
 		return crmRoleId;
 	}
