@@ -17,13 +17,14 @@ import java.io.Serializable;
 public class UserVisit extends DataEntity<UserVisit> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-	@Column(name = "MENU_ID")
+
 	@ApiModelProperty(value = "菜单id")
 	private Long uiRouterId;
-	@Column(name = "USER_ID")
+
 	@ApiModelProperty(value = "用户id")
 	private Long crmUserId;
 
+	@Column(name = "MENU_ID")
 	public Long getUiRouterId() {
 		return uiRouterId;
 	}
@@ -32,6 +33,7 @@ public class UserVisit extends DataEntity<UserVisit> implements Serializable {
 		this.uiRouterId = uiRouterId;
 	}
 
+	@Column(name = "USER_ID")
 	public Long getCrmUserId() {
 		return crmUserId;
 	}

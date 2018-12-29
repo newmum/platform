@@ -17,28 +17,28 @@ import java.io.Serializable;
 @Table(name = "RM_PRIV_T")
 public class Power extends DataEntity<Power> implements Serializable {
 
-	@Column(name = "PRIV_NAME")
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
 	private String privName;
-	@Column(name = "METHOD")
+
 	@ApiModelProperty(value = "请求方式")
 	@NotNull(message = "请求方式不能为空")
 	private String method;
-	@Column(name = "URL")
+
 	@ApiModelProperty(value = "请求路径")
 	@NotNull(message = "请求路径不能为空")
 	private String url;
-	@Column(name = "MENU_ID")
+
 	@ApiModelProperty(value = "菜单id")
 	private Long menuId;
-	@Column(name = "CREATE_USER")
+
 	@ApiModelProperty(value = "创建人id", hidden = true)
 	private Long createUser;
-	@Column(name = "PRIV_DESC")
+
 	@ApiModelProperty(value = "权限描述")
 	private String privDesc;
 
+	@Column(name = "PRIV_NAME")
 	public String getPrivName() {
 		return privName;
 	}
@@ -47,6 +47,7 @@ public class Power extends DataEntity<Power> implements Serializable {
 		this.privName = privName;
 	}
 
+	@Column(name = "METHOD")
 	public String getMethod() {
 		return method;
 	}
@@ -55,6 +56,7 @@ public class Power extends DataEntity<Power> implements Serializable {
 		this.method = method;
 	}
 
+	@Column(name = "URL")
 	public String getUrl() {
 		return url;
 	}
@@ -63,6 +65,7 @@ public class Power extends DataEntity<Power> implements Serializable {
 		this.url = url;
 	}
 
+	@Column(name = "MENU_ID")
 	public Long getMenuId() {
 		return menuId;
 	}
@@ -71,6 +74,7 @@ public class Power extends DataEntity<Power> implements Serializable {
 		this.menuId = menuId;
 	}
 
+	@Column(name = "CREATE_USER")
 	public Long getCreateUser() {
 		return createUser;
 	}
@@ -79,6 +83,7 @@ public class Power extends DataEntity<Power> implements Serializable {
 		this.createUser = createUser;
 	}
 
+	@Column(name = "PRIV_DESC")
 	public String getPrivDesc() {
 		return privDesc;
 	}

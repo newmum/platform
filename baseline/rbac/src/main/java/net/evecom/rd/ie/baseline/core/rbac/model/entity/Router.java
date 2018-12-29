@@ -19,20 +19,20 @@ import java.io.Serializable;
 @ToString
 public class Router extends DataEntity<Router> implements Serializable {
 
-	@Column(name = "TITLE")
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
 	private String title;
-	@Column(name = "PATH")
+
 	@ApiModelProperty(value = "界面路径")
 	private String path;
-	@Column(name = "ROUTER_NAME")
+
 	@ApiModelProperty(value = "路由名")
 	private String routerName;
-    @Column(name = "COMPONENT")
+
     @ApiModelProperty(value = "前端组件位置")
     private String component;
 
+    @Column(name = "TITLE")
     public String getTitle() {
         return title;
     }
@@ -41,6 +41,7 @@ public class Router extends DataEntity<Router> implements Serializable {
         this.title = title;
     }
 
+    @Column(name = "PATH")
     public String getPath() {
         return path;
     }
@@ -49,6 +50,7 @@ public class Router extends DataEntity<Router> implements Serializable {
         this.path = path;
     }
 
+    @Column(name = "ROUTER_NAME")
     public String getRouterName() {
         return routerName;
     }
@@ -57,6 +59,7 @@ public class Router extends DataEntity<Router> implements Serializable {
         this.routerName = routerName;
     }
 
+    @Column(name = "COMPONENT")
     public String getComponent() {
         return component;
     }

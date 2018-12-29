@@ -18,11 +18,11 @@ import java.io.Serializable;
 @Table(name = "RM_ROLE_POWER_RELA_T")
 public class UserRole extends DataEntity<UserRole> implements Serializable {
 
-	@Column(name = "USER_ID")
+
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户不能为空")
 	private Long crmUserId;
-	@Column(name = "ROLE_ID")
+
 	@ApiModelProperty(value = "角色id")
 	@NotNull(message = "角色不能为空")
 	private Long crmRoleId;
