@@ -2,7 +2,7 @@ package net.evecom.rd.ie.baseline.core.rbac.web.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.evecom.rd.ie.baseline.core.rbac.config.MessageConfig;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.Power;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Priv;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthCertService;
 import net.evecom.rd.ie.baseline.utils.database.redis.RedisClient;
@@ -91,7 +91,7 @@ public class CustomFilter implements Filter {
             User user = (User) obj;
             objectMapper.writeValueAsString(user);
             if (user.getTid() != 1) {// TODO 测试使用
-                List<Power> powerList = user.getPowerList();
+                List<Priv> powerList = user.getPowerList();
                 boolean bo = hasPower(powerList, stp_url, stp_method);
                 if (!bo) {
                     noPower(request, response, CommonException.NO_POWER);
@@ -110,11 +110,11 @@ public class CustomFilter implements Filter {
      * @param method    请求类型
      * @return
      */
-    private static boolean hasPower(List<Power> powerList, String url, String method) {
+    private static boolean hasPower(List<Priv> powerList, String url, String method) {
         if (powerList == null || powerList.size() == 0) {
             return false;
         }
-        for (Power power : powerList) {
+        for (Priv power : powerList) {
             if(CheckUtil.isNull(power.getUrl())||CheckUtil.isNull(power.getMethod())){
                 continue;
             }

@@ -3,7 +3,7 @@ package net.evecom.rd.ie.baseline.core.mvc.model.service;
 import net.evecom.rd.ie.baseline.core.mvc.model.dao.ComponentDao;
 import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiElement;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseService;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.Power;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Priv;
 import net.evecom.rd.ie.baseline.core.db.model.entity.Resources;
 import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiComEle;
 import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiComponent;
@@ -34,9 +34,9 @@ public class ComponentService extends BaseService {
     @Resource
     private ComponentDao componentDao;
 
-    public List<UiComponent> getComponents(List<Power> list, Long routerId) throws Exception {
+    public List<UiComponent> getComponents(List<Priv> list, Long routerId) throws Exception {
         StringBuffer sb = new StringBuffer();
-        for (Power power : list) {
+        for (Priv power : list) {
             sb.append(power.getTid().toString() + ",");
         }
         String value = sb.toString().substring(0, sb.length() - 1);

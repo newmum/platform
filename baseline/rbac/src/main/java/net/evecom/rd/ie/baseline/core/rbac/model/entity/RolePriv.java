@@ -1,5 +1,6 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -14,12 +15,18 @@ import java.io.Serializable;
  * @date： 2018年11月20日
  */
 @Table(name = "RM_ROLE_PRIV_RELA_T")
-public class RolePower extends DataEntity<RolePower> implements Serializable {
+@ToString
+public class RolePriv extends DataEntity<RolePriv> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@ApiModelProperty(value = "权限id")
 	@NotNull(message = "权限不能为空")
+	private Long privId;
+
+	@ApiModelProperty(value = "角色id")
+	@NotNull(message = "角色不能为空")
+	private Long roleId;
 	private Long crmPowerId;
 
 	@ApiModelProperty(value = "角色id")
@@ -31,8 +38,12 @@ public class RolePower extends DataEntity<RolePower> implements Serializable {
 		return crmPowerId;
 	}
 
-	public void setCrmPowerId(Long crmPowerId) {
-		this.crmPowerId = crmPowerId;
+	@Column(name = "PRIV_ID")
+	public Long getPrivId() {
+		return privId;
+	}
+	public void setPrivId(Long privId) {
+		this.privId = privId;
 	}
 
 	@Column(name = "ROLE_ID")
@@ -40,14 +51,12 @@ public class RolePower extends DataEntity<RolePower> implements Serializable {
 		return crmRoleId;
 	}
 
-	public void setCrmRoleId(Long crmRoleId) {
-		this.crmRoleId = crmRoleId;
+	@Column(name = "ROLE_ID")
+	public Long getRoleId() {
+		return roleId;
 	}
-
-	@Override
-	public String toString() {
-		return "RolePower [" + "crmPowerId=" + crmPowerId + "," + "crmRoleId=" + crmRoleId + "]" + "Address ["
-				+ getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
 	}
 
 }

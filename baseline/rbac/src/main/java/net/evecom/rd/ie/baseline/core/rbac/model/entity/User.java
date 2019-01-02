@@ -56,7 +56,7 @@ public class User extends DataEntity<User> {
 	private List<Menu> menuList;
 
 	@ApiModelProperty(value = "菜单权限集合", hidden = true)
-	private List<Power> powerList;
+	private List<Priv> powerList;
 
 	@Column(name = "ACCOUNT")
 	public String getAccount() {
@@ -165,11 +165,11 @@ public class User extends DataEntity<User> {
 	}
 
 	@JsonIgnore
-	public List<Power> getPowerList() {
+	public List<Priv> getPowerList() {
 		return powerList;
 	}
 
-	public void setPowerList(List<Power> powerList) {
+	public void setPowerList(List<Priv> powerList) {
 		this.powerList = powerList;
 	}
 }

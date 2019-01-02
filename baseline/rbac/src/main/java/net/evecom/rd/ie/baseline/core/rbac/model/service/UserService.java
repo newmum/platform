@@ -8,7 +8,6 @@ import net.evecom.rd.ie.baseline.core.rbac.exception.UserException;
 import net.evecom.rd.ie.baseline.core.db.model.service.ResourceService;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.*;
 import net.evecom.rd.ie.baseline.tools.constant.consts.CacheGroupConst;
-import net.evecom.rd.ie.baseline.core.db.database.query.QueryParam;
 import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.tools.message.email.SendEmail;
 import net.evecom.rd.ie.baseline.tools.message.sms.SendSMS;
@@ -182,7 +181,7 @@ public class UserService extends BaseService {
             logout(request, response);
         } catch (Exception e) {
         }
-        List<Power> powerList = userDao.privList(user.getTid());
+        List<Priv> powerList = userDao.privList(user.getTid());
         user.setPowerList(powerList);
         String sid = saveLoginUser(user, response);
         // 保存登录日志
@@ -585,15 +584,15 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public List<Power> getPowerByMenuId(HttpServletRequest request, Long menuId) throws Exception {
+    public List<Priv> getPowerByMenuId(HttpServletRequest request, Long menuId) throws Exception {
         User user = loginUser(request);
         return getPowerByMenuId(user, menuId);
     }
 
-    public List<Power> getPowerByMenuId(User user, Long menuId) throws Exception {
-        List<Power> powerList = user.getPowerList();
-        List<Power> resultList = new ArrayList<Power>();
-        for (Power power : powerList) {
+    public List<Priv> getPowerByMenuId(User user, Long menuId) throws Exception {
+        List<Priv> powerList = user.getPowerList();
+        List<Priv> resultList = new ArrayList<Priv>();
+        for (Priv power : powerList) {
             Long id = power.getMenuId();
             if (id.equals(menuId)) {
                 resultList.add(power);

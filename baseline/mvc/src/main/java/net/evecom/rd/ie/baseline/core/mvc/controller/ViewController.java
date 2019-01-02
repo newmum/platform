@@ -9,10 +9,8 @@ import net.evecom.rd.ie.baseline.core.mvc.model.entity.UiComponent;
 import net.evecom.rd.ie.baseline.core.mvc.model.service.ViewService;
 import net.evecom.rd.ie.baseline.core.rbac.base.BaseController;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.Menu;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.Power;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.Router;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Priv;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
-import net.evecom.rd.ie.baseline.core.rbac.model.service.UserService;
 import net.evecom.rd.ie.baseline.tools.constant.consts.SuccessConst;
 import net.evecom.rd.ie.baseline.tools.service.Result;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,25 +52,25 @@ public class ViewController extends BaseController {
 		main_url = (main_url == null ? "" : main_url);
 		stp_url = stp_url.substring(main_url.length());
 		List<UiComponent> compentlist =new ArrayList<UiComponent>();
-		Power power = hasPower(user.getPowerList(), stp_url, stp_method);
+		Priv power = hasPower(user.getPowerList(), stp_url, stp_method);
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(power!=null){
 			QueryParam<Menu>queryParam=new QueryParam<>();
 			queryParam.append(Menu::getCrmPowerId,power.getTid());
             Menu uiRouter= (Menu) resourceService.get(Menu.class,queryParam);
-//			List<Power> list = userService.getPowerByMenuId(request, power.getRouterId());
+//			List<Priv> list = userService.getPowerByMenuId(request, power.getRouterId());
 			//compentlist = uiComponentService.getComponents(user.getPowerList(), uiRouter.getId());
 		}
 		//map.put("components", compentlist);
 		return Result.success(SuccessConst.OPERATE_SUCCESS, map);
 	}
 
-	private static Power hasPower(List<Power> powerList, String url, String method) {
-		Power crmPower = null;
+	private static Priv hasPower(List<Priv> powerList, String url, String method) {
+		Priv crmPower = null;
 		if (powerList == null || powerList.size() == 0) {
 			return crmPower;
 		}
-		for (Power power : powerList) {
+		for (Priv power : powerList) {
 			String regex = "^" + power.getUrl().replaceAll("\\*", "\\.\\*") + "$";
 			if (Pattern.matches(regex, url) && power.getMethod().toUpperCase().equals(method)) {
 				crmPower = power;
