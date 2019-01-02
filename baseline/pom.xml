@@ -11,7 +11,7 @@
 
     <artifactId>baseline</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.2</version>
+    <version>1.0.3</version>
     <modules>
         <module>common</module>
         <module>orm</module>
@@ -20,11 +20,11 @@
         <module>mvc</module>
     </modules>
     <properties>
-        <baseline.common.version>1.0.2</baseline.common.version>
-        <baseline.web.version>1.0.2</baseline.web.version>
-        <baseline.orm.version>1.0.2</baseline.orm.version>
-        <baseline.rbac.version>1.0.2</baseline.rbac.version>
-        <baseline.resource.version>1.0.2</baseline.resource.version>
+        <baseline.common.version>1.0.3</baseline.common.version>
+        <baseline.web.version>1.0.3</baseline.web.version>
+        <baseline.orm.version>1.0.3</baseline.orm.version>
+        <baseline.rbac.version>1.0.3</baseline.rbac.version>
+        <baseline.resource.version>1.0.3</baseline.resource.version>
     </properties>
     <dependencies>
 
