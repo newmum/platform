@@ -24,10 +24,6 @@ public class AppInitConfig implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        System.out.println("权限数据初始化");
-        ProcessorChain processorChain = new ProcessorChain();
-        processorChain.setChainName("test");
-        processorChain.setChainDesc("123456");
-        resourceService.add(processorChain);
+        System.out.println("数据初始化");
     }
 }
