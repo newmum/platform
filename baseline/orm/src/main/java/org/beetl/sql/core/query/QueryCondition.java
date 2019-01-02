@@ -403,9 +403,9 @@ public class QueryCondition<T> implements QueryConditionI<T> {
      */
     protected void appendSqlByDb(String column) {
         if(sqlManager.getDbStyle().getName().equals("oracle")){
-            if(column.endsWith("_time")){
+            if(column.toUpperCase().endsWith("_TIME")){
                 this.appendSql("to_date(?,'YYYY-MM-DD HH24:mi:ss')");
-            } else if(column.endsWith("_date")){
+            } else if(column.endsWith("_DATE")){
                 this.appendSql("to_date(?,'YYYY-MM-DD')");
             } else{
                 this.appendSql(" ? ");
