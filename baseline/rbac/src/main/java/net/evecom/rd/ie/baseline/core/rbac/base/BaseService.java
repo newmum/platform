@@ -4,24 +4,57 @@ import net.evecom.rd.ie.baseline.core.rbac.exception.UserException;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthCertService;
 import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
+import org.beetl.sql.core.SQLManager;
+import org.beetl.sql.core.SQLReady;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
+import java.util.Map;
 
 /**
  * service服务基类
  * @author zhengc
  *
  */
+@Transactional
+@Service("baseService")
 public class BaseService {
 
     protected static Logger log = LoggerFactory.getLogger(BaseService.class);
 
+	/**
+	 * 描述
+	 */
+	@Resource
+	private SQLManager sqlManager;
+
+
     @Resource
     AuthCertService authCertService;
+
+	/**
+	 * 描述 检测某值是否存在
+	 * @author Klaus Zhuang
+	 * @created 2018/12/29 10:24
+	 * @return
+	 * @param
+	 */
+	public boolean checkExist(String tableName, String idName, String idValue) {
+		String sql = "select "+idName+" from " +tableName +" where " + idName +"=?";
+		List list = sqlManager.execute(new SQLReady(sql,idValue),Map.class);
+		if(list.size()>0){
+			return true;
+		}
+		return false;
+
+	}
+
     /**
      * 更新会话中的用户对象
      * @param user

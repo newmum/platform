@@ -1,5 +1,7 @@
 package net.evecom.rd.ie.baseline.core.rbac.base;
 
+import io.swagger.annotations.ApiOperation;
+import net.evecom.rd.ie.baseline.core.rbac.model.entity.Department;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import net.evecom.rd.ie.baseline.tools.service.RequestBean;
 import net.evecom.rd.ie.baseline.tools.service.Result;
@@ -7,10 +9,14 @@ import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
+import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -19,6 +25,7 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -27,12 +34,38 @@ import java.util.Map;
  * @author： zhengc
  * @date： 2018年6月4日
  */
+@Controller
+@RequestMapping("/baseController")
 public class BaseController {
 	protected HttpServletRequest request;
 	protected HttpServletResponse response;
 	protected HttpSession session;
 
 	protected static Logger log = LoggerFactory.getLogger(BaseController.class);
+
+
+	@Resource
+	public BaseService baseService;
+
+
+
+	/**
+	 * 描述
+	 * @author Klaus Zhuang
+	 * @created 2019/1/3 15:04
+	 * @return
+	 * @param 
+	 */
+	@ApiOperation(value = "检测某值是否已存在", notes = "检测某值是否已存在")
+	@RequestMapping(value ="/checkExist", method = RequestMethod.POST)
+	public Result checkExist(String tableName,String idName,String idValue){
+		boolean isExist = baseService.checkExist(tableName,idName,idValue);
+		if(isExist)
+			return Result.success();
+		return Result.failed();
+	}
+	
+	
 
 	/**
 	 * 请求该类的每个Action前都会首先执行它可以放置准备数据的操作

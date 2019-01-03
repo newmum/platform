@@ -1,64 +1,114 @@
+/*
+ * Copyright (c) 2005, 2018, EVECOM Technology Co.,Ltd. All rights reserved.
+ * EVECOM PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
+ */
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
-import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
+
+
 import io.swagger.annotations.ApiModelProperty;
+import java.io.Serializable;
+import java.util.List;
+import javax.persistence.Column;
+import javax.persistence.Transient;
+import javax.validation.constraints.NotNull;
+import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
+import org.beetl.sql.core.annotatoin.SeqID;
 import org.beetl.sql.core.annotatoin.Table;
 
-import javax.persistence.Column;
-import javax.validation.constraints.NotNull;
-import java.io.Serializable;
-
 /**
- * @ClassName: Department
- * @Description: 组织机构对象
- * @author： zhengc
- * @date： 2018年10月30日
+ * 描述
+ * @author Klaus Zhuang
+ * @created 2018/12/5 16:31
  */
-@Table(name = "rm_department_t")
+@Table(
+		name = "rm_department_t"
+)
 public class Department extends DataEntity<Department> implements Serializable {
 
-	@ApiModelProperty(value = "上级机构编号")
+	@Column(
+			name = "TID"
+	)
+	@ApiModelProperty("ID")
+	protected Long tid;
+	@ApiModelProperty("上级机构编号")
 	@NotNull(message = "上级机构不能为空")
 	private Long parentId;
-
-	@ApiModelProperty(value = "组织机构名称")
+	@ApiModelProperty("组织机构名称")
 	@NotNull(message = "名称不能为空")
-	private String title;
-
-	@ApiModelProperty(value = "排序")
-	private Long sort;
-
-	@ApiModelProperty(value = "区域编码")
-	private String code;
-
-	@ApiModelProperty(value = "机构类型")
-	private Long type;
-
-	@ApiModelProperty(value = "机构等级")
-	private Long grade;
-
-	@ApiModelProperty(value = "地址")
+	private String deptName;
+	@ApiModelProperty("组织机构编码")
+	@NotNull(message = "组织机构编码不能为空")
+	private String deptCode;
+	@ApiModelProperty("排序")
+	private Long deptSort;
+	@ApiModelProperty("区域编码")
+	private String areaCode;
+	@ApiModelProperty("机构类型")
+	private Long deptType;
+	@ApiModelProperty("机构等级")
+	private Long deptLevel;
+	@ApiModelProperty("地址")
 	private String address;
-
-	@ApiModelProperty(value = "邮政编码")
-	private String zipCode;
-
-	@ApiModelProperty(value = "电话")
+	@ApiModelProperty("邮政编码")
+	private String zip;
+	@ApiModelProperty("电话")
 	private String phone;
-
-	@ApiModelProperty(value = "传真")
+	@ApiModelProperty("传真")
 	private String fax;
-
-	@ApiModelProperty(value = "邮箱")
+	@ApiModelProperty("邮箱")
 	private String email;
+	@ApiModelProperty(value = "创建人id",hidden = true)
+	private Long createUser;
+	@Column(
+			name = "DEPT_DESC"
+	)
+	@ApiModelProperty("备注")
+	private String deptDesc;
 
-	@ApiModelProperty(value = "创建人id", hidden = true)
-	private Long createUserId;
+	@Transient
+	private String parentName;
 
-	@ApiModelProperty(value = "备注")
-	private String remarks;
+	public String getParentName() {
+		return parentName;
+	}
 
-	@Column(name = "PARENT_ID")
+	public void setParentName(String parentName) {
+		this.parentName = parentName;
+	}
+
+	@Transient
+	private List<Department> children;
+
+	public List<Department> getChildren() {
+		return children;
+	}
+
+	public void setChildren(List<Department> children) {
+		this.children = children;
+	}
+
+	public Department() {
+	}
+
+	@SeqID(name="RM_DEPARTMENT_S")
+	@Override public Long getTid() {
+		return tid;
+	}
+
+	@Override public void setTid(Long tid) {
+		this.tid = tid;
+	}
+
+	public String getDeptCode() {
+		return deptCode;
+	}
+
+	public void setDeptCode(String deptCode) {
+		this.deptCode = deptCode;
+	}
+
 	public Long getParentId() {
 		return parentId;
 	}
@@ -67,52 +117,48 @@ public class Department extends DataEntity<Department> implements Serializable {
 		this.parentId = parentId;
 	}
 
-	@Column(name = "TITLE")
-	public String getTitle() {
-		return title;
+	public String getDeptName() {
+		return deptName;
 	}
 
-	public void setTitle(String title) {
-		this.title = title;
+	public void setDeptName(String deptName) {
+		this.deptName = deptName;
 	}
 
-	@Column(name = "SORT")
-	public Long getSort() {
-		return sort;
+	public Long getDeptSort() {
+		return deptSort;
 	}
 
-	public void setSort(Long sort) {
-		this.sort = sort;
+	public void setDeptSort(Long deptSort) {
+		this.deptSort = deptSort;
 	}
 
-	@Column(name = "AREA_CODE")
-	public String getCode() {
-		return code;
+	public Long getDeptLevel() {
+		return deptLevel;
 	}
 
-	public void setCode(String code) {
-		this.code = code;
+	public void setDeptLevel(Long deptLevel) {
+		this.deptLevel = deptLevel;
 	}
 
-	@Column(name = "DEPT_TYPE")
-	public Long getType() {
-		return type;
+	public String getAreaCode() {
+		return areaCode;
 	}
 
-	public void setType(Long type) {
-		this.type = type;
+	public void setAreaCode(String areaCode) {
+		this.areaCode = areaCode;
 	}
 
-	@Column(name = "LEVEL")
-	public Long getGrade() {
-		return grade;
+	public Long getDeptType() {
+		return deptType;
 	}
 
-	public void setGrade(Long grade) {
-		this.grade = grade;
+	public void setDeptType(Long deptType) {
+		this.deptType = deptType;
 	}
 
-	@Column(name = "ADDRESS")
+
+
 	public String getAddress() {
 		return address;
 	}
@@ -121,16 +167,14 @@ public class Department extends DataEntity<Department> implements Serializable {
 		this.address = address;
 	}
 
-	@Column(name = "ZIP")
-	public String getZipCode() {
-		return zipCode;
+	public String getZip() {
+		return zip;
 	}
 
-	public void setZipCode(String zipCode) {
-		this.zipCode = zipCode;
+	public void setZip(String zip) {
+		this.zip = zip;
 	}
 
-	@Column(name = "PHONE")
 	public String getPhone() {
 		return phone;
 	}
@@ -139,7 +183,6 @@ public class Department extends DataEntity<Department> implements Serializable {
 		this.phone = phone;
 	}
 
-	@Column(name = "FAX")
 	public String getFax() {
 		return fax;
 	}
@@ -148,7 +191,6 @@ public class Department extends DataEntity<Department> implements Serializable {
 		this.fax = fax;
 	}
 
-	@Column(name = "EMAIL")
 	public String getEmail() {
 		return email;
 	}
@@ -157,22 +199,19 @@ public class Department extends DataEntity<Department> implements Serializable {
 		this.email = email;
 	}
 
-	@Column(name = "CREATE_USER")
-	public Long getCreateUserId() {
-		return createUserId;
+	public Long getCreateUser() {
+		return createUser;
 	}
 
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
+	public void setCreateUser(Long createUser) {
+		this.createUser = createUser;
 	}
 
-	@Column(name = "DEPT_DESC")
-	public String getRemarks() {
-		return remarks;
+	public String getDeptDesc() {
+		return deptDesc;
 	}
 
-	public void setRemarks(String remarks) {
-		this.remarks = remarks;
+	public void setDeptDesc(String deptDesc) {
+		this.deptDesc = deptDesc;
 	}
-
 }
