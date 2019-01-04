@@ -4,7 +4,6 @@ import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import net.evecom.rd.ie.baseline.utils.report.exl.ExcelField;
 import io.swagger.annotations.ApiModelProperty;
-import org.beetl.sql.core.annotatoin.SeqID;
 import org.beetl.sql.core.annotatoin.Table;
 
 import javax.persistence.Column;
@@ -85,13 +84,4 @@ public class Role extends DataEntity<Role> implements Serializable {
 
     public void setRoleName(String roleName) { this.roleName = roleName; }
 
-    @Column(name = "TID")
-    @SeqID(name="RM_ROLE_S")
-    public Long getTid() {
-        return tid;
-    }
-
-    public void setTid(Long tid) {
-        this.tid = tid;
-    }
 }

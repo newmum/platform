@@ -262,9 +262,8 @@ public class ResourceService{
      */
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "add")
-    public int add(Object entity) throws Exception {
+    public Object add(Object entity) throws Exception {
         Method method = null;
-        int id = 0;
         Class<?> clazz = entity.getClass();
         while (clazz != null) {// 当父类为null的时候说明到达了最上层的父类(Object类).
             try {
@@ -274,20 +273,20 @@ public class ResourceService{
                 clazz = clazz.getSuperclass(); // 得到父类,然后赋给自己
             }
         }
-        method.invoke(entity);
+        if(method!=null){
+            method.invoke(entity);
+        }
         String str = ValidtorUtil.validbean(entity);
         if (CheckUtil.isNotNull(str)) {
             throw new ResourceException(str);
         }
         try {
-            KeyHolder holder = new KeyHolder();
-            holder.setKey("TID");
-            id = sqlManager.insert(entity.getClass(), entity, holder);
+            sqlManager.insert(entity.getClass(), entity);
         } catch (Exception e) {
             e.printStackTrace();
             throw new CommonException(CommonException.OPERATE_FAILED);
         }
-        return id;
+        return entity;
     }
 
     /**
@@ -426,7 +425,9 @@ public class ResourceService{
                 clazz = clazz.getSuperclass(); // 得到父类,然后赋给自己
             }
         }
-        method.invoke(entity);
+        if(method!=null){
+            method.invoke(entity);
+        }
         // String str = ValidtorUtil.validbean(entity);
         // if (CheckUtil.isNotNull(str)) {
         // throw new ResourceException(str);

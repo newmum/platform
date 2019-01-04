@@ -1,5 +1,6 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -13,8 +14,9 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年11月20日
  */
- @Table(name = "msg_email_t")
-public class MessageEmail  extends DataEntity<MessageEmail> implements Serializable {
+ @Table(name = "MSG_EMAIL_T")
+ @ToString
+public class MessageEmail extends DataEntity<MessageEmail> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -64,19 +66,6 @@ public class MessageEmail  extends DataEntity<MessageEmail> implements Serializa
 
 	public void setCreateUserId(Long createUserId) {
 		this.createUserId = createUserId;
-	}
-
-	@Override
-	public String toString() {
-		return "MessageEmail ["+
-		"name=" + name + ","+
-		"content=" + content + ","+
-		"type=" + type + ","+
-		"createUserId=" + createUserId + ","+
-		"]"+"Address ["+
-		getClass().getName() + "@" +
-		Integer.toHexString(hashCode())+
-		"]";
 	}
 
 }

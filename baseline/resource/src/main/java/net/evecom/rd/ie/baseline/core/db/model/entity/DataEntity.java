@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import net.evecom.rd.ie.baseline.utils.report.exl.ExcelField;
 import net.evecom.rd.ie.baseline.utils.datetime.DTUtil;
 import io.swagger.annotations.ApiModelProperty;
+import org.beetl.sql.core.TailBean;
 import org.beetl.sql.core.annotatoin.AssignID;
 import org.beetl.sql.core.annotatoin.DateTemplate;
 
@@ -17,7 +18,7 @@ import java.util.Date;
  * @author： zhengc
  * @date： 2018-10-30
  */
-public abstract class DataEntity<T> implements Serializable {
+public class DataEntity<T> extends TailBean implements Serializable {
 
     /**
      * 是否标记（0：否；1：是；）
@@ -43,10 +44,6 @@ public abstract class DataEntity<T> implements Serializable {
 	 * 插入之前执行方法，需要手动调用
 	 */
 	public void preInsert() {
-		// 不限制ID为UUID，调用setIsNewRecord()使用自定义ID
-		// if (!this.isNewRecord) {
-		// setId(IdGen.uuid());
-		// }
 		this.createTime = DTUtil.nowDate();
         this.updateTime = DTUtil.nowDate();
 	}
@@ -58,7 +55,7 @@ public abstract class DataEntity<T> implements Serializable {
 		this.updateTime = DTUtil.nowDate();
 	}
 
-    @AssignID()
+    @AssignID("createId")
     @Column(name = "TID")
     public Long getTid() {
         return tid;

@@ -22,6 +22,7 @@ public class QueryCondition<T> implements QueryConditionI<T> {
     public final String AND = "AND";
     public final String OR = "OR";
     public final String WHERE = "WHERE";
+    public final String SPLICE = "1=1";
     public final String IN = "IN";
     public final String NOT_IN = "NOT IN";
     public final String BETWEEN = "BETWEEN";
@@ -375,6 +376,7 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         return this.sql;
     }
 
+
     /**
      * TODO BASELINE 增加获取完整SQL条件语句
      * @return
@@ -383,7 +385,7 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         StringBuilder sb = new StringBuilder();
         if (this.sql != null) {
             sb.append(this.sql);
-            int i = sb.indexOf(WHERE);
+            int i = sb.indexOf(SPLICE);
             if (i > -1) {
                 sb.delete(i, i + 5);
             }

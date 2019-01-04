@@ -1,6 +1,7 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
 import io.swagger.annotations.ApiModelProperty;
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import org.beetl.sql.core.annotatoin.Table;
 
@@ -13,7 +14,8 @@ import javax.persistence.Column;
  * @date： 2018年12月14日
  */
 @Table(name = "SYS_CONFIG_T")
-public class SysConfig extends DataEntity<SysConfig>{
+@ToString
+public class SysConfig extends DataEntity<SysConfig> {
 
     @ApiModelProperty(value = "配置名称", hidden = true)
     private String configName;
@@ -111,17 +113,4 @@ public class SysConfig extends DataEntity<SysConfig>{
         this.configDesc = configDesc;
     }
 
-    @Override
-    public String toString() {
-        return "SysConfig{" +
-                "configName=" + configName +
-                ", title='" + title + '\'' +
-                ", configValue='" + configValue + '\'' +
-                ", isUse='" + isUse + '\'' +
-                ", sort='" + sort + '\'' +
-                ", configType=" + configType +
-                ", createUser=" + createUser +
-                ", configDesc='" + configDesc + '\'' +
-                '}';
-    }
 }

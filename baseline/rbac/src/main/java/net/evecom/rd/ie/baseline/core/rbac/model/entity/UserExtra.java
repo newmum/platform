@@ -1,5 +1,6 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -13,6 +14,7 @@ import javax.persistence.Column;
  * @date： 2018年11月20日
  */
 @Table(name = "RM_USER_EXTRA_T")
+@ToString
 public class UserExtra extends DataEntity<UserExtra> {
 
 	@ApiModelProperty(value = "用户id", hidden = true)
@@ -109,14 +111,6 @@ public class UserExtra extends DataEntity<UserExtra> {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-	}
-
-	@Override
-	public String toString() {
-		return "UserExtra [" + "crmUserId=" + userId + "," + "name=" + userName + "," + "userImg=" + userImg + ","
-				+ "qq=" + qq + "," + "address=" + address + "," + "sex=" + sex + "," + "birthday=" + birthday + ","
-				+ "remarks=" + remarks + "]" + "Address [" + getClass().getName() + "@"
-				+ Integer.toHexString(hashCode()) + "]";
 	}
 
 }

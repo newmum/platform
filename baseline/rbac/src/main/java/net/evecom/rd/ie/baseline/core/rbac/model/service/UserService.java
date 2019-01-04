@@ -189,7 +189,7 @@ public class UserService extends BaseService {
         UserLoginLog userLog = new UserLoginLog();
         userLog.setIp(login_ip);
         userLog.setCrmUserId(user.getTid());
-        resourceService.add(userLog);
+//        resourceService.add(userLog);
         return user;
     }
 

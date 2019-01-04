@@ -1,5 +1,6 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -13,7 +14,8 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年11月20日
  */
-@Table(name = "log_user_visit_t")
+@Table(name = "LOG_USER_VISIT_T")
+@ToString
 public class UserVisit extends DataEntity<UserVisit> implements Serializable {
 
 	private static final long serialVersionUID = 1L;
@@ -40,12 +42,6 @@ public class UserVisit extends DataEntity<UserVisit> implements Serializable {
 
 	public void setCrmUserId(Long crmUserId) {
 		this.crmUserId = crmUserId;
-	}
-
-	@Override
-	public String toString() {
-		return "UserVisit [" + "uiRouterId=" + uiRouterId + "," + "crmUserId=" + crmUserId + "]" + "Address ["
-				+ getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}
 
 }
