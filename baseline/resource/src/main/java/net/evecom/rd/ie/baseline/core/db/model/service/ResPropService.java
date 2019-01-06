@@ -144,7 +144,7 @@ public class ResPropService {
 
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "del")
-    public void delete(Long id) throws Exception {
+    public void delete(String id) throws Exception {
         //获取表格名称,删除列
         ResProp resProp = (ResProp) resourceService.get(ResProp.class, id);
         if (resProp.getIsUse() == 1) {
@@ -152,7 +152,6 @@ public class ResPropService {
         }
         Resources resources = (Resources) resourceService.get(Resources.class, resProp.getResourcesId());
         String delColumnSql = JdbcUtil.delColumn(resources.getTableName(), resProp.getTableField());
-        System.out.println("delColumnSql:" + delColumnSql);
         sqlManager.executeUpdate(new SQLReady(delColumnSql));
         //删除资源属性
         QueryParam<ResProp> queryParam = new QueryParam();
@@ -199,13 +198,6 @@ public class ResPropService {
             }
         }
         return page;
-    }
-
-    public List<ResProp> getByResource(Long resourceId) throws Exception {
-        QueryParam<ResProp> param = new QueryParam<>();
-        param.append(ResProp::getResourcesId, resourceId);
-        List<ResProp> result = (List<ResProp>) resourceService.list(ResProp.class, param).getList();
-        return result;
     }
 
     public void checkResPropVerify(Long resourceId, Map<String, Object> map) throws Exception {

@@ -18,36 +18,39 @@ import java.io.Serializable;
 @ToString
 public class SystemLog extends DataEntity<SystemLog> implements Serializable {
 
-	@Column(name = "user_id")
+
 	@ApiModelProperty(value = "用户id")
-	private Long userId;
-	@Column(name = "method")
+	private String userId;
+
 	@ApiModelProperty(value = "方法名")
 	private String method;
-	@Column(name = "parameter")
+
 	@ApiModelProperty(value = "参数")
 	private String parameter;
-	@Column(name = "time")
+
 	@ApiModelProperty(value = "耗时")
 	private Long time;
-	@Column(name = "is_success")
+
 	@ApiModelProperty(value = "执行状态(1成功,0失败)")
 	private int isSuccess=0;
-	@Column(name = "remarks")
+
 	@ApiModelProperty(value = "备注")
 	private String remarks;
 
 	public SystemLog(){
 		this.isSuccess=0;
 	}
-	
-	public Long getUserId() {
+
+	@Column(name = "user_id")
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
+
+    @Column(name = "method")
 	public String getMethod() {
 		return method;
 	}
@@ -55,6 +58,8 @@ public class SystemLog extends DataEntity<SystemLog> implements Serializable {
 	public void setMethod(String method) {
 		this.method = method;
 	}
+
+    @Column(name = "parameter")
 	public String getParameter() {
 		return parameter;
 	}
@@ -62,6 +67,8 @@ public class SystemLog extends DataEntity<SystemLog> implements Serializable {
 	public void setParameter(String parameter) {
 		this.parameter = parameter;
 	}
+
+    @Column(name = "time")
 	public Long getTime() {
 		return time;
 	}
@@ -69,6 +76,8 @@ public class SystemLog extends DataEntity<SystemLog> implements Serializable {
 	public void setTime(Long time) {
 		this.time = time;
 	}
+
+    @Column(name = "is_success")
 	public int getIsSuccess() {
 		return isSuccess;
 	}
@@ -76,6 +85,8 @@ public class SystemLog extends DataEntity<SystemLog> implements Serializable {
 	public void setIsSuccess(int isSuccess) {
 		this.isSuccess = isSuccess;
 	}
+
+    @Column(name = "remarks")
 	public String getRemarks() {
 		return remarks;
 	}

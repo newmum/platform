@@ -63,7 +63,7 @@ public class SQLManagerConfig {
                 ApplicationContext ac = new ClassPathXmlApplicationContext(
                         "vesta.xml");
                 IdService idService = (IdService) ac.getBean("idService");
-				return idService.genId();
+				return idService.genId()+"";
 			}
 		});
 		factoryBean.setIdAutoGens(map);

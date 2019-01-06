@@ -27,11 +27,6 @@ import org.beetl.sql.core.annotatoin.Table;
 )
 public class Department extends DataEntity<Department> implements Serializable {
 
-	@Column(
-			name = "TID"
-	)
-	@ApiModelProperty("ID")
-	protected Long tid;
 	@ApiModelProperty("上级机构编号")
 	@NotNull(message = "上级机构不能为空")
 	private Long parentId;
@@ -92,15 +87,6 @@ public class Department extends DataEntity<Department> implements Serializable {
 	public Department() {
 	}
 
-	@SeqID(name="RM_DEPARTMENT_S")
-	@Override public Long getTid() {
-		return tid;
-	}
-
-	@Override public void setTid(Long tid) {
-		this.tid = tid;
-	}
-
 	public String getDeptCode() {
 		return deptCode;
 	}
@@ -156,8 +142,6 @@ public class Department extends DataEntity<Department> implements Serializable {
 	public void setDeptType(Long deptType) {
 		this.deptType = deptType;
 	}
-
-
 
 	public String getAddress() {
 		return address;

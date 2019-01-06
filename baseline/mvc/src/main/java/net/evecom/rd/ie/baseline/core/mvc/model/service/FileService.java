@@ -70,7 +70,7 @@ public class FileService extends BaseService {
 
 	}
 
-	public void addCheck(SysFile sysFile, Long userId) throws Exception {
+	public void addCheck(SysFile sysFile, String userId) throws Exception {
 		baseCheck(sysFile);
 		QueryParam<SysFile> param = new QueryParam<>();
 		param.setNeedPage(true);
@@ -86,9 +86,9 @@ public class FileService extends BaseService {
 	}
 	@Transactional(rollbackFor = Exception.class)
 	@RedisCacheAnno(type = "add")
-	public void add(SysFile sysFile, Long userId, String upload, HttpServletRequest request) throws Exception {
+	public void add(SysFile sysFile, String userId, String upload, HttpServletRequest request) throws Exception {
 		String parent_path = "";
-		if (sysFile.getParentId() != 0) {
+		if (sysFile.getParentId() != null) {
 			SysFile pFile = (SysFile) resourceService.get(SysFile.class, sysFile.getParentId());
 			if (pFile.getType() == 1) {
 				throw new ResourceException(ResourceException.NOT_FOLDER);
@@ -113,7 +113,7 @@ public class FileService extends BaseService {
 	}
 	@Transactional(rollbackFor = Exception.class)
 	@RedisCacheAnno(type = "add")
-	public Map<String, Object> addfiles(MultipartFile file, String upload, Long pathId, Long userId,
+	public Map<String, Object> addfiles(MultipartFile file, String upload, String pathId, String userId,
                                         HttpServletRequest request) throws Exception {
 		Map<String, Object> params = new HashMap<String, Object>();
 		SysFile sysFile = new SysFile();
@@ -123,7 +123,7 @@ public class FileService extends BaseService {
 		sysFile.setParentId(pathId);
 		addCheck(sysFile, userId);
 		String parent_path = "";
-		if (sysFile.getParentId() != 0) {
+		if (sysFile.getParentId() != null) {
 			SysFile pFile = (SysFile) resourceService.get(SysFile.class, sysFile.getParentId());
 			if (pFile.getType() == 1) {
 				throw new ResourceException(ResourceException.NOT_FOLDER);
@@ -162,9 +162,9 @@ public class FileService extends BaseService {
 	}
 	@Transactional(rollbackFor = Exception.class)
 	@RedisCacheAnno(type = "del")
-	public void delete(Long id) throws Exception {
+	public void delete(String id) throws Exception {
 		List<SysFile> list = getChildFile(id);
-		Long[] ids = new Long[list.size()];
+		String[] ids = new String[list.size()];
 		for (int i = 0; i < list.size(); i++) {
 			ids[i] = list.get(i).getTid();
 		}
@@ -172,24 +172,24 @@ public class FileService extends BaseService {
 		resourceService.delete(resource, ids);
 	}
 
-	public List<SysFile> getParentFile(Long sysFileId) {
+	public List<SysFile> getParentFile(String sysFileId) {
 		List<SysFile> fileParentList = fileDao.getFileParentList(sysFileId);
 		return fileParentList;
 	}
 
-	public List<SysFile> getChildFile(Long sysFileId) {
+	public List<SysFile> getChildFile(String sysFileId) {
 		List<SysFile> fileChildList = fileDao.getFileChildList(sysFileId);
 		return fileChildList;
 	}
 
-	public String getParentPath(Long parentId) {
+	public String getParentPath(String parentId) {
 		List<SysFile> list = getParentFile(parentId);
 		StringBuffer sb = new StringBuffer();
-		Map<Long, SysFile> map = new HashMap<Long, SysFile>();
+		Map<String, SysFile> map = new HashMap();
 		for (SysFile sysFile : list) {
 			map.put(sysFile.getTid(), sysFile);
 		}
-		while (parentId != 0L) {
+		while (parentId != null) {
 			SysFile sysFile = map.get(parentId);
 			sb.insert(0, sysFile.getPath());
 			parentId = sysFile.getParentId();
@@ -198,10 +198,10 @@ public class FileService extends BaseService {
 		return sb.toString();
 	}
 
-	public Map<String, String> getPath(Long id, HttpServletRequest request) throws Exception {
+	public Map<String, String> getPath(String id, HttpServletRequest request) throws Exception {
 		SysFile sysFile = (SysFile) resourceService.get(SysFile.class, id);
 		String upload = global.getKey("file.upload.dir");
-		if (sysFile.getUserId() == 0L) {
+		if (sysFile.getUserId() == null) {
 			upload += "common_file";
 		} else {
 			User user = loginUser(request);

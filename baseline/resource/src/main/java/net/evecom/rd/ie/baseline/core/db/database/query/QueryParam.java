@@ -112,7 +112,7 @@ public class QueryParam<T> extends QueryBuilder {
         return this;
     }
 
-    private QueryParam<T> append(String column, Object value, String condition) {
+    public QueryParam<T> append(String column, Object value, String condition) {
         return append(column, value, condition, SqlConst.AND);
     }
 

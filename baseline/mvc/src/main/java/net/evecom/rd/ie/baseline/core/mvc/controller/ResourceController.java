@@ -90,7 +90,7 @@ public class ResourceController extends BaseController {
 	@RequestMapping(value = "/{resourceName}/{id}", method = RequestMethod.DELETE)
 	@ApiImplicitParams({
 			@ApiImplicitParam(name = "token", value = "token(测试环境可以填写1来跳过)", dataType = "string", paramType = "header", required = true) })
-	public Result<?> delete(@PathVariable(value = "resourceName") String name, @PathVariable(value = "id") Long id)
+	public Result<?> delete(@PathVariable(value = "resourceName") String name, @PathVariable(value = "id") String id)
 			throws Exception {
 		Resources resource = resourceService.get(name);
 		resourceService.delete(resource, id);
@@ -108,9 +108,9 @@ public class ResourceController extends BaseController {
 		if (CheckUtil.isNull(ids)) {
 			throw new CommonException(CommonException.PARAM_NULL);
 		}
-		List<Long> idsArray = objectMapper.readValue(ids, new TypeReference<List<Long>>() {
+		List<String> idsArray = objectMapper.readValue(ids, new TypeReference<List<String>>() {
 		});
-		Long[] array = new Long[idsArray.size()];
+		String[] array = new String[idsArray.size()];
 		idsArray.toArray(array);
 		return Result.success(SuccessConst.OPERATE_SUCCESS, resourceService.delete(resource, array));
 	}
@@ -138,7 +138,7 @@ public class ResourceController extends BaseController {
 
 	@ApiOperation(value = "获取指定资源单条数据", notes = "获取指定资源单条数据")
 	@RequestMapping(value = "/{resourceName}/{id}", method = RequestMethod.GET)
-	public Result<?> get(@PathVariable(value = "resourceName") String name, @PathVariable(value = "id") Long id)
+	public Result<?> get(@PathVariable(value = "resourceName") String name, @PathVariable(value = "id") String id)
 			throws Exception {
 		Resources resources = resourceService.get(name);
 		return Result.success(SuccessConst.OPERATE_SUCCESS, resourceService.get(resources, id));

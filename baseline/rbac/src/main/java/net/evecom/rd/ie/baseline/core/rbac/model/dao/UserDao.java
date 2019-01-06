@@ -11,15 +11,15 @@ import java.util.List;
 
 public interface UserDao extends BaseMapper<User> {
 
-	int batchdelete(@Param("ids") Long[] ids, @Param("status") int status);
+	int batchdelete(@Param("ids") String[] ids, @Param("status") int status);
 
-	List<Role> getRoleList(@Param("userId") Long userId);
+	List<Role> getRoleList(@Param("userId") String userId);
 
-	List<Priv> privList(@Param("userId") Long userId);
+	List<Priv> privList(@Param("userId") String userId);
 
-	List<Menu> menuListMysql(@Param("userId") Long userId);
+	List<Menu> menuListMysql(@Param("userId") String userId);
 
-    List<Menu> menuListOracle(@Param("userId") Long userId);
+    List<Menu> menuListOracle(@Param("userId") String userId);
 
-	User queryUsers(@Param("userId") Long userId);
+	User queryUsers(@Param("userId") String userId);
 }

@@ -70,7 +70,7 @@ public class DepartmentService {
      * @return
      * @param
      */
-    private List<Department> getChild(Long id, List<Department> list) {
+    private List<Department> getChild(String id, List<Department> list) {
         // 子部门
         List<Department> childList = new ArrayList<Department>();
         for (Department depart : list) {

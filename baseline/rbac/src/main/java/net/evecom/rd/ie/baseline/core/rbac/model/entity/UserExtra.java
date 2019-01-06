@@ -18,7 +18,7 @@ import javax.persistence.Column;
 public class UserExtra extends DataEntity<UserExtra> {
 
 	@ApiModelProperty(value = "用户id", hidden = true)
-	private Long userId;
+	private String userId;
 
 	@ApiModelProperty(value = "姓名")
 	private String userName;
@@ -42,11 +42,11 @@ public class UserExtra extends DataEntity<UserExtra> {
 	private String remarks;
 
 	@Column(name = "USER_ID")
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 

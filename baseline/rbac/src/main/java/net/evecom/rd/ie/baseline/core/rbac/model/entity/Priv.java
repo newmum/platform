@@ -3,7 +3,6 @@ package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
-import org.beetl.sql.core.annotatoin.SeqID;
 import org.beetl.sql.core.annotatoin.Table;
 
 import javax.persistence.Column;
@@ -49,15 +48,6 @@ public class Priv extends DataEntity<Priv> implements Serializable {
 
 	@ApiModelProperty(value = "用户对象")
 	private User user;
-
-	@Column(name = "TID")
-	@SeqID(name="RM_ROLE_S")
-	public Long getTid() {
-		return tid;
-	}
-	public void setTid(Long tid) {
-		this.tid = tid;
-	}
 
 	@Column(name = "PRIV_NAME")
 	public String getPrivName() {

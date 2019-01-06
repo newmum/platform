@@ -1,5 +1,6 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -15,6 +16,7 @@ import java.io.Serializable;
  * @date： 2018年10月31日
  */
 @Table(name = "LOG_USER_LOGIN_T")
+@ToString
 public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializable {
 
 
@@ -24,7 +26,7 @@ public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializab
 
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户id不能为空")
-	private Long crmUserId;
+	private String userId;
 
 	@ApiModelProperty(value = "备注")
 	private String remarks;
@@ -39,12 +41,12 @@ public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializab
 	}
 
 	@Column(name = "USER_ID")
-	public Long getCrmUserId() {
-		return crmUserId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setCrmUserId(Long crmUserId) {
-		this.crmUserId = crmUserId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	@Column(name = "REMARK")
@@ -54,12 +56,6 @@ public class UserLoginLog extends DataEntity<UserLoginLog> implements Serializab
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-	}
-
-	@Override
-	public String toString() {
-		return "CrmUserLog [" + "ip=" + ip + "," + "crmUserId=" + crmUserId + "," + "remarks=" + remarks + "]"
-				+ "Address [" + getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}
 
 }

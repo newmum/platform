@@ -16,7 +16,6 @@ import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.apache.commons.collections.map.HashedMap;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SQLReady;
-import org.beetl.sql.core.db.KeyHolder;
 import org.beetl.sql.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -39,51 +38,54 @@ public class ResourceService{
 
     @Resource
     private SQLManager sqlManager;
-    @Resource
-    private ResPropService resPropService;
 
     /**
-     * 根据资源id获取资源对象
-     * @param id 资源id
-     * @return 资源对象
-     */
-    public Resources get(Long id) throws Exception {
-        return (Resources)get(Resources.class, id);
-    }
-
-    /**
-     * 根据resourceName获取资源对象
+     * 根据c资源名称得到资源对象
      * @param resourceName 资源名称
      * @return 资源对象
      */
     public Resources get(String resourceName) throws Exception {
-        QueryParam<Resources> param = new QueryParam<Resources>();
+        QueryParam<Resources> param = new QueryParam();
         param.append(Resources::getResourceName, resourceName);
         return (Resources)get(Resources.class, param);
     }
 
     /**
      * 根据clazz和id得到数据对象
-     * @param clazz 类型
+     * @param clazz 类对象型
      * @param id 主键
      * @return 查询对象
      */
-    public Object get(Class<?> clazz, Long id) throws Exception {
-        QueryParam<Resources> param = new QueryParam<Resources>();
+    public Object get(Class<?> clazz, String id) throws Exception {
+        QueryParam<Resources> param = new QueryParam();
         param.append(Resources::getTid, id);
         return get(clazz, param);
     }
 
     /**
+     * 根据clazz,property和value得到数据对象
+     * @param clazz 对象类型
+     * @param property 属性名
+     * @param value 值
+     * @return 查询对象
+     */
+    public Object get(Class<?> clazz, QueryParam.Property property,
+                      String value) throws Exception {
+        QueryParam<Resources> param = new QueryParam<Resources>();
+        param.append(property, value);
+        return get(clazz, param);
+    }
+
+    /**
      * 根据resources和id获取数据对象
-     * @param resources 资源
+     * @param resource 资源
      * @param id 主键
      * @return 查询对象
      */
-    public Object get(Resources resources, Long id) throws Exception {
+    public Object get(Resources resource, String id) throws Exception {
         QueryParam<Resources> param = new QueryParam<Resources>();
         param.append(Resources::getTid, id);
-        return get(resources, param);
+        return get(resource, param);
     }
 
     /**
@@ -102,7 +104,7 @@ public class ResourceService{
 
     /**
      * 根据clazz和param得到数据对象，操作get的统一方法
-     * @param clazz 类型
+     * @param clazz 对象类型
      * @param param 条件
      * @return 查询对象
      */
@@ -208,14 +210,14 @@ public class ResourceService{
         QueryParam<ResService> serviceParam = new QueryParam<>();
         serviceParam.append(ResService::getServiceName, serviceName);
         ResService resService = (ResService)get(ResService.class, serviceParam);
-        Resources resources = get(resService.getResourceId());
-        Class<?> itemBean = Class.forName(resources.getClasspath());
+        Resources resource = (Resources)get(Resources.class,resService.getResourceId());
+        Class<?> itemBean = Class.forName(resource.getClasspath());
         return listBySql(itemBean, resService.getSql(), param);
     }
 
     /**
      * 根据clazz，sql和param得到数据集合，操作listBySql统一方法
-     * @param clazz 类型
+     * @param clazz 对象类型
      * @param sql 语句
      * @param param 条件
      * @return 结果集对象
@@ -228,13 +230,14 @@ public class ResourceService{
             pageNumber = param.getPage();
         }
         long offset = (pageNumber - 1) * param.getPageSize() + (sqlManager.isOffsetStartZero() ? 0 : 1);
-        String pageSql = sqlManager.getDbStyle().getPageSQLStatement(sql+query.getConditionSql(), offset, param.getPageSize());
+        String fullSql = param.buildSql(sql,query.getConditionSql().toString());
+        String pageSql = sqlManager.getDbStyle().getPageSQLStatement(fullSql, offset, param.getPageSize());
         SQLReady sqlReady = new SQLReady(pageSql, query.getParams().toArray());
         List<?> list = sqlManager.execute(sqlReady, clazz);
         Page page = new Page<>();
         page.setList(list);
         if (param.isNeedTotal()) {
-            page.setTotal(query.count(sql+query.getConditionSql(),query.getParams().toArray()));
+            page.setTotal(query.count(fullSql,query.getParams().toArray()));
         }
         page.setPageSize(param.getPageSize());
         page.setPage(param.getPage());
@@ -372,25 +375,22 @@ public class ResourceService{
      */
     @Transactional(rollbackFor = Exception.class)
     @RedisCacheAnno(type = "del")
-    public List<Long> delete(Resources resource, Long... ids) throws Exception {
-        List<Long> result = new ArrayList<Long>();
+    public List<String> delete(Resources resource, String... ids) throws Exception {
+        List<String> result = new ArrayList<>();
         Object obj;
         try {
             Class<?> itemBean = Class.forName(resource.getClasspath());
-            QueryParam<Resources> param = new QueryParam<Resources>();
-            //String tidName = param.getFunctionName(Resources::getTid, Resources.class);
             Map map = new HashMap<>();
             // map.put("status", DataEntity.DEL_FLAG_DELETE);
             if (ids.length == 1) {
                 map.put("tid", ids[0]);
-                System.out.println("id:" + ids[0].toString());
                 obj = IterableForamt.mapToObject(map, itemBean);
                 int i = sqlManager.deleteObject(obj);
                 if (i <= 0) {
                     throw new CommonException(CommonException.OPERATE_FAILED);
                 }
             } else {
-                for (Long id : ids) {
+                for (String id : ids) {
                     map.put("tid", id);
                     obj = IterableForamt.mapToObject(map, itemBean);
                     int i = sqlManager.deleteObject(obj);
@@ -574,7 +574,9 @@ public class ResourceService{
     @RedisCacheAnno(type = "add")
     public void importData(Resources resource, List<List<Object>> list) throws Exception {
         List<Map<String, Object>> headList = getHeadList(resource, 2);
-        List<ResProp> resPropList = resPropService.getByResource(resource.getTid());
+        QueryParam<ResProp> param = new QueryParam<>();
+        param.append(ResProp::getResourcesId, resource.getTid());
+        List<ResProp> resPropList = (List<ResProp>)list(ResProp.class, param).getList();
         Map<String, Object> resPropMap = new HashedMap();
         for (ResProp resProp : resPropList) {
             resPropMap.put(resProp.getTableField(), resProp);
@@ -633,7 +635,7 @@ public class ResourceService{
         if (resPropList.size() == 0) {
             throw new ResourceException(ResourceException.RESOURCE_PROP_NO_EXIST);
         }
-        Map<Long, ResProp> mapResProp = new HashMap<>();
+        Map<String, ResProp> mapResProp = new HashMap<>();
         QueryParam<ResPropExl> queryResPropExl = new QueryParam<>();
         StringBuffer sb = new StringBuffer();
         for (ResProp resProp : resPropList) {

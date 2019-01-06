@@ -21,34 +21,27 @@ public class UserRole extends DataEntity<UserRole> implements Serializable {
 
 	@ApiModelProperty(value = "用户id")
 	@NotNull(message = "用户不能为空")
-	private Long crmUserId;
+	private String userId;
 
 	@ApiModelProperty(value = "角色id")
 	@NotNull(message = "角色不能为空")
-	private Long crmRoleId;
+	private String roleId;
 
 	@Column(name = "USER_ID")
-	public Long getCrmUserId() {
-		return crmUserId;
+	public String getUserId() {
+		return userId;
 	}
 
-	public void setCrmUserId(Long crmUserId) {
-		this.crmUserId = crmUserId;
+	public void setUserId(String userId) {
+		this.userId = userId;
 	}
 
 	@Column(name = "ROLE_ID")
-	public Long getCrmRoleId() {
-		return crmRoleId;
+	public String getRoleId() {
+		return roleId;
 	}
 
-	public void setCrmRoleId(Long crmRoleId) {
-		this.crmRoleId = crmRoleId;
+	public void setRoleId(String roleId) {
+		this.roleId = roleId;
 	}
-
-	@Override
-	public String toString() {
-		return "UserRole [" + "crmUserId=" + crmUserId + "," + "crmRoleId=" + crmRoleId + "]" + "Address ["
-				+ getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
-	}
-
 }

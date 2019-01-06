@@ -1,6 +1,7 @@
 package net.evecom.rd.ie.baseline.core.mvc.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -14,10 +15,10 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年11月20日
  */
-@Table(name = "sys_file")
+@Table(name = "SYS_FILE")
+@ToString
 public class SysFile extends DataEntity<SysFile> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "name")
 	@NotNull(message = "名称不能为空")
 	@ApiModelProperty(value = "名称")
@@ -35,16 +36,16 @@ public class SysFile extends DataEntity<SysFile> implements Serializable {
 	@Column(name = "parent_id")
 	@NotNull(message = "父类不能为空")
 	@ApiModelProperty(value = "父类id")
-	private Long parentId;
+	private String parentId;
 	@Column(name = "path")
 	@ApiModelProperty(value = "地址")
 	private String path;
 	@Column(name = "user_id")
 	@ApiModelProperty(value = "所属用户")
-	private Long userId;
+	private String userId;
 	@Column(name = "create_user_id")
 	@ApiModelProperty(value = "创建人id")
-	private Long createUserId;
+	private String createUserId;
 	@Column(name = "remarks")
 	@ApiModelProperty(value = "备注")
 	private String remarks;
@@ -82,13 +83,14 @@ public class SysFile extends DataEntity<SysFile> implements Serializable {
 		this.type = type;
 	}
 
-	public Long getParentId() {
+	public String getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Long parentId) {
+	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
+
 	@JsonIgnore
 	public String getPath() {
 		return path;
@@ -97,23 +99,24 @@ public class SysFile extends DataEntity<SysFile> implements Serializable {
 	public void setPath(String path) {
 		this.path = path;
 	}
+
 	@JsonIgnore
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
-	@JsonIgnore
-	public Long getCreateUserId() {
-		return createUserId;
-	}
+    @JsonIgnore
+    public String getCreateUserId() {
+        return createUserId;
+    }
 
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
-	}
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
+    }
 
 	public String getRemarks() {
 		return remarks;
@@ -121,13 +124,6 @@ public class SysFile extends DataEntity<SysFile> implements Serializable {
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-	}
-
-	@Override
-	public String toString() {
-		return "SysFile [" + "name=" + name + "trueName=" + trueName + "sort=" + sort + "type=" + type + "parentId="
-				+ parentId + "path=" + path + "userId=" + userId + "createUserId=" + createUserId + "remarks=" + remarks
-				+ "]" + "Address [" + getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}
 
 }

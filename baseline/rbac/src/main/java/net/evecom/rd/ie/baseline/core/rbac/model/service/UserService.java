@@ -127,12 +127,12 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public List<Long> batchdelete(Long[] ids) throws Exception {
-        List<Long> result = new ArrayList<Long>();
+    public List<String> batchdelete(String[] ids) throws Exception {
+        List<String> result = new ArrayList<>();
         User user = new User();
         user.setIsDel(User.YES);
         user.preUpdate();
-        for (Long id : ids) {
+        for (String id : ids) {
             user.setTid(id);
             int i = userDao.updateTemplateById(user);
             if (i <= 0) {
@@ -188,7 +188,7 @@ public class UserService extends BaseService {
         String login_ip = IPUtils.getIpAddr(request);
         UserLoginLog userLog = new UserLoginLog();
         userLog.setIp(login_ip);
-        userLog.setCrmUserId(user.getTid());
+        userLog.setUserId(user.getTid());
 //        resourceService.add(userLog);
         return user;
     }
@@ -302,10 +302,10 @@ public class UserService extends BaseService {
             throw new UserException(UserException.REGISTER_ERROR);
         }
         // 新注册用户默认添加基础角色(id为2)
-        UserRole crmUserRole = new UserRole();
-        crmUserRole.setCrmUserId(user.getTid());
-        crmUserRole.setCrmRoleId(2L);
-        resourceService.add(crmUserRole);
+        UserRole userRole = new UserRole();
+        userRole.setUserId(user.getTid());
+        userRole.setRoleId(2+"");
+//        resourceService.add(userRole);
         return user;
     }
 
@@ -316,7 +316,7 @@ public class UserService extends BaseService {
      * @return
      * @throws Exception
      */
-    public User checkUser(Long id, String account, Integer type) throws Exception {
+    public User checkUser(String id, String account, Integer type) throws Exception {
         //
         User user = new User();
         if (type == null) {
@@ -389,7 +389,7 @@ public class UserService extends BaseService {
         } else if (id > 4 || id <= 0) {
             throw new UserException(UserException.TYPE_NO_EXIST);
         }
-        MessageSms messageSms = (MessageSms) resourceService.get(MessageSms.class, Long.valueOf(id));
+        MessageSms messageSms = (MessageSms) resourceService.get(MessageSms.class, id+"");
         if (messageSms == null) {
             throw new UserException(UserException.TEMPLATE_NO_EXIST);
         }
@@ -455,7 +455,7 @@ public class UserService extends BaseService {
         } else if (id > 4 || id <= 1) {
             throw new UserException(UserException.TYPE_NO_EXIST);
         }
-        MessageEmail messageEmail = (MessageEmail) resourceService.get(MessageEmail.class, Long.valueOf(id));
+        MessageEmail messageEmail = (MessageEmail) resourceService.get(MessageEmail.class, id+"");
         if (messageEmail == null) {
             throw new UserException(UserException.TEMPLATE_NO_EXIST);
         }
@@ -556,7 +556,7 @@ public class UserService extends BaseService {
      * @return
      * @throws Exception
      */
-    public User perfectMobileCheck(Long id, String mobile, String validate) throws Exception {
+    public User perfectMobileCheck(String id, String mobile, String validate) throws Exception {
         User user = checkUser(id, mobile, 1);
         Object redis_validate = redisClient.get(CacheGroupConst.CODE_REDIS,
                 CacheGroupConst.PERFECT_CHECKCODE + user.getMobile());
@@ -570,7 +570,7 @@ public class UserService extends BaseService {
         return user;
     }
 
-    public User perfectEmailCheck(Long id, String email, String validate) throws Exception {
+    public User perfectEmailCheck(String id, String email, String validate) throws Exception {
         User user = checkUser(id, email, 2);
         Object redis_validate = redisClient.get(CacheGroupConst.CODE_REDIS,
                 CacheGroupConst.PERFECT_CHECKCODE + user.getEmail());

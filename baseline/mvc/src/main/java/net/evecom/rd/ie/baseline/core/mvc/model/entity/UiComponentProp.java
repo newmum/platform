@@ -12,13 +12,12 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年11月20日
  */
-@Table(name = "ui_component_prop")
+@Table(name = "UI_COMPONENT_PROP")
 public class UiComponentProp extends DataEntity<UiComponentProp> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
 	@Column(name = "component_id")
 	@ApiModelProperty(value = "组件id")
-	private Long componentId;
+	private String componentId;
 	@Column(name = "name")
 	@ApiModelProperty(value = "名称")
 	private String name;
@@ -36,17 +35,25 @@ public class UiComponentProp extends DataEntity<UiComponentProp> implements Seri
 	private int isUse;
 	@Column(name = "element_id")
 	@ApiModelProperty(value = "元素id")
-	private Long elementId;
+	private String elementId;
 
-	public Long getComponentId() {
-		return componentId;
-	}
+    public String getComponentId() {
+        return componentId;
+    }
 
-	public void setComponentId(Long componentId) {
-		this.componentId = componentId;
-	}
+    public void setComponentId(String componentId) {
+        this.componentId = componentId;
+    }
 
-	public String getName() {
+    public String getElementId() {
+        return elementId;
+    }
+
+    public void setElementId(String elementId) {
+        this.elementId = elementId;
+    }
+
+    public String getName() {
 		return name;
 	}
 
@@ -84,21 +91,6 @@ public class UiComponentProp extends DataEntity<UiComponentProp> implements Seri
 
 	public void setIsUse(int isUse) {
 		this.isUse = isUse;
-	}
-
-	public Long getElementId() {
-		return elementId;
-	}
-
-	public void setElementId(Long elementId) {
-		this.elementId = elementId;
-	}
-
-	@Override
-	public String toString() {
-		return "UiComponentProp [" + "componentId=" + componentId + ",name=" + name + ",title=" + title + ",propValue="
-				+ propValue + ",sort=" + sort + ",isUse=" + isUse + ",elementId=" + elementId + "]" + "Address ["
-				+ getClass().getName() + "@" + Integer.toHexString(hashCode()) + "]";
 	}
 
 }

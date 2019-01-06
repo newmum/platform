@@ -19,7 +19,7 @@ import java.io.Serializable;
 public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
 
     @ApiModelProperty(value = "资源属性id")
-    private Long propId;
+    private String propId;
 
     @ApiModelProperty(value = "标题")
     private String title;
@@ -48,14 +48,16 @@ public class ResPropExl extends DataEntity<ResPropExl> implements Serializable {
         resPropExl.setShowType(1);
         return resPropExl;
     }
+
     @Column(name = "PROP_ID")
-    public Long getPropId() {
+    public String getPropId() {
         return propId;
     }
 
-    public void setPropId(Long propId) {
+    public void setPropId(String propId) {
         this.propId = propId;
     }
+
     @Column(name = "TITLE")
     public String getTitle() {
         return title;

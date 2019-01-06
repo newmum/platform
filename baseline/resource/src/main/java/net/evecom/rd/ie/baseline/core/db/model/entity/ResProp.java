@@ -21,11 +21,9 @@ import java.util.List;
 @ToString
 public class ResProp extends DataEntity<ResProp> implements Serializable {
 
-    private static final long serialVersionUID = 1L;
-
     @ApiModelProperty(value = "资源id")
     @NotNull(message = "资源id不能为空")
-    private Long resourcesId;
+    private String resourcesId;
 
     @ApiModelProperty(value = "属性名")
     private String propName;
@@ -61,11 +59,11 @@ public class ResProp extends DataEntity<ResProp> implements Serializable {
     private ResPropExl resPropExl;
 
     @Column(name = "RESOURCE_ID")
-    public Long getResourcesId() {
+    public String getResourcesId() {
         return resourcesId;
     }
 
-    public void setResourcesId(Long resourcesId) {
+    public void setResourcesId(String resourcesId) {
         this.resourcesId = resourcesId;
     }
 

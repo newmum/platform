@@ -246,6 +246,17 @@ public class QueryBuilder {
         return query;
     }
 
+    public String buildSql(String sql, String conditionSql) {
+        StringBuilder sb = new StringBuilder(sql);
+        int i = sb.indexOf("1=1");
+        if (i > -1) {
+            sb.insert(i+3,conditionSql);
+        }else{
+            sb.append(conditionSql);
+        }
+        return sb.toString();
+    }
+
     public List<QueryCondition> getList() {
         if (list == null) {
             list = new ArrayList();

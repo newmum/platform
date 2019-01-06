@@ -376,7 +376,6 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         return this.sql;
     }
 
-
     /**
      * TODO BASELINE 增加获取完整SQL条件语句
      * @return
@@ -385,7 +384,7 @@ public class QueryCondition<T> implements QueryConditionI<T> {
         StringBuilder sb = new StringBuilder();
         if (this.sql != null) {
             sb.append(this.sql);
-            int i = sb.indexOf(SPLICE);
+            int i = sb.indexOf(WHERE);
             if (i > -1) {
                 sb.delete(i, i + 5);
             }

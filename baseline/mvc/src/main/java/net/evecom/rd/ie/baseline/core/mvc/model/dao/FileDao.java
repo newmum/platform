@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface FileDao extends BaseMapper<SysFile> {
 
-	List<SysFile> getFileParentList(@Param("fileId") Long fileId);
+	List<SysFile> getFileParentList(@Param("fileId") String fileId);
 
-	List<SysFile> getFileChildList(@Param("fileId") Long fileId);
+	List<SysFile> getFileChildList(@Param("fileId") String fileId);
 }

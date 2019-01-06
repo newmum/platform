@@ -27,7 +27,7 @@ public class DataEntity<T> extends TailBean implements Serializable {
     public static final int YES = 1;
 
 	@ApiModelProperty(value = "编号")
-	protected Long tid;
+	protected String tid;
 
     @ExcelField(align = 2, sort = 4, title = "创建时间")
     @ApiModelProperty(value = "创建时间", hidden = true)
@@ -57,11 +57,11 @@ public class DataEntity<T> extends TailBean implements Serializable {
 
     @AssignID("createId")
     @Column(name = "TID")
-    public Long getTid() {
+    public String getTid() {
         return tid;
     }
 
-    public void setTid(Long tid) {
+    public void setTid(String tid) {
         this.tid = tid;
     }
 

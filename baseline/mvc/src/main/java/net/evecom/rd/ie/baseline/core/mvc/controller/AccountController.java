@@ -111,7 +111,7 @@ public class AccountController extends BaseController {
     @ApiImplicitParams({@ApiImplicitParam(name = "account", value = "账号", dataType = "string", required = true),
             @ApiImplicitParam(name = "type", value = "类型 1手机号2邮箱3账号", dataType = "int", required = true)})
     public Result<?> check(String account, Integer type) throws Exception {
-        Long id = null;
+        String id = null;
         try {
             id = userService.loginUser(request).getTid();
         } catch (Exception e) {

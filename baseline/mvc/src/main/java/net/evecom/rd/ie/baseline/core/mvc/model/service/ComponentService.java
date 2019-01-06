@@ -55,7 +55,7 @@ public class ComponentService extends BaseService {
             }
         }
         sb = new StringBuffer();
-        Map<Long, UiComponent> map = new HashMap<Long, UiComponent>();
+        Map<String, UiComponent> map = new HashMap();
         for (UiComponent uiComponent : componentList) {
             map.put(uiComponent.getTid(), uiComponent);
             sb.append(uiComponent.getTid().toString() + ",");
@@ -124,9 +124,9 @@ public class ComponentService extends BaseService {
         resourceService.update(uiComponent);
     }
 
-    public List<Long> delete(Long id) throws Exception {
+    public List<String> delete(String id) throws Exception {
         List<UiComponent> list = getChildFile(id);
-        Long[] ids = new Long[list.size() + 1];
+        String[] ids = new String[list.size() + 1];
         for (int i = 0; i < list.size(); i++) {
             ids[i] = list.get(i).getTid();
         }
@@ -135,15 +135,15 @@ public class ComponentService extends BaseService {
         return resourceService.delete(resource, ids);
     }
 
-    public List<Long> delete(Long... ids) throws Exception {
-        List<Long> result=new ArrayList<Long>();
-        for (Long id : ids) {
+    public List<String> delete(String... ids) throws Exception {
+        List<String> result=new ArrayList<>();
+        for (String id : ids) {
             result.addAll(delete(id));
         }
         return null;
     }
 
-    public List<UiComponent> getChildFile(Long componentId) {
+    public List<UiComponent> getChildFile(String componentId) {
         List<UiComponent> fileChildList = componentDao.getChildListById(componentId);
         return fileChildList;
     }

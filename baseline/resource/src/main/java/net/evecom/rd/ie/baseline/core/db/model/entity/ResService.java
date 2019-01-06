@@ -17,7 +17,7 @@ import javax.persistence.Column;
 public class ResService extends DataEntity<ResService>{
 
     @ApiModelProperty(value = "资源ID")
-    private Long resourceId;
+    private String resourceId;
 
     @ApiModelProperty(value = "名称")
     private String title;
@@ -42,11 +42,11 @@ public class ResService extends DataEntity<ResService>{
     private Integer privId;
 
     @Column(name = "RESOURCE_ID")
-    public Long getResourceId() {
+    public String getResourceId() {
         return resourceId;
     }
 
-    public void setResourceId(Long resourceId) {
+    public void setResourceId(String resourceId) {
         this.resourceId = resourceId;
     }
 
