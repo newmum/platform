@@ -1,7 +1,12 @@
+/*
+ * Copyright (c) 2005, 2019, EVECOM Technology Co.,Ltd. All rights reserved.
+ * EVECOM PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+ *
+ */
 package net.evecom.rd.ie.baseline.core.rbac.base;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import net.evecom.rd.ie.baseline.core.rbac.model.entity.Department;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import net.evecom.rd.ie.baseline.tools.service.RequestBean;
 import net.evecom.rd.ie.baseline.tools.service.Result;
@@ -9,12 +14,8 @@ import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -25,25 +26,41 @@ import java.io.PrintWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
- * @ClassName: BaseController
- * @Description: 控制层基类
- * @author： zhengc
- * @date： 2018年6月4日
+ * 描述 控制层基类
+ * @author Klaus Zhuang
+ * @created 2019/1/3 15:42
+ * @return
+ * @param
  */
-@Controller
+@RestController
 @RequestMapping("/baseController")
+@Api(value = "通用模块", tags = "通用模块")
 public class BaseController {
+	/**
+	 * 描述
+	 */
 	protected HttpServletRequest request;
+	/**
+	 * 描述
+	 */
 	protected HttpServletResponse response;
+	/**
+	 * 描述
+	 */
 	protected HttpSession session;
 
+	/**
+	 * 描述
+	 */
 	protected static Logger log = LoggerFactory.getLogger(BaseController.class);
 
 
+	/**
+	 * 描述 基类服务
+	 */
 	@Resource
 	public BaseService baseService;
 
