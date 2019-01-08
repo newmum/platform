@@ -1,5 +1,6 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -13,10 +14,9 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年11月20日
  */
-@Table(name = "msg_sms_push_t")
+@Table(name = "MSG_SMS_PUSH_T")
+@ToString
 public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serializable {
-
-    private static final long serialVersionUID = 1L;
 
     @ApiModelProperty(value = "名称")
     private String name;
@@ -29,9 +29,6 @@ public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serial
 
     @ApiModelProperty(value = "类型")
     private int type;
-
-    @ApiModelProperty(value = "创建人id")
-    private Long createUserId;
 
     @ApiModelProperty(value = "备注")
     private String remarks;
@@ -72,15 +69,6 @@ public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serial
         this.type = type;
     }
 
-    @Column(name = "create_user_id")
-    public Long getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Long createUserId) {
-        this.createUserId = createUserId;
-    }
-
     @Column(name = "remarks")
     public String getRemarks() {
         return remarks;
@@ -88,21 +76,6 @@ public class MessageSmsPush extends DataEntity<MessageSmsPush> implements Serial
 
     public void setRemarks(String remarks) {
         this.remarks = remarks;
-    }
-
-    @Override
-    public String toString() {
-        return "MessageSmsPush [" +
-                "name=" + name + "," +
-                "mobile=" + mobile + "," +
-                "content=" + content + "," +
-                "type=" + type + "," +
-                "createUserId=" + createUserId + "," +
-                "remarks=" + remarks +
-                "]" + "Address [" +
-                getClass().getName() + "@" +
-                Integer.toHexString(hashCode()) +
-                "]";
     }
 
 }

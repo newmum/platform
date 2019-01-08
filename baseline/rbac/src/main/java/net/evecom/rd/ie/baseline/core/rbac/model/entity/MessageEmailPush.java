@@ -1,5 +1,6 @@
 package net.evecom.rd.ie.baseline.core.rbac.model.entity;
 
+import lombok.ToString;
 import net.evecom.rd.ie.baseline.core.db.model.entity.DataEntity;
 import io.swagger.annotations.ApiModelProperty;
 import org.beetl.sql.core.annotatoin.Table;
@@ -13,10 +14,9 @@ import java.io.Serializable;
  * @author： zhengc
  * @date： 2018年11月20日
  */
- @Table(name = "msg_email_push_t")
-public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements Serializable {
-
-	private static final long serialVersionUID = 1L;
+ @Table(name = "MSG_EMAIL_PUSH_T")
+ @ToString
+public class MessageEmailPush extends DataEntity<MessageEmailPush> implements Serializable {
 
 	@ApiModelProperty(value = "邮箱")
 	private String email;
@@ -84,15 +84,6 @@ public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements S
 		this.type = type;
 	}
 
-	@Column(name = "create_user")
-	public Long getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
-	}
-
 	@Column(name = "remarks")
 	public String getRemarks() {
 		return remarks;
@@ -100,22 +91,6 @@ public class MessageEmailPush  extends DataEntity<MessageEmailPush> implements S
 
 	public void setRemarks(String remarks) {
 		this.remarks = remarks;
-	}
-
-	@Override
-	public String toString() {
-		return "MessageEmailPush ["+
-		"email=" + email + ","+
-		"name=" + name + ","+
-		"content=" + content + ","+
-		"theme=" + theme + ","+
-		"type=" + type + ","+
-		"createUserId=" + createUserId + ","+
-		"remarks=" + remarks +
-		"]"+"Address ["+
-		getClass().getName() + "@" +
-		Integer.toHexString(hashCode())+
-		"]";
 	}
 
 }

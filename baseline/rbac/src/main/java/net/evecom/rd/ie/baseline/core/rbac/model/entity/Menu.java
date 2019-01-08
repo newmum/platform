@@ -21,7 +21,7 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 
 	@ApiModelProperty(value = "父类id")
 	@NotNull(message = "父类不能为空")
-	private Long parentId;
+	private String parentId;
 
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
@@ -49,12 +49,11 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 	private int isShow;
 
 	@ApiModelProperty(value = "权限id")
-	private Long crmPowerId;
+	private String PrivId;
 
-	@ApiModelProperty(value = "创建者", hidden = true)
-	private Long createUser;
 	@ApiModelProperty(value = "请求方式")
 	private String method;
+
 	@ApiModelProperty(value = "请求路径")
 	private String url;
 
@@ -77,11 +76,11 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 	}
 
 	@Column(name = "PARENT_ID")
-	public Long getParentId() {
+	public String getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Long parentId) {
+	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
 
@@ -148,14 +147,14 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.isShow = isShow;
 	}
 
-	@Column(name = "POWER_ID")
-	public Long getCrmPowerId() {
-		return crmPowerId;
-	}
+    @Column(name = "PRIV_ID")
+    public String getPrivId() {
+        return PrivId;
+    }
 
-	public void setCrmPowerId(Long crmPowerId) {
-		this.crmPowerId = crmPowerId;
-	}
+    public void setPrivId(String privId) {
+        PrivId = privId;
+    }
 
 	@Column(name = "ROUTER_NAME")
 	public String getRouterName() {
@@ -166,12 +165,4 @@ public class Menu extends DataEntity<Menu> implements Serializable {
 		this.routerName = routerName;
 	}
 
-	@Column(name = "CREATE_USER")
-	public Long getCreateUser() {
-		return createUser;
-	}
-
-	public void setCreateUser(Long createUser) {
-		this.createUser = createUser;
-	}
 }

@@ -2,7 +2,7 @@ package net.evecom.rd.ie.baseline.core.rbac.base;
 
 import net.evecom.rd.ie.baseline.core.rbac.exception.UserException;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
-import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthCertService;
+import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthService;
 import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SQLReady;
@@ -27,16 +27,14 @@ import java.util.Map;
 public class BaseService {
 
     protected static Logger log = LoggerFactory.getLogger(BaseService.class);
-
 	/**
 	 * 描述
 	 */
 	@Resource
 	private SQLManager sqlManager;
 
-
     @Resource
-    AuthCertService authCertService;
+	protected AuthService authService;
 
 	/**
 	 * 描述 检测某值是否存在
@@ -62,7 +60,7 @@ public class BaseService {
      * @throws Exception
      */
 	public void updateLoginUser(User user, HttpServletRequest request) throws Exception {
-		authCertService.updateUser(user, request);
+		authService.updateUser(user, request);
 	}
 
     /**
@@ -72,7 +70,7 @@ public class BaseService {
      * @throws Exception
      */
 	public String saveLoginUser(User user, HttpServletResponse response) throws Exception {
-        return authCertService.saveUser(user, response);
+        return authService.saveUser(user, response);
 	}
 
     /**
@@ -82,7 +80,7 @@ public class BaseService {
      * @throws Exception
      */
 	public User loginUser(HttpServletRequest request) throws Exception {
-		return authCertService.getUser(request);
+		return authService.getUser(request);
 	}
 
 	/**
@@ -92,7 +90,7 @@ public class BaseService {
 	 * @throws Exception
 	 */
     public boolean delUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		return authCertService.delUser(request, response);
+		return authService.delUser(request, response);
 	}
 
 	/**
@@ -102,7 +100,7 @@ public class BaseService {
 	 * @throws Exception
 	 */
 	public String getSID(HttpServletRequest request) throws Exception {
-		String sid = authCertService.getSID(request);
+		String sid = authService.getSID(request);
 		if (CheckUtil.isNull(sid)) {
 			throw new UserException(UserException.USER_NO_LOGIN);
 		}

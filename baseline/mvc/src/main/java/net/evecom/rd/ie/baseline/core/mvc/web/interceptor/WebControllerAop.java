@@ -3,7 +3,7 @@ package net.evecom.rd.ie.baseline.core.mvc.web.interceptor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import net.evecom.rd.ie.baseline.core.mvc.model.entity.SystemLog;
-import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthCertService;
+import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthService;
 import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.tools.service.Result;
 import net.evecom.rd.ie.baseline.utils.database.redis.RedisClient;
@@ -67,7 +67,7 @@ public class WebControllerAop {
 	@Resource
 	private ObjectMapper objectMapper;
 	@Resource
-	private AuthCertService authCertService;
+	private AuthService authCertService;
 
 	@Around("executeService()")
 	public Object doAroundAdvice(ProceedingJoinPoint proceedingJoinPoint) {

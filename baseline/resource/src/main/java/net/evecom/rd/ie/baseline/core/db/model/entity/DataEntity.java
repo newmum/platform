@@ -40,6 +40,9 @@ public class DataEntity<T> extends TailBean implements Serializable {
     @ApiModelProperty(value = "是否删除：0否；1是；", hidden = true)
     protected Integer isDel = NO;
 
+    @ApiModelProperty(value = "创建用户ID", hidden = true)
+    private String createUserId;
+
 	/**
 	 * 插入之前执行方法，需要手动调用
 	 */
@@ -92,5 +95,14 @@ public class DataEntity<T> extends TailBean implements Serializable {
 
     public void setIsDel(Integer isDel) {
         this.isDel = isDel;
+    }
+
+    @Column(name = "CREATE_USER_ID")
+    public String getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(String createUserId) {
+        this.createUserId = createUserId;
     }
 }

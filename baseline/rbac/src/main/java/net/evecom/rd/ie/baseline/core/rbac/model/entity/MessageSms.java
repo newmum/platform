@@ -17,7 +17,7 @@ import java.io.Serializable;
 @Table(name = "MSG_SMS_T")
 @ToString
 public class MessageSms extends DataEntity<MessageSms> implements Serializable {
-	private static final long serialVersionUID = 1L;
+
 	@ApiModelProperty(value = "名称")
 	@NotNull(message = "名称不能为空")
 	private String name;
@@ -26,8 +26,6 @@ public class MessageSms extends DataEntity<MessageSms> implements Serializable {
 	private String content;
 	@ApiModelProperty(value = "类型")
 	private String type;
-	@ApiModelProperty(value = "创建人", hidden = true)
-	private Long createUserId;
 
 	public String getName() {
 		return name;
@@ -51,14 +49,6 @@ public class MessageSms extends DataEntity<MessageSms> implements Serializable {
 
 	public void setType(String type) {
 		this.type = type;
-	}
-
-	public Long getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
 	}
 
 }

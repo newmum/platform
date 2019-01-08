@@ -56,7 +56,7 @@ public class ViewController extends BaseController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		if(power!=null){
 			QueryParam<Menu>queryParam=new QueryParam<>();
-			queryParam.append(Menu::getCrmPowerId,power.getTid());
+			queryParam.append(Menu::getPrivId,power.getTid());
             Menu uiRouter= (Menu) resourceService.get(Menu.class,queryParam);
 //			List<Priv> list = userService.getPowerByMenuId(request, power.getRouterId());
 			//compentlist = uiComponentService.getComponents(user.getPowerList(), uiRouter.getId());

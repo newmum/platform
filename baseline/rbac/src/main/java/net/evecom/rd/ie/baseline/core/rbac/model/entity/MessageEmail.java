@@ -18,8 +18,6 @@ import java.io.Serializable;
  @ToString
 public class MessageEmail extends DataEntity<MessageEmail> implements Serializable {
 
-	private static final long serialVersionUID = 1L;
-
 	@ApiModelProperty(value = "标题")
 	private String name;
 
@@ -30,7 +28,7 @@ public class MessageEmail extends DataEntity<MessageEmail> implements Serializab
 	private int type;
 
 	@ApiModelProperty(value = "创建人id")
-	private Long createUserId;
+	private String createUserId;
 
 	@Column(name = "TITLE")
 	public String getName() {
@@ -57,15 +55,6 @@ public class MessageEmail extends DataEntity<MessageEmail> implements Serializab
 
 	public void setType(int type) {
 		this.type = type;
-	}
-
-	@Column(name = "CREATE_USER")
-	public Long getCreateUserId() {
-		return createUserId;
-	}
-
-	public void setCreateUserId(Long createUserId) {
-		this.createUserId = createUserId;
 	}
 
 }

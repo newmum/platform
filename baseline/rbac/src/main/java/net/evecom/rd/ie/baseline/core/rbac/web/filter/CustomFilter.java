@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import net.evecom.rd.ie.baseline.core.rbac.config.MessageConfig;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.Priv;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
-import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthCertService;
+import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthService;
 import net.evecom.rd.ie.baseline.utils.database.redis.RedisClient;
 import net.evecom.rd.ie.baseline.tools.exception.CommonException;
 import net.evecom.rd.ie.baseline.tools.service.Result;
@@ -35,7 +35,7 @@ public class CustomFilter implements Filter {
 
     protected ObjectMapper objectMapper;
 
-    private AuthCertService authCertService;
+    private AuthService authCertService;
 
     private Set<String> excludeUrl = new HashSet<String>();
 
@@ -47,7 +47,7 @@ public class CustomFilter implements Filter {
         ApplicationContext ctx = WebApplicationContextUtils.getWebApplicationContext(context);
         redisClient = ctx.getBean(RedisClient.class);
         objectMapper = ctx.getBean(ObjectMapper.class);
-        authCertService = ctx.getBean(AuthCertService.class);
+        authCertService = ctx.getBean(AuthService.class);
         excludeUrl.clear();
         String exclude = global.getKey("filter.exclude.url");
         if (CheckUtil.isNotNull(exclude)) {
@@ -80,7 +80,7 @@ public class CustomFilter implements Filter {
             }
             Object obj = null;
             try {
-                obj = authCertService.getUser(request,sid);
+                obj = authCertService.getUser(sid);
             } catch (Exception e) {
                 noPower(request, response, e.getMessage());
             }

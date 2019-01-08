@@ -13,11 +13,13 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 /**
- * @ClassName: AuthCertService
- * @Description: 用户授权认证操作 @author： zhengc @date： 2018年8月1日
+ * @ClassName: AuthService
+ * @Description: 用户授权认证操作
+ * @author： zhengc
+ * @date： 2018年8月1日
  */
-@Service("authCertService")
-public class AuthCertService {
+@Service("authService")
+public class AuthService {
 
     @Resource(name = "redisClient")
     protected RedisClient redisClient;
@@ -28,7 +30,6 @@ public class AuthCertService {
      * @param user
      * @param response
      * @return
-     * @throws Exception
      */
     public String saveUser(User user, HttpServletResponse response) throws Exception {
         int size = 0;//要改成从数据库配置表读
@@ -54,18 +55,21 @@ public class AuthCertService {
     }
 
     /**
-     * 从缓存会话中获取登录的用户对象
-     *
+     * 根据request获取登录用户对象
      * @param request
      * @return
-     * @throws Exception
      */
     public User getUser(HttpServletRequest request) throws Exception {
         String sid = getSID(request);
-        return getUser(request, sid);
+        return getUser(sid);
     }
 
-    public User getUser(HttpServletRequest request, String sid) throws Exception {
+    /**
+     * 根据sid获取登录用户对象
+     * @param sid
+     * @return
+     */
+    public User getUser(String sid) throws Exception {
         Object obj = redisClient.get(CacheGroupConst.SESSION_REDIS, sid);
         return (User) obj;
     }
@@ -73,10 +77,8 @@ public class AuthCertService {
 
     /**
      * 更新缓存会话中用户对象
-     *
      * @param user
      * @param request
-     * @throws Exception
      */
     public void updateUser(User user, HttpServletRequest request) throws Exception {
         String sid = getSID(request);
@@ -86,7 +88,6 @@ public class AuthCertService {
 
     /**
      * 获取用户会话ID
-     *
      * @param request
      * @return
      */

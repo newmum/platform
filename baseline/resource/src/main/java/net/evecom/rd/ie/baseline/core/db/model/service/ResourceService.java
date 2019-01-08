@@ -126,7 +126,7 @@ public class ResourceService{
      * @param param 条件
      * @return 查询对象
      */
-    private Object getBySql(String serviceName, QueryParam<?> param) throws Exception {
+    public Object getBySql(String serviceName, QueryParam<?> param) throws Exception {
         Page page = listBySql(serviceName, param);
         if(page.getList().size()>0)
             return page.getList().get(0);
