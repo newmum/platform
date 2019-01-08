@@ -29,7 +29,7 @@ public class Department extends DataEntity<Department> implements Serializable {
 
 	@ApiModelProperty("上级机构编号")
 	@NotNull(message = "上级机构不能为空")
-	private Long parentId;
+	private String parentId;
 	@ApiModelProperty("组织机构名称")
 	@NotNull(message = "名称不能为空")
 	private String deptName;
@@ -95,11 +95,11 @@ public class Department extends DataEntity<Department> implements Serializable {
 		this.deptCode = deptCode;
 	}
 
-	public Long getParentId() {
+	public String getParentId() {
 		return parentId;
 	}
 
-	public void setParentId(Long parentId) {
+	public void setParentId(String parentId) {
 		this.parentId = parentId;
 	}
 

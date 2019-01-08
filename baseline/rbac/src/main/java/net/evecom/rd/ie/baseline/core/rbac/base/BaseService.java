@@ -4,6 +4,7 @@ import net.evecom.rd.ie.baseline.core.rbac.exception.UserException;
 import net.evecom.rd.ie.baseline.core.rbac.model.entity.User;
 import net.evecom.rd.ie.baseline.core.rbac.model.service.AuthCertService;
 import net.evecom.rd.ie.baseline.utils.verify.CheckUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.beetl.sql.core.SQLManager;
 import org.beetl.sql.core.SQLReady;
 import org.slf4j.Logger;
@@ -45,15 +46,11 @@ public class BaseService {
 	 * @return
 	 * @param
 	 */
-	public boolean checkExist(String tableName, String idName, String idValue) {
-		String sql = "select "+idName+" from " +tableName +" where " + idName +"=?";
-		List list = sqlManager.execute(new SQLReady(sql,idValue),Map.class);
-		if(list.size()>0){
-			return true;
-		}
-		return false;
-
-	}
+	public boolean checkExist(String tableName,String columnName,String columnValue) {
+		StringBuffer sb = new StringBuffer("select "+columnName+" from " +tableName +" where " + columnName +"=? ");
+		List list = sqlManager.execute(new SQLReady(sb.toString(),columnValue),Map.class);
+		return list.size() > 0;
+    }
 
     /**
      * 更新会话中的用户对象
@@ -99,9 +96,8 @@ public class BaseService {
 	 * 根据请求获取会话SID
 	 * @param request
 	 * @return
-	 * @throws Exception
-	 */
-	public String getSID(HttpServletRequest request) throws Exception {
+     */
+	public String getSID(HttpServletRequest request) {
 		String sid = authCertService.getSID(request);
 		if (CheckUtil.isNull(sid)) {
 			throw new UserException(UserException.USER_NO_LOGIN);

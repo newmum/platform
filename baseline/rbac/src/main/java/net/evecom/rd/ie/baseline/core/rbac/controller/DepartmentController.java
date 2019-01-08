@@ -43,7 +43,7 @@ public class DepartmentController extends BaseController {
      */
     @ApiOperation(value = "获取部门列表", notes = "获取部门列表")
     @RequestMapping(method = RequestMethod.GET)
-    public Result<List<Department>> list() throws Exception {
+    public Result<List<Department>> list() {
         return Result.success("success",departmentService.getList());
     }
 
@@ -57,7 +57,7 @@ public class DepartmentController extends BaseController {
      */
     @ApiOperation(value = "获取部门对象", notes = "获取部门对象")
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-    public Result<Department> get(@PathVariable("id") Long id) throws Exception {
+    public Result<Department> get(@PathVariable("id") String id) {
         return Result.success("success",departmentService.get(id));
     }
 
@@ -70,7 +70,7 @@ public class DepartmentController extends BaseController {
      */
     @ApiOperation(value = "删除部门对象", notes = "删除部门对象")
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-    public Result<Department> delete(@PathVariable("id") Long id) throws Exception {
+    public Result<Department> delete(@PathVariable("id") String id) {
         //部门下含有子部门 不可删除  部门下含有人员 不可删除
         boolean hasChild = departmentService.hasChild(id);
         if(hasChild){
@@ -95,7 +95,7 @@ public class DepartmentController extends BaseController {
      */
     @ApiOperation(value = "保存部门对象", notes = "保存部门对象")
     @RequestMapping(method = RequestMethod.POST)
-    public Result<Department> save(Department department) throws Exception {
+    public Result<Department> save(Department department) {
         department.preInsert();
         int id = departmentService.save(department);
         return Result.success("success",id);
@@ -110,7 +110,7 @@ public class DepartmentController extends BaseController {
      */
     @ApiOperation(value = "修改部门对象", notes = "修改部门对象")
     @RequestMapping(method = RequestMethod.PUT)
-    public Result<Department> update(Department department) throws Exception {
+    public Result<Department> update(Department department) {
         department.preUpdate();
         int id = departmentService.update(department);
         return Result.success("success",id);
