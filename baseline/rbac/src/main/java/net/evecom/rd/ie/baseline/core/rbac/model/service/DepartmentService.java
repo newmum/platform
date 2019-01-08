@@ -51,7 +51,7 @@ public class DepartmentService {
         // 先找到所有的一级菜单
         for (int i = 0; i < list.size(); i++) {
             // 一级菜单没有parentId
-            if (list.get(i).getParentId()==0) {
+            if (list.get(i).getParentId().equals("0")) {
                 departList.add(list.get(i));
             }
         }
@@ -75,7 +75,7 @@ public class DepartmentService {
         List<Department> childList = new ArrayList<Department>();
         for (Department depart : list) {
             // 遍历所有节点，将父部门id与传过来的id比较
-            if (depart.getParentId()!=0) {
+            if (!depart.getParentId().equals("0")) {
                 if (depart.getParentId().equals(id)) {
                     childList.add(depart);
                 }
@@ -83,7 +83,7 @@ public class DepartmentService {
         }
         // 把子部门的子部门再循环一遍
         for (Department depart : childList) {// 没有url子菜单还有子菜单
-                depart.setChildren(getChild(depart.getTid(), list));
+            depart.setChildren(getChild(depart.getTid(), list));
         } // 递归退出条件
         if (childList.size() == 0) {
             return null;
@@ -98,9 +98,9 @@ public class DepartmentService {
      * @return
      * @param
      */
-    public Department get(Long id) {
+    public Department get(String id) {
         Department department = sqlManager.single(Department.class,id);
-        if(department.getParentId()!=null&&department.getParentId()!=0){
+        if(department.getParentId()!=null&&!department.getParentId().equals("0")){
             department.setParentName(sqlManager.single(Department.class,department.getParentId()).getDeptName());
         }
         return department;
@@ -114,7 +114,7 @@ public class DepartmentService {
      * @param
      */
     public int save(Department department) {
-       return sqlManager.insert(Department.class,department);
+        return sqlManager.insert(Department.class,department);
     }
 
     /**
@@ -135,13 +135,10 @@ public class DepartmentService {
      * @return
      * @param
      */
-    public boolean hasChild(Long id) {
-       List<Department> list =
-               sqlManager.lambdaQuery(Department.class).andEq(Department::getParentId,id).select("tid");
-       if(list.size()>0){
-           return true;
-       }
-       return false;
+    public boolean hasChild(String id) {
+        List<Department> list =
+                sqlManager.lambdaQuery(Department.class).andEq(Department::getParentId,id).select("tid");
+        return list.size() > 0;
     }
 
     /**
@@ -151,13 +148,10 @@ public class DepartmentService {
      * @return
      * @param
      */
-    public boolean hasUser(Long id) {
+    public boolean hasUser(String id) {
         List<User> list =
                 sqlManager.lambdaQuery(User.class).andEq(User::getDeptId,id).select("tid");
-        if(list.size()>0){
-            return true;
-        }
-        return false;
+        return list.size() > 0;
     }
 
     /**
@@ -167,7 +161,7 @@ public class DepartmentService {
      * @return
      * @param
      */
-    public void delete(Long id) {
+    public void delete(String id) {
         sqlManager.deleteById(Department.class,id);
     }
 }

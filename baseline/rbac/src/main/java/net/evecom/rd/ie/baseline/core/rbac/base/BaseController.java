@@ -67,22 +67,22 @@ public class BaseController {
 
 
 	/**
-	 * 描述
+	 * 描述 表名，字段名，字段值
 	 * @author Klaus Zhuang
 	 * @created 2019/1/3 15:04
 	 * @return
-	 * @param 
+	 * @param
 	 */
 	@ApiOperation(value = "检测某值是否已存在", notes = "检测某值是否已存在")
 	@RequestMapping(value ="/checkExist", method = RequestMethod.POST)
-	public Result checkExist(String tableName,String idName,String idValue){
-		boolean isExist = baseService.checkExist(tableName,idName,idValue);
+	public Result checkExist(String tableName,String columnName,String columnValue){
+		boolean isExist = baseService.checkExist(tableName,columnName,columnValue);
 		if(isExist)
 			return Result.success();
 		return Result.failed();
 	}
-	
-	
+
+
 
 	/**
 	 * 请求该类的每个Action前都会首先执行它可以放置准备数据的操作
@@ -148,7 +148,7 @@ public class BaseController {
 		String url = request.getRequestURI();
 		String params = "";
 		if (request.getQueryString() != null) {
-			params = request.getQueryString().toString();
+			params = request.getQueryString();
 		}
 		if (!"".equals(params)) {
 			url = url + "?" + params;
