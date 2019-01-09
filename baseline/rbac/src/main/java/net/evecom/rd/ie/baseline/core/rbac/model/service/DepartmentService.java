@@ -30,13 +30,24 @@ public class DepartmentService {
     private SQLManager sqlManager;
 
     /**
-     * 描述
+     * 描述 获取所有部门
+     * @author Klaus Zhuang
+     * @created 2019/1/9 17:08
+     * @return
+     * @param
+     */
+    public List<Department> getAll() {
+        List<Department> list = this.sqlManager.lambdaQuery(Department.class).orderBy("dept_sort asc").select();
+        return list;
+    }
+    /**
+     * 描述 获取部门树
      * @author Klaus Zhuang
      * @created 2018/12/5 15:14
      * @return
      * @param
      */
-    public List<Department> getList() {
+    public List<Department> getTree() {
         List<Department> list = this.sqlManager.lambdaQuery(Department.class).orderBy("dept_sort asc").select();
         for(Department department:list){
             Department parentDepart = this.sqlManager.single(Department.class,department.getParentId());
@@ -64,7 +75,7 @@ public class DepartmentService {
 
 
     /**
-     * 描述
+     * 描述 获取子部门
      * @author Klaus Zhuang
      * @created 2018/12/5 16:40
      * @return

@@ -39,19 +39,6 @@ public class BaseService {
     private AuthService authService;
 
     /**
-     * 描述 检测某值是否存在
-     * @author Klaus Zhuang
-     * @created 2018/12/29 10:24
-     * @return
-     * @param
-     */
-    public boolean checkExist(String tableName,String columnName,String columnValue) {
-        StringBuffer sb = new StringBuffer("select "+columnName+" from " +tableName +" where " + columnName +"=? ");
-        List list = sqlManager.execute(new SQLReady(sb.toString(),columnValue),Map.class);
-        return list.size() > 0;
-    }
-
-    /**
      * 更新会话中的用户对象
      * @param user
      * @param request

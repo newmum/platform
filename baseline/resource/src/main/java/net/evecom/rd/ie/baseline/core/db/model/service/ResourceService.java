@@ -39,6 +39,20 @@ public class ResourceService{
     @Resource
     private SQLManager sqlManager;
 
+
+    /**
+     * 描述 检测某值是否存在
+     * @author Klaus Zhuang
+     * @created 2018/12/29 10:24
+     * @return
+     * @param
+     */
+    public boolean checkExist(String tableName,String columnName,String columnValue) {
+        StringBuffer sb = new StringBuffer("select "+columnName+" from " +tableName +" where " + columnName +"=? ");
+        List list = sqlManager.execute(new SQLReady(sb.toString(),columnValue),Map.class);
+        return list.size() > 0;
+    }
+
     /**
      * 根据c资源名称得到资源对象
      * @param resourceName 资源名称

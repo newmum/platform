@@ -33,18 +33,30 @@ public class DepartmentController extends BaseController {
      */
     @Resource DepartmentService departmentService;
 
-
     /**
-     * 描述
+     * 描述 获取部门信息树形结构
      * @author Klaus Zhuang
      * @created 2018/12/5 15:14
      * @return
      * @param
      */
-    @ApiOperation(value = "获取部门列表", notes = "获取部门列表")
+    @ApiOperation(value = "获取部门列表树形结构", notes = "获取部门列表树形结构")
     @RequestMapping(method = RequestMethod.GET)
-    public Result<List<Department>> list() {
-        return Result.success("success",departmentService.getList());
+    public Result<List<Department>> tree() {
+        return Result.success("success",departmentService.getTree());
+    }
+
+    /**
+     * 描述 获取所有部门信息
+     * @author Klaus Zhuang
+     * @created 2018/12/5 15:14
+     * @return
+     * @param
+     */
+    @ApiOperation(value = "获取所有部门信息", notes = "获取所有部门信息")
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    public Result<List<Department>> all() {
+        return Result.success("success",departmentService.getAll());
     }
 
 

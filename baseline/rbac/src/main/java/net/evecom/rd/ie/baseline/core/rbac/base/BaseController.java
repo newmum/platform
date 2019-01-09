@@ -57,30 +57,11 @@ public class BaseController {
 	 */
 	protected static Logger log = LoggerFactory.getLogger(BaseController.class);
 
-
 	/**
 	 * 描述 基类服务
 	 */
 	@Resource
 	public BaseService baseService;
-
-
-
-	/**
-	 * 描述 表名，字段名，字段值
-	 * @author Klaus Zhuang
-	 * @created 2019/1/3 15:04
-	 * @return
-	 * @param
-	 */
-	@ApiOperation(value = "检测某值是否已存在", notes = "检测某值是否已存在")
-	@RequestMapping(value ="/checkExist", method = RequestMethod.POST)
-	public Result checkExist(String tableName,String columnName,String columnValue){
-		boolean isExist = baseService.checkExist(tableName,columnName,columnValue);
-		if(isExist)
-			return Result.success();
-		return Result.failed();
-	}
 
 
 

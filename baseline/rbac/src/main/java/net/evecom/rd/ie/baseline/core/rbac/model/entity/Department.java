@@ -55,7 +55,7 @@ public class Department extends DataEntity<Department> implements Serializable {
     @ApiModelProperty("邮箱")
     private String email;
     @ApiModelProperty(value = "创建人id",hidden = true)
-    private Long createUser;
+    private String createUser;
     @Column(
             name = "DEPT_DESC"
     )
@@ -183,11 +183,11 @@ public class Department extends DataEntity<Department> implements Serializable {
         this.email = email;
     }
 
-    public Long getCreateUser() {
+    public String getCreateUser() {
         return createUser;
     }
 
-    public void setCreateUser(Long createUser) {
+    public void setCreateUser(String createUser) {
         this.createUser = createUser;
     }
 
